@@ -20,9 +20,9 @@ public class SelectionStage extends Stage {
 	int y = 150;
 	// button A B part
 	ImageButton btnA;
-	MyGdxGame game;
+	PPTXGame game;
 
-	public SelectionStage(MyGdxGame game) {
+	public SelectionStage(PPTXGame game) {
 		super();
 		this.game = game;
 		init();

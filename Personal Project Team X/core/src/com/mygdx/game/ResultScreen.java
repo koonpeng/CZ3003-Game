@@ -7,10 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 
 public class ResultScreen implements Screen {
-		MyGdxGame game;
+		PPTXGame game;
 		ResultStage resultstage;
 		public float statetime;
-		public ResultScreen(MyGdxGame game)
+		public ResultScreen(PPTXGame game)
 		{
 			this.game=game;
 			

@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
 public class LoginScreen implements Screen {
-	MyGdxGame game;
+	PPTXGame game;
 	/* ******Label Control Part****** */
 	Stage stage;
 	LabelStyle style;
@@ -29,7 +29,7 @@ public class LoginScreen implements Screen {
 	/* ****TextField  Control Part ***** */
 	TextField accountTextField;
 	TextField passwordTextField;
-	public LoginScreen(MyGdxGame myGdxGame) {
+	public LoginScreen(PPTXGame myGdxGame) {
 		// TODO Auto-generated constructor stub
 		this.game = game;
 	}
