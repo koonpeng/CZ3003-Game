@@ -1,4 +1,4 @@
-package cz3003.pptx.game;
+package cz3003.pptx.game.battle;
 
 public class Question {
 

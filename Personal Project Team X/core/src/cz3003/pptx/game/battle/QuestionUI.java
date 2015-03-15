@@ -1,4 +1,4 @@
-package cz3003.pptx.game;
+package cz3003.pptx.game.battle;
 
 import java.util.ArrayList;
 
@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
+import cz3003.pptx.game.PPTXGame;
 import cz3003.pptx.game.test.TestQuestionPool;
 
 public class QuestionUI extends Table {

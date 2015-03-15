@@ -18,6 +18,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 
+import cz3003.pptx.game.battle.BattleScreen;
+import cz3003.pptx.game.battle.BattleStage;
+
 public class PPTXGame extends Game {
 
 	public static int GAME_WIDTH = 720;

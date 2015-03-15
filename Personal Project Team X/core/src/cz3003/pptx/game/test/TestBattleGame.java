@@ -1,7 +1,7 @@
 package cz3003.pptx.game.test;
 
-import cz3003.pptx.game.BattleScreen;
 import cz3003.pptx.game.PPTXGame;
+import cz3003.pptx.game.battle.BattleScreen;
 
 public class TestBattleGame extends PPTXGame {
 

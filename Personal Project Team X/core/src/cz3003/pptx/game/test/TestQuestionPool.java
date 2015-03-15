@@ -1,6 +1,6 @@
 package cz3003.pptx.game.test;
 
-import cz3003.pptx.game.Question;
+import cz3003.pptx.game.battle.Question;
 
 public class TestQuestionPool {
 

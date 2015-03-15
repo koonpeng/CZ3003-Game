@@ -1,8 +1,10 @@
-package cz3003.pptx.game;
+package cz3003.pptx.game.battle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+
+import cz3003.pptx.game.PPTXGame;
 
 public class BattleScreen implements Screen {
 	PPTXGame game;
