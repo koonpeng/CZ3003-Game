@@ -57,7 +57,7 @@ public class QuestionUI extends Table {
 		padLeft(50);
 		padRight(10);
 
-		add(lblTitle).width(WIDTH - getPadLeft() - getPadRight()).padBottom(25).align(Align.topLeft);
+		add(lblTitle).width(WIDTH - getPadLeft() - getPadRight()).padBottom(25).align(Align.topLeft).padTop(50);
 		row();
 
 		align(Align.topLeft);
@@ -81,9 +81,9 @@ public class QuestionUI extends Table {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if ((Boolean) event.getTarget().getUserObject()) {
-					System.out.println("CORRECT!!");
+//					System.out.println("CORRECT!!");
 				} else {
-					System.out.println("WRONG!!");
+//					System.out.println("WRONG!!");
 				}
 				tmp.fire(new ChangeListener.ChangeEvent());
 				setQuestion(questionPool.getNextQuestion());

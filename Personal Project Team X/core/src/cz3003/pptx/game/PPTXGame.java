@@ -20,11 +20,14 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoa
 
 import cz3003.pptx.game.battle.BattleScreen;
 import cz3003.pptx.game.battle.BattleStage;
+import cz3003.pptx.game.battle.EquipmentFactory;
 
 public class PPTXGame extends Game {
 
-	public static int GAME_WIDTH = 720;
-	public static int GAME_HEIGHT = 1280;
+	public static final int GAME_WIDTH = 720;
+	public static final int GAME_HEIGHT = 1280;
+
+	public static Player player;
 
 	private static AssetManager assetManager = new AssetManager();
 
@@ -70,6 +73,8 @@ public class PPTXGame extends Game {
 		assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
 		assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 		loadAssets();
+		player = new Player("Player", 1000, 100, 100);
+		player.equip(EquipmentFactory.getEquipment("Excalibur"));
 		assetManager.finishLoading();
 		loginscreen = new LoginScreen(this);
 		questionscreen = new BattleScreen(this);
@@ -86,6 +91,10 @@ public class PPTXGame extends Game {
 
 	private void loadAssets() {
 		assetManager.load("button.png", Texture.class);
+		assetManager.load("monsters/Progenitor.png", Texture.class);
+		assetManager.load("RedBar.png", Texture.class);
+		assetManager.load("EmptyBar.png", Texture.class);
+		assetManager.load("backgrounds/environment_forest_alt1.png", Texture.class);
 		FreeTypeFontLoaderParameter fontParam = new FreeTypeFontLoaderParameter();
 		fontParam.fontFileName = "fonts/calibri.ttf";
 		fontParam.loadedCallback = new LoadedCallback() {
@@ -97,7 +106,7 @@ public class PPTXGame extends Game {
 		};
 		fontParam.fontParameters.size = 36;
 		assetManager.load("size36.ttf", BitmapFont.class, fontParam);
-		
+
 		FreeTypeFontLoaderParameter ansFontParams = new FreeTypeFontLoaderParameter();
 		ansFontParams.fontFileName = "fonts/calibri.ttf";
 		ansFontParams.loadedCallback = new LoadedCallback() {
