@@ -9,8 +9,8 @@ public class BattleTestLauncher {
 	public static void main(String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Question Test";
-		config.width = 576;
-		config.height = 1024;
+		config.width=360;
+		config.height=640;
 		new LwjglApplication(new TestBattleGame(), config);
 	}
 }

@@ -12,7 +12,6 @@ public class BattleScreen implements Screen {
 
 	public BattleScreen(PPTXGame game) {
 		this.game = game;
-
 	}
 
 	@Override

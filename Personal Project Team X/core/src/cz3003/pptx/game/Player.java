@@ -3,7 +3,8 @@ package cz3003.pptx.game;
 import java.util.ArrayList;
 
 import cz3003.pptx.game.battle.BattleActor;
-import cz3003.pptx.game.battle.Equipment;
+import cz3003.pptx.game.battle.PlayerActor;
+import cz3003.pptx.game.equipment.Equipment;
 
 public class Player {
 
@@ -34,7 +35,7 @@ public class Player {
 		int hp = this.hp;
 		int maxHp = this.maxHp;
 
-		BattleActor actor = new BattleActor(name, hp, maxHp, att, def);
+		BattleActor actor = new PlayerActor(name, hp, maxHp, att, def);
 		for (Equipment equip : equips) {
 			att += equip.att;
 			def += equip.def;

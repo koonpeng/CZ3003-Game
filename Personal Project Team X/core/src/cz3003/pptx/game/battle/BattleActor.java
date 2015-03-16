@@ -2,9 +2,10 @@ package cz3003.pptx.game.battle;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class BattleActor extends Actor {
+public abstract class BattleActor extends Actor {
 
 	private int hp;
 	private int maxHp;
@@ -24,6 +25,12 @@ public class BattleActor extends Actor {
 		this.def = def;
 		this.name = name;
 	}
+
+	public abstract Action getAttackAction();
+	
+	public abstract Action getTakeDamageAction();
+
+	public abstract Action getPostHitAction(BattleActor source, BattleActor target, CombatParameters combatParams);
 
 	public String getName() {
 		return name;

@@ -6,6 +6,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetLoaderParameters.LoadedCallback;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -20,7 +22,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoa
 
 import cz3003.pptx.game.battle.BattleScreen;
 import cz3003.pptx.game.battle.BattleStage;
-import cz3003.pptx.game.battle.EquipmentFactory;
+import cz3003.pptx.game.equipment.EquipmentFactory;
 
 public class PPTXGame extends Game {
 
@@ -90,11 +92,14 @@ public class PPTXGame extends Game {
 	}
 
 	private void loadAssets() {
+		assetManager.load("empty.png", Texture.class);
 		assetManager.load("button.png", Texture.class);
 		assetManager.load("monsters/Progenitor.png", Texture.class);
 		assetManager.load("RedBar.png", Texture.class);
 		assetManager.load("EmptyBar.png", Texture.class);
 		assetManager.load("backgrounds/environment_forest_alt1.png", Texture.class);
+		assetManager.load("music/1-15 Unrest - Hoist the Sword with Pride in the Heart.mp3", Music.class);
+		assetManager.load("sound/33245__ljudman__grenade-16bit.wav", Sound.class);
 		FreeTypeFontLoaderParameter fontParam = new FreeTypeFontLoaderParameter();
 		fontParam.fontFileName = "fonts/calibri.ttf";
 		fontParam.loadedCallback = new LoadedCallback() {
