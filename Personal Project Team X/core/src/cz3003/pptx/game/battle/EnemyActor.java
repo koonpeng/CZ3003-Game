@@ -30,7 +30,7 @@ public class EnemyActor extends BattleActor {
 		setWidth(tex.getWidth());
 		setHeight(tex.getHeight());
 	}
-	
+
 	@Override
 	public Action getAttackAction() {
 		return null;
@@ -47,20 +47,7 @@ public class EnemyActor extends BattleActor {
 	}
 
 	public Action getPostHitAction(BattleActor source, BattleActor target, CombatParameters combatParams) {
-		CombatAction postHitAct = Actions.action(CombatAction.class);
-		postHitAct.setSource(source);
-		postHitAct.setTarget(target);
-		postHitAct.setCombatParams(combatParams);
-		postHitAct.setRunnable(new Runnable() {
-			@Override
-			public void run() {
-				if (getHp() > 0) {
-					setHp(getHp() + 50);
-					System.out.println(getName() + "'s regeneration recovers 50 hp!!");
-				}
-			}
-		});
-		return postHitAct;
+		return null;
 	}
 
 	public Sprite getSprite() {

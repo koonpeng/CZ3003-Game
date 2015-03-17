@@ -60,6 +60,8 @@ public class QuestionUI extends Table {
 		add(lblTitle).width(WIDTH - getPadLeft() - getPadRight()).padBottom(25).align(Align.topLeft).padTop(50);
 		row();
 
+		setWidth(PPTXGame.GAME_WIDTH);
+		setHeight(PPTXGame.GAME_HEIGHT / 2);
 		align(Align.topLeft);
 		setQuestion(question);
 	}

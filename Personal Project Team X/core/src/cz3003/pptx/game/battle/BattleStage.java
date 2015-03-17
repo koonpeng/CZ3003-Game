@@ -13,18 +13,19 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import cz3003.pptx.game.PPTXGame;
 import cz3003.pptx.game.test.TestQuestionPool;
+import cz3003.pptx.game.util.LayoutUtils;
 
 public class BattleStage extends Stage {
 
+	private final Label questionResultLbl;
 	private final Label enemyNameLbl;
 	private final Sprite background;
 	private final HPBar enemyHpBar;
@@ -41,16 +42,22 @@ public class BattleStage extends Stage {
 		super(new StretchViewport(PPTXGame.GAME_WIDTH, PPTXGame.GAME_HEIGHT));
 		player = PPTXGame.player.genBattleActor();
 		questionUI = new QuestionUI(new TestQuestionPool());
-		questionUI.setPosition(0, PPTXGame.GAME_HEIGHT / 2);
 		questionUI.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if ((Boolean) event.getTarget().getUserObject()) {
 					doAttack(player, enemy, true);
+					questionResultLbl.setText("Correct!");
 					score++;
 				} else {
 					doAttack(player, enemy, false);
+					questionResultLbl.setText("Wrong... :(");
 				}
+				Action showQuestionResulLbltAct = Actions.show();
+				showQuestionResulLbltAct.setTarget(questionResultLbl);
+				questionResultLbl.pack();
+				LayoutUtils.center(questionUI, questionResultLbl);
+				questionUI.addAction(Actions.sequence(Actions.moveBy(questionUI.getWidth(), 0, 0.2f), showQuestionResulLbltAct));
 			}
 		});
 
@@ -59,6 +66,8 @@ public class BattleStage extends Stage {
 		battleUI = new Table();
 		LabelStyle style = new LabelStyle(PPTXGame.getAssetManager().get("size36.ttf", BitmapFont.class), Color.RED);
 		damageLblStyle = style;
+		questionResultLbl = new Label("", style);
+		questionResultLbl.setVisible(false);
 		enemyNameLbl = new Label(enemy.getName(), style);
 		enemyNameLbl.setPosition(0, PPTXGame.GAME_HEIGHT - enemyNameLbl.getHeight());
 		background = new Sprite(PPTXGame.getAssetManager().get("backgrounds/environment_forest_alt1.png", Texture.class));
@@ -72,6 +81,7 @@ public class BattleStage extends Stage {
 		battleUI.setPosition(0, PPTXGame.GAME_HEIGHT / 2);
 
 		addActor(questionUI);
+		addActor(questionResultLbl);
 		addActor(battleUI);
 		addActor(enemyNameLbl);
 
@@ -100,17 +110,21 @@ public class BattleStage extends Stage {
 
 	private void doAttack(final BattleActor source, final BattleActor target, boolean correctAns) {
 		System.out.println(source.getName() + " attacks!!");
+
+		/*
+		 * Calculate damage
+		 */
 		int dmg = calcDamage(source.getAtt(), target.getDef());
 		if (correctAns) {
 			System.out.println("Critical Hit!!");
 			dmg = (int) (dmg * 1.5);
 		}
+		final CombatParameters combatParams = new CombatParameters();
+		combatParams.dmg = dmg;
 
 		/*
 		 * Attack
 		 */
-		final CombatParameters combatParams = new CombatParameters();
-		combatParams.dmg = dmg;
 		SequenceAction combatAct = Actions.sequence();
 		Action sourceAttackAct = source.getAttackAction();
 		if (sourceAttackAct != null) {
@@ -121,14 +135,7 @@ public class BattleStage extends Stage {
 			public void run() {
 				doDamage(target, combatParams.dmg);
 				if (target == enemy) {
-					Label damageLbl = new Label(Integer.toString(combatParams.dmg), damageLblStyle);
-					damageLbl.setText(Integer.toString(combatParams.dmg));
-					damageLbl.setVisible(true);
-					damageLbl.setPosition(
-							target.getX() + battleUI.getX() + target.getWidth() / 2 - damageLbl.getPrefWidth() / 2f,
-							target.getY() + battleUI.getY() + 100);
-					damageLbl.addAction(Actions.sequence(Actions.moveBy(0, 100, 1), Actions.hide()));
-					addActor(damageLbl);
+					showDamage(combatParams);
 				}
 				updateEnemyHpBar();
 			}
@@ -159,6 +166,13 @@ public class BattleStage extends Stage {
 			public void run() {
 				if (source == player) {
 					doAttack(enemy, player, false);
+				} else {
+					questionUI.setX(0 - questionUI.getWidth());
+					questionResultLbl.setVisible(false);
+					Action hideQuestionResultLblAct = Actions.hide();
+					hideQuestionResultLblAct.setTarget(questionResultLbl);
+					questionUI.addAction(Actions.sequence(Actions.moveBy(questionUI.getWidth(), 0, 0.2f),
+							hideQuestionResultLblAct));
 				}
 				updateEnemyHpBar();
 			}
@@ -173,6 +187,17 @@ public class BattleStage extends Stage {
 		}
 		dmg *= 1 + (rand.nextFloat() / 5 - 0.1);	// Damage variation
 		return dmg;
+	}
+
+	private void showDamage(final CombatParameters combatParams) {
+		Label damageLbl = new Label(Integer.toString(combatParams.dmg), damageLblStyle);
+		damageLbl.setText(Integer.toString(combatParams.dmg));
+		damageLbl.pack();
+		LayoutUtils.center(enemy, damageLbl);
+		damageLbl.moveBy(0, 50);
+		damageLbl.setVisible(true);
+		damageLbl.addAction(Actions.sequence(Actions.moveBy(0, 100, 1), Actions.hide()));
+		addActor(damageLbl);
 	}
 
 }
