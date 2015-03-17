@@ -15,7 +15,7 @@ public class PlayerActor extends BattleActor {
 
 	public PlayerActor(String name, int hp, int maxHp, int att, int def) {
 		super(name, hp, maxHp, att, def);
-		attackSounds[0] = PPTXGame.getAssetManager().get("sound/33245__ljudman__grenade-16bit.wav");
+		attackSounds[0] = PPTXGame.getAssetManager().get("sound/explosion.wav");
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class PlayerActor extends BattleActor {
 			public void run() {
 				switch (rand.nextInt(1)) {
 				case 0:
-					attackSounds[0].play(0.75f);
+					attackSounds[0].play();
 					break;
 				}
 			}

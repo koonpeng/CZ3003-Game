@@ -77,8 +77,8 @@ public class BattleStage extends Stage {
 
 		Music battleMusic = PPTXGame.getAssetManager().get("music/1-15 Unrest - Hoist the Sword with Pride in the Heart.mp3");
 		battleMusic.setLooping(true);
+		battleMusic.setVolume(0.75f);
 		battleMusic.play();
-		battleMusic.setPosition(0.5f);
 
 		addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
 	}

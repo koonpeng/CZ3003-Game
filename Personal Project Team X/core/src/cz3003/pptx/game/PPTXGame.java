@@ -99,7 +99,7 @@ public class PPTXGame extends Game {
 		assetManager.load("EmptyBar.png", Texture.class);
 		assetManager.load("backgrounds/environment_forest_alt1.png", Texture.class);
 		assetManager.load("music/1-15 Unrest - Hoist the Sword with Pride in the Heart.mp3", Music.class);
-		assetManager.load("sound/33245__ljudman__grenade-16bit.wav", Sound.class);
+		assetManager.load("sound/explosion.wav", Sound.class);
 		FreeTypeFontLoaderParameter fontParam = new FreeTypeFontLoaderParameter();
 		fontParam.fontFileName = "fonts/calibri.ttf";
 		fontParam.loadedCallback = new LoadedCallback() {
