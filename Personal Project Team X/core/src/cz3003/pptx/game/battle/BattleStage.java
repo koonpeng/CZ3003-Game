@@ -45,19 +45,22 @@ public class BattleStage extends Stage {
 		questionUI.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if ((Boolean) event.getTarget().getUserObject()) {
-					doAttack(player, enemy, true);
-					questionResultLbl.setText("Correct!");
-					score++;
-				} else {
-					doAttack(player, enemy, false);
-					questionResultLbl.setText("Wrong... :(");
+				if (event.getTarget().getName() != null && event.getTarget().getName().equals("ansButton")) {
+					if ((Boolean) event.getTarget().getUserObject()) {
+						doAttack(player, enemy, true);
+						questionResultLbl.setText("Correct!");
+						score++;
+					} else {
+						doAttack(player, enemy, false);
+						questionResultLbl.setText("Wrong... :(");
+					}
+					Action showQuestionResulLbltAct = Actions.show();
+					showQuestionResulLbltAct.setTarget(questionResultLbl);
+					questionResultLbl.pack();
+					LayoutUtils.center(questionUI, questionResultLbl);
+					questionUI.addAction(Actions.sequence(Actions.moveBy(questionUI.getWidth(), 0, 0.2f),
+							showQuestionResulLbltAct));
 				}
-				Action showQuestionResulLbltAct = Actions.show();
-				showQuestionResulLbltAct.setTarget(questionResultLbl);
-				questionResultLbl.pack();
-				LayoutUtils.center(questionUI, questionResultLbl);
-				questionUI.addAction(Actions.sequence(Actions.moveBy(questionUI.getWidth(), 0, 0.2f), showQuestionResulLbltAct));
 			}
 		});
 
@@ -169,6 +172,7 @@ public class BattleStage extends Stage {
 				} else {
 					questionUI.setX(0 - questionUI.getWidth());
 					questionResultLbl.setVisible(false);
+					questionUI.nextQuestion();
 					Action hideQuestionResultLblAct = Actions.hide();
 					hideQuestionResultLblAct.setTarget(questionResultLbl);
 					questionUI.addAction(Actions.sequence(Actions.moveBy(questionUI.getWidth(), 0, 0.2f),

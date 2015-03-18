@@ -7,15 +7,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import cz3003.pptx.game.PPTXGame;
@@ -66,6 +63,10 @@ public class QuestionUI extends Table {
 		setQuestion(question);
 	}
 
+	public void nextQuestion() {
+		setQuestion(questionPool.getNextQuestion());
+	}
+
 	private Button createAnsButtons() {
 		Texture tex = PPTXGame.getAssetManager().get("button.png");
 		TextureRegion[][] tem = TextureRegion.split(tex, 120, 120);
@@ -79,18 +80,7 @@ public class QuestionUI extends Table {
 		SpriteDrawable down = new SpriteDrawable(downSprite);
 
 		final Button tmp = new Button(up, down);
-		tmp.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				if ((Boolean) event.getTarget().getUserObject()) {
-//					System.out.println("CORRECT!!");
-				} else {
-//					System.out.println("WRONG!!");
-				}
-				tmp.fire(new ChangeListener.ChangeEvent());
-				setQuestion(questionPool.getNextQuestion());
-			}
-		});
+		tmp.setName("ansButton");
 		return tmp;
 	}
 
@@ -108,6 +98,7 @@ public class QuestionUI extends Table {
 			} else {
 				lbl = new Label(question.getChoices()[i], ansStyle);
 				lbl.setWrap(true);
+				lbl.setName("ansLbl");
 				ansLbls.add(lbl);
 				btn = createAnsButtons();
 				ansBtns.add(btn);
