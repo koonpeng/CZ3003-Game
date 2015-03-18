@@ -50,13 +50,7 @@ public class SelectionStage extends Stage {
 				System.out.print("x is :" + PrivateGirl.x + " y is :" + PrivateGirl.y);
 				if ((PrivateGirl.x >= 50 && PrivateGirl.x <= 140) && (PrivateGirl.y >= 200 && PrivateGirl.y <= 300)) {
 					// Constants.StageFlag = Constants.QuestionStageOn;
-					Runnable changeScreen = new Runnable() {
-						@Override
-						public void run() {
-							game.setScreen(game.questionscreen);
-						}
-					};
-					addAction(Actions.sequence(Actions.fadeOut(1), Actions.run(changeScreen)));
+					game.setScreen(game.battleScreen);
 				}
 				return true;
 			}

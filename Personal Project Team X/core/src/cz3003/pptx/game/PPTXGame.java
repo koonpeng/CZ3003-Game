@@ -31,10 +31,11 @@ public class PPTXGame extends Game {
 
 	public static Player player;
 
+	private static PPTXGame pptxGame = new PPTXGame();
 	private static AssetManager assetManager = new AssetManager();
 
 	/* Stage definition */
-	BattleStage questionstage;
+	BattleStage battleStage;
 	SelectionStage selectionstage;
 	ResultStage resultstage;
 	SpriteBatch batch;
@@ -45,8 +46,12 @@ public class PPTXGame extends Game {
 
 	LoginScreen loginscreen;
 	SelectionScreen selectionscreen;
-	ResultScreen resultscreen;
-	BattleScreen questionscreen;
+	private static ResultScreen resultscreen;
+	public static BattleScreen battleScreen;
+
+	public static PPTXGame getInstance() {
+		return pptxGame;
+	}
 
 	public void SelectStageRender() {
 		/*
@@ -69,6 +74,10 @@ public class PPTXGame extends Game {
 		 */
 	}
 
+	public static void toResultScreen() {
+		pptxGame.setScreen(resultscreen);
+	}
+
 	@Override
 	public void create() {
 		InternalFileHandleResolver resolver = new InternalFileHandleResolver();
@@ -79,7 +88,7 @@ public class PPTXGame extends Game {
 		player.equip(EquipmentFactory.getEquipment("Excalibur"));
 		assetManager.finishLoading();
 		loginscreen = new LoginScreen(this);
-		questionscreen = new BattleScreen(this);
+		battleScreen = new BattleScreen();
 
 		selectionscreen = new SelectionScreen(this);
 		resultscreen = new ResultScreen(this);
@@ -99,6 +108,7 @@ public class PPTXGame extends Game {
 		assetManager.load("EmptyBar.png", Texture.class);
 		assetManager.load("backgrounds/environment_forest_alt1.png", Texture.class);
 		assetManager.load("music/1-15 Unrest - Hoist the Sword with Pride in the Heart.mp3", Music.class);
+		assetManager.load("music/(05) The Winner.mp3", Music.class);
 		assetManager.load("sound/explosion.wav", Sound.class);
 		FreeTypeFontLoaderParameter fontParam = new FreeTypeFontLoaderParameter();
 		fontParam.fontFileName = "fonts/calibri.ttf";

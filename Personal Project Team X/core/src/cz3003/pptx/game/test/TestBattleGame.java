@@ -8,7 +8,7 @@ public class TestBattleGame extends PPTXGame {
 	@Override
 	public void create() {
 		super.create();
-		BattleScreen screen = new BattleScreen(this);
+		BattleScreen screen = new BattleScreen();
 		setScreen(screen);
 	}
 

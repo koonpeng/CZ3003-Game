@@ -2,28 +2,34 @@ package cz3003.pptx.game.battle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import cz3003.pptx.game.PPTXGame;
 
 public class BattleScreen implements Screen {
-	PPTXGame game;
-	BattleStage battleStage;
 
-	public BattleScreen(PPTXGame game) {
-		this.game = game;
+	private final Music battleMusic;
+	private BattleStage battleStage;
+
+	public BattleScreen() {
+		battleMusic = PPTXGame.getAssetManager().get("music/1-15 Unrest - Hoist the Sword with Pride in the Heart.mp3");
+		battleMusic.setLooping(true);
+		battleMusic.setVolume(0.75f);
 	}
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-		battleStage = new BattleStage();
+		battleMusic.setPosition(0);
+		battleMusic.play();
+		battleStage = new BattleStage(new EnemyActor("Progenitor", 500, 500, 100, 100));
+		battleStage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
 		Gdx.input.setInputProcessor(battleStage);
 	}
 
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		battleStage.act();
@@ -50,8 +56,7 @@ public class BattleScreen implements Screen {
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-
+		battleMusic.stop();
 	}
 
 	@Override

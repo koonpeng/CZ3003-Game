@@ -2,7 +2,6 @@ package cz3003.pptx.game.battle;
 
 import java.util.Random;
 
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
@@ -27,18 +27,20 @@ public class BattleStage extends Stage {
 
 	private final Label questionResultLbl;
 	private final Label enemyNameLbl;
+	private final LabelStyle style;
+	private final LabelStyle damageLblStyle;
 	private final Sprite background;
 	private final HPBar enemyHpBar;
 	private final Table battleUI;
 	private final QuestionUI questionUI;
 	private final BattleActor player;
 	private final EnemyActor enemy;
-	private final LabelStyle damageLblStyle;
 
 	private Random rand = new Random();
-	private int score = 0;
+	private int correctCount;
+	private int questionAnswered;
 
-	public BattleStage() {
+	public BattleStage(EnemyActor enemy) {
 		super(new StretchViewport(PPTXGame.GAME_WIDTH, PPTXGame.GAME_HEIGHT));
 		player = PPTXGame.player.genBattleActor();
 		questionUI = new QuestionUI(new TestQuestionPool());
@@ -49,11 +51,12 @@ public class BattleStage extends Stage {
 					if ((Boolean) event.getTarget().getUserObject()) {
 						doAttack(player, enemy, true);
 						questionResultLbl.setText("Correct!");
-						score++;
+						correctCount++;
 					} else {
 						doAttack(player, enemy, false);
 						questionResultLbl.setText("Wrong... :(");
 					}
+					questionAnswered++;
 					Action showQuestionResulLbltAct = Actions.show();
 					showQuestionResulLbltAct.setTarget(questionResultLbl);
 					questionResultLbl.pack();
@@ -64,15 +67,14 @@ public class BattleStage extends Stage {
 			}
 		});
 
-		enemy = new EnemyActor("Progenitor", 5000, 5000, 100, 100);
-
 		battleUI = new Table();
-		LabelStyle style = new LabelStyle(PPTXGame.getAssetManager().get("size36.ttf", BitmapFont.class), Color.RED);
+		style = new LabelStyle(PPTXGame.getAssetManager().get("size36.ttf", BitmapFont.class), Color.RED);
+		this.enemy = enemy;
+		enemyNameLbl = new Label("", style);
+		enemyNameLbl.setPosition(0, PPTXGame.GAME_HEIGHT - enemyNameLbl.getHeight());
 		damageLblStyle = style;
 		questionResultLbl = new Label("", style);
 		questionResultLbl.setVisible(false);
-		enemyNameLbl = new Label(enemy.getName(), style);
-		enemyNameLbl.setPosition(0, PPTXGame.GAME_HEIGHT - enemyNameLbl.getHeight());
 		background = new Sprite(PPTXGame.getAssetManager().get("backgrounds/environment_forest_alt1.png", Texture.class));
 		enemyHpBar = new HPBar(500, 56);
 		battleUI.setBackground(new SpriteDrawable(background));
@@ -87,13 +89,6 @@ public class BattleStage extends Stage {
 		addActor(questionResultLbl);
 		addActor(battleUI);
 		addActor(enemyNameLbl);
-
-		Music battleMusic = PPTXGame.getAssetManager().get("music/1-15 Unrest - Hoist the Sword with Pride in the Heart.mp3");
-		battleMusic.setLooping(true);
-		battleMusic.setVolume(0.75f);
-		battleMusic.play();
-
-		addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
 	}
 
 	private void updateEnemyHpBar() {
@@ -133,30 +128,22 @@ public class BattleStage extends Stage {
 		if (sourceAttackAct != null) {
 			combatAct.addAction(sourceAttackAct);
 		}
-		combatAct.addAction(Actions.run(new Runnable() {
-			@Override
-			public void run() {
-				doDamage(target, combatParams.dmg);
-				if (target == enemy) {
-					showDamage(combatParams);
-				}
-				updateEnemyHpBar();
-			}
-		}));
 
 		/*
 		 * Take damage
 		 */
+		ParallelAction takeDamageAct = Actions.parallel();
 		Action targetTakeDamageAct = target.getTakeDamageAction();
 		if (targetTakeDamageAct != null)
-			combatAct.addAction(targetTakeDamageAct);
-		combatAct.addAction(Actions.run(new Runnable() {
-			@Override
-			public void run() {
-				System.out.println(String.format("%s does %d damage to %s!!", source.getName(), combatParams.dmg,
-						target.getName()));
+			takeDamageAct.addAction(targetTakeDamageAct);
+		takeDamageAct.addAction(Actions.run(() -> {
+			doDamage(target, combatParams.dmg);
+			if (target == enemy) {
+				showDamage(combatParams);
 			}
 		}));
+		takeDamageAct.addAction(Actions.run(() -> updateEnemyHpBar()));
+		combatAct.addAction(takeDamageAct);
 
 		/*
 		 * Post attack
@@ -164,22 +151,21 @@ public class BattleStage extends Stage {
 		Action targetPostHitAct = target.getPostHitAction(source, target, combatParams);
 		if (targetPostHitAct != null)
 			combatAct.addAction(targetPostHitAct);
-		combatAct.addAction(Actions.run(new Runnable() {
-			@Override
-			public void run() {
-				if (source == player) {
-					doAttack(enemy, player, false);
-				} else {
-					questionUI.setX(0 - questionUI.getWidth());
-					questionResultLbl.setVisible(false);
-					questionUI.nextQuestion();
-					Action hideQuestionResultLblAct = Actions.hide();
-					hideQuestionResultLblAct.setTarget(questionResultLbl);
-					questionUI.addAction(Actions.sequence(Actions.moveBy(questionUI.getWidth(), 0, 0.2f),
-							hideQuestionResultLblAct));
-				}
-				updateEnemyHpBar();
+		combatAct.addAction(Actions.run(() -> {
+			if (enemy.getHp() <= 0) {
+				addAction(Actions.run(() -> PPTXGame.toResultScreen()));
 			}
+			if (source == player) {
+				doAttack(enemy, player, false);
+			} else {
+				questionUI.setX(0 - questionUI.getWidth());
+				questionResultLbl.setVisible(false);
+				questionUI.nextQuestion();
+				Action hideQuestionResultLblAct = Actions.hide();
+				hideQuestionResultLblAct.setTarget(questionResultLbl);
+				questionUI.addAction(Actions.sequence(Actions.moveBy(questionUI.getWidth(), 0, 0.2f), hideQuestionResultLblAct));
+			}
+			updateEnemyHpBar();
 		}));
 		addAction(combatAct);
 	}

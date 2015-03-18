@@ -11,6 +11,6 @@ public class DesktopLauncher {
 		config.title = "Personal Project Team X";
 		config.width = 360;
 		config.height = 640;
-		new LwjglApplication(new PPTXGame(), config);
+		new LwjglApplication(PPTXGame.getInstance(), config);
 	}
 }
