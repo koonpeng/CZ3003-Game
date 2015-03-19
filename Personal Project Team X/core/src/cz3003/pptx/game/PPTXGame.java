@@ -92,7 +92,7 @@ public class PPTXGame extends Game {
 
 		selectionscreen = new SelectionScreen(this);
 		resultscreen = new ResultScreen(this);
-		this.setScreen(selectionscreen);
+		this.setScreen(battleScreen);
 		/*
 		 * questionstage=new QuestionStage();
 		 * selectionstage=new SelectionStage();

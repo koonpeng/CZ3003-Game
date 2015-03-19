@@ -70,7 +70,7 @@ public class BattleStage extends Stage {
 		battleUI = new Table();
 		style = new LabelStyle(PPTXGame.getAssetManager().get("size36.ttf", BitmapFont.class), Color.RED);
 		this.enemy = enemy;
-		enemyNameLbl = new Label("", style);
+		enemyNameLbl = new Label(enemy.getName(), style);
 		enemyNameLbl.setPosition(0, PPTXGame.GAME_HEIGHT - enemyNameLbl.getHeight());
 		damageLblStyle = style;
 		questionResultLbl = new Label("", style);
@@ -153,7 +153,13 @@ public class BattleStage extends Stage {
 			combatAct.addAction(targetPostHitAct);
 		combatAct.addAction(Actions.run(() -> {
 			if (enemy.getHp() <= 0) {
-				addAction(Actions.run(() -> PPTXGame.toResultScreen()));
+				Action deathAct = Actions.color(Color.BLACK, 0.5f);
+				Action deathActDisappear = Actions.fadeOut(1);
+				deathAct.setTarget(enemy);
+				deathActDisappear.setTarget(enemy);
+				addAction(Actions.sequence(Actions.parallel(deathAct, deathActDisappear),
+						Actions.run(() -> PPTXGame.toResultScreen())));
+				return;
 			}
 			if (source == player) {
 				doAttack(enemy, player, false);

@@ -50,13 +50,14 @@ public class EnemyActor extends BattleActor {
 		return null;
 	}
 
-	public Sprite getSprite() {
-		return sprite;
+	@Override
+	protected void positionChanged() {
+		sprite.setPosition(getX() + getParent().getX(), getY() + getParent().getY());
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.draw(sprite, getX() - getOriginX(), getY());
+		sprite.setColor(getColor().tmp().mul(1, 1, 1, parentAlpha));
+		sprite.draw(batch);
 	}
-
 }
