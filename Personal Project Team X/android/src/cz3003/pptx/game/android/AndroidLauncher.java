@@ -9,9 +9,9 @@ import cz3003.pptx.game.PPTXGame;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
-	protected void onCreate (Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new PPTXGame(), config);
+		initialize(PPTXGame.getInstance(), config);
 	}
 }

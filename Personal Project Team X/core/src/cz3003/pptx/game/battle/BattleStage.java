@@ -40,14 +40,15 @@ public class BattleStage extends Stage {
 	private int correctCount;
 	private int questionAnswered;
 
-	public BattleStage(EnemyActor enemy) {
+	public BattleStage(final EnemyActor enemy) {
 		super(new StretchViewport(PPTXGame.GAME_WIDTH, PPTXGame.GAME_HEIGHT));
 		player = PPTXGame.player.genBattleActor();
 		questionUI = new QuestionUI(new TestQuestionPool());
 		questionUI.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (event.getTarget().getName() != null && event.getTarget().getName().equals("ansButton")) {
+				if (event.getTarget().getName() != null
+						&& event.getTarget().getName().equals("ansButton")) {
 					if ((Boolean) event.getTarget().getUserObject()) {
 						doAttack(player, enemy, true);
 						questionResultLbl.setText("Correct!");
@@ -61,21 +62,25 @@ public class BattleStage extends Stage {
 					showQuestionResulLbltAct.setTarget(questionResultLbl);
 					questionResultLbl.pack();
 					LayoutUtils.center(questionUI, questionResultLbl);
-					questionUI.addAction(Actions.sequence(Actions.moveBy(questionUI.getWidth(), 0, 0.2f),
+					questionUI.addAction(Actions.sequence(
+							Actions.moveBy(questionUI.getWidth(), 0, 0.2f),
 							showQuestionResulLbltAct));
 				}
 			}
 		});
 
 		battleUI = new Table();
-		style = new LabelStyle(PPTXGame.getAssetManager().get("size36.ttf", BitmapFont.class), Color.RED);
+		style = new LabelStyle(PPTXGame.getAssetManager().get("size36.ttf",
+				BitmapFont.class), Color.RED);
 		this.enemy = enemy;
 		enemyNameLbl = new Label(enemy.getName(), style);
-		enemyNameLbl.setPosition(0, PPTXGame.GAME_HEIGHT - enemyNameLbl.getHeight());
+		enemyNameLbl.setPosition(0,
+				PPTXGame.GAME_HEIGHT - enemyNameLbl.getHeight());
 		damageLblStyle = style;
 		questionResultLbl = new Label("", style);
 		questionResultLbl.setVisible(false);
-		background = new Sprite(PPTXGame.getAssetManager().get("backgrounds/environment_forest_alt1.png", Texture.class));
+		background = new Sprite(PPTXGame.getAssetManager().get(
+				"backgrounds/environment_forest_alt1.png", Texture.class));
 		enemyHpBar = new HPBar(500, 56);
 		battleUI.setBackground(new SpriteDrawable(background));
 		battleUI.setWidth(PPTXGame.GAME_WIDTH);
@@ -106,7 +111,8 @@ public class BattleStage extends Stage {
 		}
 	}
 
-	private void doAttack(final BattleActor source, final BattleActor target, boolean correctAns) {
+	private void doAttack(final BattleActor source, final BattleActor target,
+			boolean correctAns) {
 		System.out.println(source.getName() + " attacks!!");
 
 		/*
@@ -136,42 +142,61 @@ public class BattleStage extends Stage {
 		Action targetTakeDamageAct = target.getTakeDamageAction();
 		if (targetTakeDamageAct != null)
 			takeDamageAct.addAction(targetTakeDamageAct);
-		takeDamageAct.addAction(Actions.run(() -> {
-			doDamage(target, combatParams.dmg);
-			if (target == enemy) {
-				showDamage(combatParams);
+		takeDamageAct.addAction(Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				doDamage(target, combatParams.dmg);
+				if (target == enemy) {
+					showDamage(combatParams);
+				}
 			}
 		}));
-		takeDamageAct.addAction(Actions.run(() -> updateEnemyHpBar()));
+		takeDamageAct.addAction(Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				updateEnemyHpBar();
+			}
+		}));
 		combatAct.addAction(takeDamageAct);
 
 		/*
 		 * Post attack
 		 */
-		Action targetPostHitAct = target.getPostHitAction(source, target, combatParams);
+		Action targetPostHitAct = target.getPostHitAction(source, target,
+				combatParams);
 		if (targetPostHitAct != null)
 			combatAct.addAction(targetPostHitAct);
-		combatAct.addAction(Actions.run(() -> {
-			if (enemy.getHp() <= 0) {
-				Action deathAct = Actions.color(Color.BLACK, 0.5f);
-				Action deathActDisappear = Actions.fadeOut(1);
-				deathAct.setTarget(enemy);
-				deathActDisappear.setTarget(enemy);
-				addAction(Actions.sequence(Actions.parallel(deathAct, deathActDisappear),
-						Actions.run(() -> PPTXGame.toResultScreen())));
-				return;
+		combatAct.addAction(Actions.run(new Runnable() {
+			@Override
+			public void run() {
+				if (enemy.getHp() <= 0) {
+					Action deathAct = Actions.color(Color.BLACK, 0.5f);
+					Action deathActDisappear = Actions.fadeOut(1);
+					deathAct.setTarget(enemy);
+					deathActDisappear.setTarget(enemy);
+					addAction(Actions.sequence(
+							Actions.parallel(deathAct, deathActDisappear),
+							Actions.run(new Runnable() {
+								public void run() {
+									PPTXGame.toResultScreen();
+								}
+							})));
+					return;
+				}
+				if (source == player) {
+					doAttack(enemy, player, false);
+				} else {
+					questionUI.setX(0 - questionUI.getWidth());
+					questionResultLbl.setVisible(false);
+					questionUI.nextQuestion();
+					Action hideQuestionResultLblAct = Actions.hide();
+					hideQuestionResultLblAct.setTarget(questionResultLbl);
+					questionUI.addAction(Actions.sequence(
+							Actions.moveBy(questionUI.getWidth(), 0, 0.2f),
+							hideQuestionResultLblAct));
+				}
+				updateEnemyHpBar();
 			}
-			if (source == player) {
-				doAttack(enemy, player, false);
-			} else {
-				questionUI.setX(0 - questionUI.getWidth());
-				questionResultLbl.setVisible(false);
-				questionUI.nextQuestion();
-				Action hideQuestionResultLblAct = Actions.hide();
-				hideQuestionResultLblAct.setTarget(questionResultLbl);
-				questionUI.addAction(Actions.sequence(Actions.moveBy(questionUI.getWidth(), 0, 0.2f), hideQuestionResultLblAct));
-			}
-			updateEnemyHpBar();
 		}));
 		addAction(combatAct);
 	}
@@ -181,18 +206,20 @@ public class BattleStage extends Stage {
 		if (dmg < att / 2) {
 			dmg = att / 2;
 		}
-		dmg *= 1 + (rand.nextFloat() / 5 - 0.1);	// Damage variation
+		dmg *= 1 + (rand.nextFloat() / 5 - 0.1); // Damage variation
 		return dmg;
 	}
 
 	private void showDamage(final CombatParameters combatParams) {
-		Label damageLbl = new Label(Integer.toString(combatParams.dmg), damageLblStyle);
+		Label damageLbl = new Label(Integer.toString(combatParams.dmg),
+				damageLblStyle);
 		damageLbl.setText(Integer.toString(combatParams.dmg));
 		damageLbl.pack();
 		LayoutUtils.center(enemy, damageLbl);
 		damageLbl.moveBy(0, 50);
 		damageLbl.setVisible(true);
-		damageLbl.addAction(Actions.sequence(Actions.moveBy(0, 100, 1), Actions.hide()));
+		damageLbl.addAction(Actions.sequence(Actions.moveBy(0, 100, 1),
+				Actions.hide()));
 		addActor(damageLbl);
 	}
 

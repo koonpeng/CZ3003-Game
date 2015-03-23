@@ -49,28 +49,26 @@ public class PPTXGame extends Game {
 	private static ResultScreen resultscreen;
 	public static BattleScreen battleScreen;
 
+	private PPTXGame() {
+
+	}
+
 	public static PPTXGame getInstance() {
 		return pptxGame;
 	}
 
 	public void SelectStageRender() {
 		/*
-		 * if(Constants.StageFlag==Constants.StartStageOn){
-		 * }else if(Constants.StageFlag==Constants.QuestionStageOn){
-		 * Gdx.input.setInputProcessor(questionstage);
-		 * questionstage.act();
-		 * questionstage.draw();
-		 * }else if(Constants.StageFlag==Constants.SelectionStageOn){
-		 * Gdx.input.setInputProcessor(selectionstage);
-		 * selectionstage.act();
-		 * selectionstage.draw();
-		 * }
-		 * else if(Constants.StageFlag==Constants.ResultStageOn){
-		 * Gdx.input.setInputProcessor(resultstage);
-		 * resultstage.updatescore();
-		 * resultstage.act();
-		 * resultstage.draw();
-		 * }
+		 * if(Constants.StageFlag==Constants.StartStageOn){ }else
+		 * if(Constants.StageFlag==Constants.QuestionStageOn){
+		 * Gdx.input.setInputProcessor(questionstage); questionstage.act();
+		 * questionstage.draw(); }else
+		 * if(Constants.StageFlag==Constants.SelectionStageOn){
+		 * Gdx.input.setInputProcessor(selectionstage); selectionstage.act();
+		 * selectionstage.draw(); } else
+		 * if(Constants.StageFlag==Constants.ResultStageOn){
+		 * Gdx.input.setInputProcessor(resultstage); resultstage.updatescore();
+		 * resultstage.act(); resultstage.draw(); }
 		 */
 	}
 
@@ -81,8 +79,10 @@ public class PPTXGame extends Game {
 	@Override
 	public void create() {
 		InternalFileHandleResolver resolver = new InternalFileHandleResolver();
-		assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
-		assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+		assetManager.setLoader(FreeTypeFontGenerator.class,
+				new FreeTypeFontGeneratorLoader(resolver));
+		assetManager.setLoader(BitmapFont.class, ".ttf",
+				new FreetypeFontLoader(resolver));
 		loadAssets();
 		player = new Player("Player", 1000, 100, 100);
 		player.equip(EquipmentFactory.getEquipment("Excalibur"));
@@ -92,11 +92,10 @@ public class PPTXGame extends Game {
 
 		selectionscreen = new SelectionScreen(this);
 		resultscreen = new ResultScreen(this);
-		this.setScreen(battleScreen);
+		this.setScreen(selectionscreen);
 		/*
-		 * questionstage=new QuestionStage();
-		 * selectionstage=new SelectionStage();
-		 * resultstage=new ResultStage();
+		 * questionstage=new QuestionStage(); selectionstage=new
+		 * SelectionStage(); resultstage=new ResultStage();
 		 */
 	}
 
@@ -106,17 +105,22 @@ public class PPTXGame extends Game {
 		assetManager.load("monsters/Progenitor.png", Texture.class);
 		assetManager.load("RedBar.png", Texture.class);
 		assetManager.load("EmptyBar.png", Texture.class);
-		assetManager.load("backgrounds/environment_forest_alt1.png", Texture.class);
-		assetManager.load("music/1-15 Unrest - Hoist the Sword with Pride in the Heart.mp3", Music.class);
+		assetManager.load("backgrounds/environment_forest_alt1.png",
+				Texture.class);
+		assetManager
+				.load("music/1-15 Unrest - Hoist the Sword with Pride in the Heart.mp3",
+						Music.class);
 		assetManager.load("music/(05) The Winner.mp3", Music.class);
 		assetManager.load("sound/explosion.wav", Sound.class);
 		FreeTypeFontLoaderParameter fontParam = new FreeTypeFontLoaderParameter();
 		fontParam.fontFileName = "fonts/calibri.ttf";
 		fontParam.loadedCallback = new LoadedCallback() {
 			@Override
-			public void finishedLoading(AssetManager assetManager, String fileName, @SuppressWarnings("rawtypes") Class type) {
+			public void finishedLoading(AssetManager assetManager,
+					String fileName, @SuppressWarnings("rawtypes") Class type) {
 				BitmapFont font = assetManager.get(fileName);
-				font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+				font.getRegion().getTexture()
+						.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			}
 		};
 		fontParam.fontParameters.size = 36;
@@ -126,9 +130,11 @@ public class PPTXGame extends Game {
 		ansFontParams.fontFileName = "fonts/calibri.ttf";
 		ansFontParams.loadedCallback = new LoadedCallback() {
 			@Override
-			public void finishedLoading(AssetManager assetManager, String fileName, @SuppressWarnings("rawtypes") Class type) {
+			public void finishedLoading(AssetManager assetManager,
+					String fileName, @SuppressWarnings("rawtypes") Class type) {
 				BitmapFont font = assetManager.get(fileName);
-				font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+				font.getRegion().getTexture()
+						.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			}
 		};
 		ansFontParams.fontParameters.size = 24;
@@ -140,15 +146,9 @@ public class PPTXGame extends Game {
 	}
 
 	/*
-	 * @Override
-	 * public void render () {
-	 * Gdx.gl.glClearColor(1, 1, 1, 1);
-	 * Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	 * batch.begin();
-	 * //batch.draw(character,x,y);
-	 * batch.end();
-	 * //SelectStageRender();
-	 * }
+	 * @Override public void render () { Gdx.gl.glClearColor(1, 1, 1, 1);
+	 * Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); batch.begin();
+	 * //batch.draw(character,x,y); batch.end(); //SelectStageRender(); }
 	 */
 
 }
