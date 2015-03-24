@@ -4,12 +4,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class LoadingScreen implements Screen{
 	MyGdxGame game;
 	public float statetime;
 	SpriteBatch batch;
 	Texture loadTexture;
+	Stage stage;
+	Image image;
 	public LoadingScreen(MyGdxGame game)
 	{
 		this.game=game;
@@ -20,8 +24,11 @@ public class LoadingScreen implements Screen{
 	public void show() {
 		// TODO Auto-generated method stub
 		loadTexture=new Texture(ImgFile.loadingbackground);
-		batch=new SpriteBatch();
-		
+		Image image=new Image(loadTexture);
+	
+		stage=new Stage();
+		stage.addActor(image);
+		stage.setViewport(AndroidView.getview());
 	
 	}
 
@@ -33,18 +40,18 @@ public class LoadingScreen implements Screen{
 		statetime+=Gdx.graphics.getDeltaTime();
 		if(statetime>3)
 		{
-			game.setScreen(game.selectionscreen);
+			game.setScreen(game.menuscreen);
 		}
-		batch.begin();
-		batch.draw(loadTexture,0,0);
-		batch.end();
+		
+		stage.act();
+		stage.draw();
 		
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
-		
+		AndroidView.getview().update(width, height, true);
 	}
 
 	@Override
@@ -68,6 +75,6 @@ public class LoadingScreen implements Screen{
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
-		
+		stage.dispose();
 	}
 }

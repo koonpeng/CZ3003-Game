@@ -19,7 +19,8 @@ public class ResultScreen implements Screen {
 		@Override
 		public void show() {
 			// TODO Auto-generated method stub
-			resultstage=new ResultStage();
+			resultstage=new ResultStage(game);
+			resultstage.setViewport(AndroidView.getview());
 			Gdx.input.setInputProcessor(resultstage);
 			statetime=0;
 		
@@ -34,16 +35,22 @@ public class ResultScreen implements Screen {
 			resultstage.act();
 			resultstage.draw();
 			statetime+=Gdx.graphics.getDeltaTime();
-			if(statetime>5)
+			if(Constants.StageFlag== Constants.SelectionStageOn)
 			{
-				//game.setScreen(game.selectionscreen);
+			
 			}
+//			if(statetime>5)
+//			{
+//				//game.setScreen(game.selectionscreen);
+//			}
 			
 		}
 
 		@Override
 		public void resize(int width, int height) {
 			// TODO Auto-generated method stub
+			AndroidView.getview().update(width, height, true);
+			
 			
 		}
 

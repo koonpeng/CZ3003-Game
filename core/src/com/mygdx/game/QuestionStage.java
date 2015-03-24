@@ -92,15 +92,16 @@ public class QuestionStage extends Stage {
 		test = new Test(dungonid);
 		uiinit();
 		displaylblbut();
-		monsterhp = new Hp(550, 1000, 3);
+		monsterhp = new Hp(420, 1000, 3);
 		characterhp = new Hp(200, 1200, 3);
 		this.addActor(monsterhp);
 		this.addActor(characterhp);
 		this.addActor(monsterhp.lblhp);
 
 		this.addActor(characterhp.lblhp);
-		dragon = new Dragon(500, 800);
+		dragon = new Dragon(450, 800);
 		this.addActor(dragon);
+		this.addActor(dragon.imgdragon);
 		fightcharacter = new FightCharacter(20, 800);
 		this.addActor(fightcharacter);
 
@@ -129,7 +130,7 @@ public class QuestionStage extends Stage {
 
 		/* ******Label Control Title Part****** */
 		lblTitle = new Label(question[0], style);
-		lblTitle.setPosition(50, 400);
+		lblTitle.setPosition(50, 700);
 
 		lblTitle.setWidth(600);
 		lblTitle.setWrap(true);
@@ -161,18 +162,18 @@ public class QuestionStage extends Stage {
 		buttoninit("C", 2, 15, 220);
 		buttoninit("D", 3, 15, 170);
 
-		buttoninit("T", 4, 15, 320);
-		buttoninit("F", 5, 15, 270);
+		buttoninit("T", 4, 15+45, 500);
+		buttoninit("F", 5, 245+45, 500);
 
 		/* ******Label Control T Part****** */
 		lblT = new Label("T", style2);
-		lblT.setPosition(70, 330);
+		lblT.setPosition(70+45, 500);
 
 		this.addActor(lblT);
 
 		/* ******Label Control F Part****** */
 		lblF = new Label("F", style2);
-		lblF.setPosition(70, 270);
+		lblF.setPosition(300+45, 500);
 
 		this.addActor(lblF);
 

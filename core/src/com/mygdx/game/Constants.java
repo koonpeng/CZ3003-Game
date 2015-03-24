@@ -5,7 +5,7 @@ public class Constants {
 	public static int SelectionStageOn=2;
 	public static int LoginStageOn=1;
 	public static int StoreStageOn=4;
-	public static int StageFlag=2;
+	public static int StageFlag=-1;
 	public static int ResultStageOn=5;
 	public static int SCREENWIDTH =720;
 	public static int SCREENHEIGHT=1280;

@@ -1,2 +1,1 @@
-include ':'
-include ':core'
+include 'core', 'android', 'desktop', 'google-play-services_lib'

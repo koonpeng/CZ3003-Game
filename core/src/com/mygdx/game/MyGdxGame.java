@@ -82,7 +82,7 @@ public class MyGdxGame  extends  Game  {
 		selectionscreen=new SelectionScreen(this);
 		resultscreen=new ResultScreen(this);
 		loadingscreen=new LoadingScreen(this);
-		this.setScreen(menuscreen);
+		this.setScreen(loadingscreen);
 		/*questionstage=new QuestionStage();
 		selectionstage=new SelectionStage();
 		resultstage=new ResultStage();*/

@@ -31,3 +31,4 @@ DB/
 *.ipr
 *.iws
 .idea/
+/build/

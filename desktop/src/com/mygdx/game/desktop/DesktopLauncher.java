@@ -25,7 +25,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title="";
 		config.height=800;
-		config.width=800;
+		config.width=480;
 		new LwjglApplication(new MyGdxGame(), config);
 		//SocialMediaSharedVariable.instance.setTwitterInterface(new DesktopTwitterInterface());
 				SocialMediaSharedVariable.instance.setDesktopApplication(true);

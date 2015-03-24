@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -25,6 +26,7 @@ public class SelectionStage extends Stage {
 	
 	
 	Texture texture;
+	TextureAtlas dugeonatlas;
 	PrivateGirl privategirl;
 	int speed = 3;
 	int x = 150;
@@ -102,24 +104,34 @@ public class SelectionStage extends Stage {
 		style =new LabelStyle(CusFontStyle.getNormalFont(), CusFontStyle.getNormalFont().getColor());
 	
 		this.addActor(TopBar.getTopbar());
-
-		dugeonini(0,0,700);
-		dugeonini(1,240,700);
-		dugeonini(2,480,700);
-		dugeonini(3,120,380);
-		dugeonini(4,360,380);
-
+		
+		dugeonatlas = new TextureAtlas(ImgFile.dungeon);
+		
+		
+		dugeonini(0,0,700,false);
+		dugeonini(1,240,700,true);
+		dugeonini(2,480,700,true);
+		dugeonini(3,120,380,true);
+		dugeonini(4,360,380,true);
+		
 		privategirl = new PrivateGirl(Constants.SCREENWIDTH/2, Constants.SCREENHEIGHT/2);
 		//this.addActor(privategirl.backgroundimage);
 		this.addActor(privategirl);
 		this.addActor(privategirl.touchpad);
+		Hp monsterhp = new Hp(200, 1200, 3);
+		this.addActor(monsterhp);
 		
 		
 	}
-	private void dugeonini(int index,int x, int y)
+	private void dugeonini(int index,int x, int y,Boolean lock)
 	{
-		TextureRegion dungeonRegion=new TextureRegion(new Texture(ImgFile.dungeon),0,0,200,200);
-		imageDungeon[index]=new Image(dungeonRegion);
+		//TextureRegion dungeonRegion=new TextureRegion(new Texture(ImgFile.dungeon),0,0,240,240);
+		String dugegonSname=Integer.toString(index+1);
+		if(lock)
+		{
+			dugegonSname+="_lock";
+		}
+		imageDungeon[index]=new Image(dugeonatlas.findRegion(dugegonSname));
 		
 		imageDungeon[index].setPosition(x, y);
 		this.addActor(imageDungeon[index]);

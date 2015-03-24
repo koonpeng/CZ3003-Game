@@ -63,9 +63,14 @@ public class Treasure extends Actor {
 		}
 		else
 		{	
-			statetime+=Gdx.graphics.getDeltaTime();
-			currentFrame=treasureAnimation.getKeyFrame(statetime, false);
-			batch.draw(currentFrame,  Gdx.graphics.getWidth()/2-100, Gdx.graphics.getHeight()/2-300);
+			
+			if(!treasureAnimation.isAnimationFinished(statetime))
+				
+			{
+				statetime+=Gdx.graphics.getDeltaTime();
+				currentFrame=treasureAnimation.getKeyFrame(statetime, false);
+				batch.draw(currentFrame,  Gdx.graphics.getWidth()/2-100, Gdx.graphics.getHeight()/2-300);
+			}
 		}
 		
 	}
