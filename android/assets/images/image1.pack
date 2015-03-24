@@ -1,0 +1,19 @@
+
+image1.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+lemon_chiffon_pie
+  rotate: false
+  xy: 1, 1
+  size: 500, 333
+  orig: 500, 333
+  offset: 0, 0
+  index: -1
+apple_pie
+  rotate: false
+  xy: 503, 78
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1

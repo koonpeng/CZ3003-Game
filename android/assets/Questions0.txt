@@ -1,0 +1,21 @@
+Which question no longer concerns the modern software engineer? 
+Why does computer hardware cost so much? 
+Why does software take a long time to finish? 
+Why does it cost so much to develop a piece of software? 
+Why can't software errors be removed from products prior to delivery? 
+Software deteriorates rather than wears out because
+Software suffers from exposure to hostile environments 
+Defects are more likely to arise after software has been used often 
+Multiple change requests introduce errors in component interactions 
+Software spare parts become harder to order 
+Software deteriorates rather than wears out because
+Software suffers from exposure to hostile environments 
+Defects are more likely to arise after software has been used often 
+Multiple change requests introduce errors in component interactions 
+Software spare parts become harder to order 
+Software deteriorates rather than wears out because
+Software suffers from exposure to hostile environments 
+Defects are more likely to arise after software has been used often 
+Multiple change requests introduce errors in component interactions 
+Software spare parts become harder to order 
+
