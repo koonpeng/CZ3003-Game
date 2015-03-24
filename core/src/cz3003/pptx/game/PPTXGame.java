@@ -25,7 +25,6 @@ import cz3003.pptx.game.screen.MenuScreen;
 public class PPTXGame extends Game {
 
 	/* Stage definition */
-	QuestionStage questionstage;
 	SelectionStage selectionstage;
 	ResultStage resultstage;
 	SpriteBatch batch;
@@ -37,7 +36,7 @@ public class PPTXGame extends Game {
 	LoginScreen loginscreen;
 	public SelectionScreen selectionscreen;
 	public static ResultScreen resultscreen;
-	public BattleScreen battleScreen;
+	private BattleScreen battleScreen;
 	LoadingScreen loadingscreen;
 	MenuScreen menuscreen;
 

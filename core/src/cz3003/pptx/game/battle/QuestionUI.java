@@ -16,30 +16,31 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 
 import cz3003.pptx.game.PPTXGame;
-import cz3003.pptx.game.test.TestQuestionPool;
+import cz3003.pptx.game.battle.quiz.Quiz;
 
 public class QuestionUI extends Table {
 
 	public static final int WIDTH = PPTXGame.GAME_WIDTH;
-	public static final int HEIGHT = PPTXGame.GAME_HEIGHT / 2; // Half the screen
+	public static final int HEIGHT = PPTXGame.GAME_HEIGHT / 2; // Half the
+																// screen
 
-	private BitmapFont font;
-	private BitmapFont ansFont;
-	private LabelStyle style;
-	private LabelStyle ansStyle;
-	private Label lblTitle;
-	private ArrayList<Button> ansBtns;
-	private ArrayList<Label> ansLbls;
-	private ArrayList<HorizontalGroup> ansGroups;
-	private TestQuestionPool questionPool;
+	private final BitmapFont font;
+	private final BitmapFont ansFont;
+	private final LabelStyle style;
+	private final LabelStyle ansStyle;
+	private final Label lblTitle;
+	private final ArrayList<Button> ansBtns;
+	private final ArrayList<Label> ansLbls;
+	private final ArrayList<HorizontalGroup> ansGroups;
+	private final Quiz questionPool;
 
-	public QuestionUI(TestQuestionPool questionPool) {
+	public QuestionUI(Quiz questionPool) {
 		super();
 		this.questionPool = questionPool;
-		Question question = questionPool.getNextQuestion();
-		ansBtns = new ArrayList<Button>(question.getChoices().length);
-		ansLbls = new ArrayList<Label>(question.getChoices().length);
-		ansGroups = new ArrayList<HorizontalGroup>(question.getChoices().length);
+		String[] question = questionPool.getQuestion();
+		ansBtns = new ArrayList<Button>(4);
+		ansLbls = new ArrayList<Label>(4);
+		ansGroups = new ArrayList<HorizontalGroup>(4);
 
 		font = PPTXGame.getAssetManager().get("size36.ttf");
 		font.setColor(Color.RED);
@@ -48,7 +49,7 @@ public class QuestionUI extends Table {
 
 		style = new LabelStyle(font, font.getColor());
 		ansStyle = new LabelStyle(ansFont, ansFont.getColor());
-		lblTitle = new Label(question.getQuestion(), style);
+		lblTitle = new Label(question[1], style);
 		lblTitle.setWrap(true);
 
 		padLeft(50);
@@ -64,7 +65,8 @@ public class QuestionUI extends Table {
 	}
 
 	public void nextQuestion() {
-		setQuestion(questionPool.getNextQuestion());
+		questionPool.nextquestion();
+		setQuestion(questionPool.getQuestion());
 	}
 
 	private Button createAnsButtons() {
@@ -84,31 +86,38 @@ public class QuestionUI extends Table {
 		return tmp;
 	}
 
-	private void setQuestion(Question question) {
-		lblTitle.setText(question.getQuestion());
+	private void setQuestion(String[] question) {
+		lblTitle.setText(question[1]);
+		String[] choices = null;
+
+		if (question[0].equals("A")) {
+			choices = new String[2];
+			choices[0] = "True";
+			choices[1] = "False";
+		} else if (question[0].equals(("B"))) {
+			choices = new String[4];
+			choices[0] = question[2];
+			choices[1] = question[3];
+			choices[2] = question[4];
+			choices[3] = question[5];
+		}
 
 		float ansLabelWidth = WIDTH - 72 - getPadLeft() - getPadRight();
-		for (int i = 0; i < question.getChoices().length; i++) {
+		for (int i = 0; i < choices.length; i++) {
 			Label lbl;
 			Button btn;
 			if (ansLbls.size() > i) {
 				lbl = ansLbls.get(i);
-				lbl.setText(question.getChoices()[i]);
 				btn = ansBtns.get(i);
 			} else {
-				lbl = new Label(question.getChoices()[i], ansStyle);
+				lbl = new Label(choices[i], ansStyle);
 				lbl.setWrap(true);
-				lbl.setName("ansLbl");
 				ansLbls.add(lbl);
 				btn = createAnsButtons();
 				ansBtns.add(btn);
 			}
-
-			if (i == question.getAnswer()) {
-				btn.setUserObject(new Boolean(true));
-			} else {
-				btn.setUserObject(new Boolean(false));
-			}
+			lbl.setText(question[i]);
+			btn.setName(Character.getName('A' + i)); // Convert ASCII codepoint to String
 
 			HorizontalGroup hGrp;
 			if (ansGroups.size() > i) {
@@ -123,9 +132,8 @@ public class QuestionUI extends Table {
 			}
 		}
 
-		for (int i = question.getChoices().length; i < ansGroups.size(); i++) {
+		for (int i = choices.length; i < ansGroups.size(); i++) {
 			removeActor(ansGroups.get(i));
 		}
 	}
-
 }

@@ -1,9 +1,9 @@
-package cz3003.pptx.game;
+package cz3003.pptx.game.battle.quiz;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
-public class Test {
+public class Quiz {
 	private int questionsetno = 0;
 	private int readindex;
 	private String[] lines;
@@ -28,7 +28,7 @@ public class Test {
 		score = s;
 	}
 
-	public Test(int questionsetno) {
+	public Quiz(int questionsetno) {
 		this.questionsetno = questionsetno;
 		score=0;
 		readindex=0;

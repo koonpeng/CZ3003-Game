@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 
 import cz3003.pptx.game.Treasure.STATE;
+import cz3003.pptx.game.battle.quiz.Quiz;
 
 public class ResultStage extends Stage {
 	// @Override
@@ -111,7 +112,7 @@ public class ResultStage extends Stage {
 		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle
 				.getBoldFont().getColor());
 
-		String result = "Your Score is " + Test.getScore();
+		String result = "Your Score is " + Quiz.getScore();
 		lblresult = new Label(result, style);
 		lblresult.setPosition(100, 300);
 		lblresult.setFontScale(1);
@@ -122,7 +123,7 @@ public class ResultStage extends Stage {
 	
 
 	public void updatescore() {
-		String result = "Your Score is " + Test.getScore();
+		String result = "Your Score is " + Quiz.getScore();
 		lblresult.setText(result);																																								 
 	} 
 
