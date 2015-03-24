@@ -41,7 +41,7 @@ public class BattleStage extends Stage {
 	public BattleStage(final EnemyActor enemy) {
 		super(new StretchViewport(PPTXGame.GAME_WIDTH, PPTXGame.GAME_HEIGHT));
 		player = PPTXGame.player.genBattleActor();
-		test = new Quiz(1);
+		test = new Quiz(0);
 		questionUI = new QuestionUI(test);
 		questionUI.addListener(new ClickListener() {
 			@Override
