@@ -41,10 +41,6 @@ public class Player {
 			def += equip.def;
 			maxHp += equip.maxHp;
 			hp += equip.maxHp;
-			actor.registerOnAttackTrig(equip);
-			actor.registerOnHitTrig(equip);
-			actor.registerPostAttackTrig(equip);
-			actor.registerPostHitTrig(equip);
 		}
 		actor.setAtt(att);
 		actor.setDef(def);

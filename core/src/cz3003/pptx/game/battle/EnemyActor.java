@@ -17,15 +17,6 @@ public class EnemyActor extends BattleActor {
 		super(name, hp, maxHp, att, def);
 		Texture tex = PPTXGame.getAssetManager().get("monsters/Progenitor.png");
 		sprite = new Sprite(tex);
-		registerPostHitTrig(new IPostHitTrig() {
-			@Override
-			public void postHit(BattleActor source, BattleActor target, int dmg) {
-				if (getHp() > 0) {
-					setHp(getHp() + 50);
-					System.out.println(getName() + "'s regeneration recovers 50 hp!!");
-				}
-			}
-		});
 
 		setWidth(tex.getWidth());
 		setHeight(tex.getHeight());
@@ -33,7 +24,7 @@ public class EnemyActor extends BattleActor {
 
 	@Override
 	public Action getAttackAction() {
-		return null;
+		return Actions.delay(2);
 	}
 
 	@Override
@@ -44,10 +35,6 @@ public class EnemyActor extends BattleActor {
 		hideAct.setTarget(this);
 		blinkAction = Actions.repeat(3, Actions.sequence(hideAct, Actions.delay(0.2f), showAct, Actions.delay(0.2f)));
 		return blinkAction;
-	}
-
-	public Action getPostHitAction(BattleActor source, BattleActor target, CombatParameters combatParams) {
-		return null;
 	}
 
 	@Override

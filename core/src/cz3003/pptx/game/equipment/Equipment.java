@@ -1,12 +1,6 @@
 package cz3003.pptx.game.equipment;
 
-import cz3003.pptx.game.battle.IOnAttackTrig;
-import cz3003.pptx.game.battle.IOnHitTrig;
-import cz3003.pptx.game.battle.IPostAttackTrig;
-import cz3003.pptx.game.battle.IPostHitTrig;
-
-
-public abstract class Equipment implements IOnAttackTrig, IPostAttackTrig, IOnHitTrig, IPostHitTrig {
+public abstract class Equipment {
 
 	public final String name;
 	public final int att;

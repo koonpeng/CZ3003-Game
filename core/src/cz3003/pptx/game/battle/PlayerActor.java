@@ -37,9 +37,4 @@ public class PlayerActor extends BattleActor {
 		return null;
 	}
 
-	@Override
-	public Action getPostHitAction(BattleActor source, BattleActor target, CombatParameters combatParams) {
-		return null;
-	}
-
 }

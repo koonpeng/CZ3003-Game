@@ -100,6 +100,13 @@ public class QuestionUI extends Table {
 			choices[1] = question[3];
 			choices[2] = question[4];
 			choices[3] = question[5];
+		} else {
+			lblTitle.setText(question[0]);
+			choices = new String[4];
+			choices[0] = question[1];
+			choices[1] = question[2];
+			choices[2] = question[3];
+			choices[3] = question[4];
 		}
 
 		float ansLabelWidth = WIDTH - 72 - getPadLeft() - getPadRight();
@@ -117,7 +124,7 @@ public class QuestionUI extends Table {
 				ansBtns.add(btn);
 			}
 			lbl.setText(question[i]);
-			btn.setName(Character.getName('A' + i)); // Convert ASCII codepoint to String
+			btn.setUserObject(Character.getName('A' + i)); // Convert ASCII codepoint to String
 
 			HorizontalGroup hGrp;
 			if (ansGroups.size() > i) {

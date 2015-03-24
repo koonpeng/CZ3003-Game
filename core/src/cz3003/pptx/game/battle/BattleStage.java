@@ -58,8 +58,7 @@ public class BattleStage extends Stage {
 					showQuestionResulLbltAct.setTarget(questionResultLbl);
 					questionResultLbl.pack();
 					LayoutUtils.center(questionUI, questionResultLbl);
-					questionUI.addAction(Actions.sequence(Actions.moveBy(questionUI.getWidth(), 0, 0.2f),
-							showQuestionResulLbltAct));
+					questionUI.addAction(Actions.sequence(Actions.moveBy(720, 0, 0.2f), showQuestionResulLbltAct));
 				}
 			}
 		});
@@ -153,9 +152,6 @@ public class BattleStage extends Stage {
 		/*
 		 * Post attack
 		 */
-		Action targetPostHitAct = target.getPostHitAction(source, target, combatParams);
-		if (targetPostHitAct != null)
-			combatAct.addAction(targetPostHitAct);
 		combatAct.addAction(Actions.run(new Runnable() {
 			@Override
 			public void run() {
@@ -171,15 +167,15 @@ public class BattleStage extends Stage {
 					})));
 					return;
 				}
-				if (source == enemy) {
-					questionUI.setX(0 - questionUI.getWidth());
-					questionResultLbl.setVisible(false);
-					questionUI.nextQuestion();
-					Action hideQuestionResultLblAct = Actions.hide();
-					hideQuestionResultLblAct.setTarget(questionResultLbl);
-					questionUI.addAction(Actions.sequence(Actions.moveBy(questionUI.getWidth(), 0, 0.2f),
-							hideQuestionResultLblAct));
-				}
+				questionUI.nextQuestion();
+				Action hideQuestionResultLblAct = Actions.hide();
+				hideQuestionResultLblAct.setTarget(questionResultLbl);
+				Action moveQuestionUI = Actions.sequence(hideQuestionResultLblAct, Actions.moveTo(0 - questionUI.getWidth(), 0),
+						Actions.moveBy(questionUI.getWidth(), 0, 0.2f));
+				moveQuestionUI.setTarget(questionUI);
+				Action after = Actions.after(moveQuestionUI);
+				after.setTarget(questionUI);
+				questionUI.addAction(after);
 				updateEnemyHpBar();
 			}
 		}));
