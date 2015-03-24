@@ -3,6 +3,7 @@
 This README would normally document whatever steps are necessary to get your application up and running.
 
 Use Sourcetree or Eclipse GIT
+http://www.bogotobogo.com/cplusplus/Git/Git_GitHub_Source_Tree_1_Commit_Push.php
 
 Import Gradle project with Gradle Plugin for Eclipse
 http://marketplace.eclipse.org/content/gradle-integration-eclipse-44
