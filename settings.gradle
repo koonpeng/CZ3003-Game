@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-include 'core', 'android', 'desktop'
-=======
 include 'core', 'android', 'desktop', 'google-play-services_lib'
->>>>>>> origin/master
