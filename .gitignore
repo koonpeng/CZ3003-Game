@@ -30,4 +30,9 @@ DB/
 *.iml
 *.ipr
 *.iws
+<<<<<<< HEAD
 .idea/
+=======
+.idea/
+/build/
+>>>>>>> origin/master

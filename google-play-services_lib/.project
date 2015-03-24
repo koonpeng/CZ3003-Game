@@ -6,6 +6,7 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
+<<<<<<< HEAD
 			<name>com.android.ide.eclipse.adt.ResourceManagerBuilder</name>
 			<arguments>
 			</arguments>
@@ -16,10 +17,13 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
+=======
+>>>>>>> origin/master
 			<name>org.eclipse.jdt.core.javabuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
+<<<<<<< HEAD
 		<buildCommand>
 			<name>com.android.ide.eclipse.adt.ApkBuilder</name>
 			<arguments>
@@ -28,6 +32,11 @@
 	</buildSpec>
 	<natures>
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
+=======
+	</buildSpec>
+	<natures>
+		<nature>org.springsource.ide.eclipse.gradle.core.nature</nature>
+>>>>>>> origin/master
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
 </projectDescription>

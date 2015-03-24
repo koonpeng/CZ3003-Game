@@ -11,6 +11,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		
 		
+<<<<<<< HEAD
 //			Settings settings = new Settings();
 //			settings.maxWidth = 2048;
 //			settings.maxHeight = 2048;
@@ -21,6 +22,18 @@ public class DesktopLauncher {
 //			TexturePacker2.process(settings, "assets-raw/images-ui",
 //			"../android/assets/images",
 //			"appone-ui.pack");
+=======
+			Settings settings = new Settings();
+			settings.maxWidth = 2048;
+			settings.maxHeight = 2048;
+			settings.debug = false;
+			TexturePacker2.process(settings, "assets-raw/images",
+			"../android/assets/images",
+			"image1.pack");
+			TexturePacker2.process(settings, "assets-raw/images-ui",
+			"../android/assets/images",
+			"appone-ui.pack");
+>>>>>>> origin/master
 		
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title="";

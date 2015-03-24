@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
+<<<<<<< HEAD
 	<name>shared</name>
+=======
+	<name>cz3003-personal-project-team-x</name>
+>>>>>>> origin/master
 	<comment></comment>
 	<projects>
 	</projects>
@@ -17,7 +21,11 @@
 	</natures>
 	<filteredResources>
 		<filter>
+<<<<<<< HEAD
 			<id>1427102039045</id>
+=======
+			<id>1427163601246</id>
+>>>>>>> origin/master
 			<name></name>
 			<type>26</type>
 			<matcher>
@@ -33,6 +41,13 @@
 					</matcher>
 					<matcher>
 						<id>org.eclipse.ui.ide.multiFilter</id>
+<<<<<<< HEAD
+=======
+						<arguments>1.0-projectRelativePath-equals-true-false-google-play-services_lib</arguments>
+					</matcher>
+					<matcher>
+						<id>org.eclipse.ui.ide.multiFilter</id>
+>>>>>>> origin/master
 						<arguments>1.0-projectRelativePath-equals-true-false-android</arguments>
 					</matcher>
 				</arguments>
