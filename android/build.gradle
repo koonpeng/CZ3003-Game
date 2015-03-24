@@ -1,6 +1,6 @@
 android {
     buildToolsVersion "21.1.2"
-    compileSdkVersion 21
+    compileSdkVersion 19
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -63,7 +63,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.mygdx.game.android/com.mygdx.game.android.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'cz3003.pptx.game.android/cz3003.pptx.game.android.AndroidLauncher'
 }
 
 // sets up the Android Eclipse project, using the old Ant based build.
@@ -77,8 +77,8 @@ eclipse {
     }
 
     jdt {
-        sourceCompatibility = 1.6
-        targetCompatibility = 1.6
+        sourceCompatibility = 1.7
+        targetCompatibility = 1.7
     }
 
     classpath {
