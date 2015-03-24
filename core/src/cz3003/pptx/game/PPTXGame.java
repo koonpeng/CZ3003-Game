@@ -67,25 +67,21 @@ public class PPTXGame extends Game {
 	private void loadAssets() {
 		assetManager.load("empty.png", Texture.class);
 		assetManager.load("button.png", Texture.class);
-		assetManager.load("monsters/Progenitor.png", Texture.class);
+		assetManager.load("fight.png", Texture.class);
+		assetManager.load("monsters/dragon.png", Texture.class);
 		assetManager.load("RedBar.png", Texture.class);
 		assetManager.load("EmptyBar.png", Texture.class);
-		assetManager.load("backgrounds/environment_forest_alt1.png",
-				Texture.class);
-		assetManager
-				.load("music/1-15 Unrest - Hoist the Sword with Pride in the Heart.mp3",
-						Music.class);
+		assetManager.load("backgrounds/environment_forest_alt1.png", Texture.class);
+		assetManager.load("music/1-15 Unrest - Hoist the Sword with Pride in the Heart.mp3", Music.class);
 		assetManager.load("music/(05) The Winner.mp3", Music.class);
 		assetManager.load("sound/explosion.wav", Sound.class);
 		FreeTypeFontLoaderParameter fontParam = new FreeTypeFontLoaderParameter();
 		fontParam.fontFileName = "fonts/calibri.ttf";
 		fontParam.loadedCallback = new LoadedCallback() {
 			@Override
-			public void finishedLoading(AssetManager assetManager,
-					String fileName, @SuppressWarnings("rawtypes") Class type) {
+			public void finishedLoading(AssetManager assetManager, String fileName, @SuppressWarnings("rawtypes") Class type) {
 				BitmapFont font = assetManager.get(fileName);
-				font.getRegion().getTexture()
-						.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+				font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			}
 		};
 		fontParam.fontParameters.size = 36;
@@ -95,11 +91,9 @@ public class PPTXGame extends Game {
 		ansFontParams.fontFileName = "fonts/calibri.ttf";
 		ansFontParams.loadedCallback = new LoadedCallback() {
 			@Override
-			public void finishedLoading(AssetManager assetManager,
-					String fileName, @SuppressWarnings("rawtypes") Class type) {
+			public void finishedLoading(AssetManager assetManager, String fileName, @SuppressWarnings("rawtypes") Class type) {
 				BitmapFont font = assetManager.get(fileName);
-				font.getRegion().getTexture()
-						.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+				font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			}
 		};
 		ansFontParams.fontParameters.size = 24;
@@ -109,10 +103,8 @@ public class PPTXGame extends Game {
 	@Override
 	public void create() {
 		InternalFileHandleResolver resolver = new InternalFileHandleResolver();
-		assetManager.setLoader(FreeTypeFontGenerator.class,
-				new FreeTypeFontGeneratorLoader(resolver));
-		assetManager.setLoader(BitmapFont.class, ".ttf",
-				new FreetypeFontLoader(resolver));
+		assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+		assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 		loadAssets();
 		player = new Player("Player", 1000, 100, 100);
 		player.equip(EquipmentFactory.getEquipment("Excalibur"));

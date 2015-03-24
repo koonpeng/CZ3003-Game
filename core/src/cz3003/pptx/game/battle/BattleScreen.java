@@ -23,7 +23,7 @@ public class BattleScreen implements Screen {
 	public void show() {
 		battleMusic.setPosition(0);
 		battleMusic.play();
-		battleStage = new BattleStage(new EnemyActor("Progenitor", 1000, 1000, 100, 100));
+		battleStage = new BattleStage(new EnemyActor("Dragon", 1000, 1000, 100, 100));
 		battleStage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
 		Gdx.input.setInputProcessor(battleStage);
 	}

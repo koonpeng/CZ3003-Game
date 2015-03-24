@@ -3,8 +3,10 @@ package cz3003.pptx.game.battle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.utils.Scaling;
 
 import cz3003.pptx.game.PPTXGame;
 
@@ -15,7 +17,7 @@ public class EnemyActor extends BattleActor {
 
 	public EnemyActor(String name, int hp, int maxHp, int att, int def) {
 		super(name, hp, maxHp, att, def);
-		Texture tex = PPTXGame.getAssetManager().get("monsters/Progenitor.png");
+		Texture tex = PPTXGame.getAssetManager().get("monsters/dragon.png");
 		sprite = new Sprite(tex);
 
 		setWidth(tex.getWidth());
@@ -35,6 +37,12 @@ public class EnemyActor extends BattleActor {
 		hideAct.setTarget(this);
 		blinkAction = Actions.repeat(3, Actions.sequence(hideAct, Actions.delay(0.2f), showAct, Actions.delay(0.2f)));
 		return blinkAction;
+	}
+
+	@Override
+	protected void sizeChanged() {
+		Vector2 scaling = Scaling.fill.apply(sprite.getRegionWidth(), sprite.getRegionHeight(), getWidth(), getHeight());
+		sprite.setSize(scaling.x, scaling.y);
 	}
 
 	@Override

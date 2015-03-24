@@ -47,11 +47,11 @@ public class BattleStage extends Stage {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if (event.getTarget().getName() != null && event.getTarget().getName().equals("ansButton")) {
-					if (test.verifyAnswer(event.getTarget().getName())) {
+					if (test.verifyAnswer((String) event.getTarget().getUserObject())) {
 						doAttack(player, enemy, true);
 						questionResultLbl.setText("Correct!");
 					} else {
-						doAttack(enemy, player, false);
+						doAttack(player, enemy, false);
 						questionResultLbl.setText("Wrong... :(");
 					}
 					Action showQuestionResulLbltAct = Actions.show();
@@ -76,9 +76,10 @@ public class BattleStage extends Stage {
 		battleUI.setBackground(new SpriteDrawable(background));
 		battleUI.setWidth(PPTXGame.GAME_WIDTH);
 		battleUI.setHeight(PPTXGame.GAME_HEIGHT / 2);
-		battleUI.add(enemy);
+		battleUI.add(player).size(150).left();
+		battleUI.add(enemy).size(150).right();
 		battleUI.row();
-		battleUI.add(enemyHpBar).padTop(50);
+		battleUI.add(enemyHpBar).padTop(50).colspan(2);
 		battleUI.setPosition(0, PPTXGame.GAME_HEIGHT / 2);
 
 		addActor(questionUI);

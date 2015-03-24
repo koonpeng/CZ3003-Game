@@ -73,7 +73,6 @@ public class HPBar extends Actor {
 			redSprite.setSize(emptySprite.getWidth() * curPercent, emptySprite.getHeight());
 			redSprite.setU2(curPercent);
 		}
-
 	}
 
 }
