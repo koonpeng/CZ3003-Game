@@ -1,11 +1,9 @@
 package com.mygdx.game.desktop;
 
-import com.mygdx.game.socialmedia.SocialMediaSharedVariable;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.tools.imagepacker.TexturePacker2;
-import com.badlogic.gdx.tools.imagepacker.TexturePacker2.Settings;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.socialmedia.SocialMediaSharedVariable;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
