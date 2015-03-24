@@ -31,3 +31,25 @@ DB/
 *.ipr
 *.iws
 .idea/
+/build/
+
+## Eclipse
+.classpath
+.project
+.metadata
+**/bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.externalToolBuilders/
+*.launch
+
+## Gradle
+.gradle
+gradle-app.setting
+build/
