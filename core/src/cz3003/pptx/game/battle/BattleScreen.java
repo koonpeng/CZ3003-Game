@@ -10,19 +10,13 @@ import cz3003.pptx.game.PPTXGame;
 
 public class BattleScreen implements Screen {
 
-	private final Music battleMusic;
 	private BattleStage battleStage;
 
 	public BattleScreen() {
-		battleMusic = PPTXGame.getAssetManager().get("music/1-15 Unrest - Hoist the Sword with Pride in the Heart.mp3");
-		battleMusic.setLooping(true);
-		battleMusic.setVolume(0.75f);
 	}
 
 	@Override
 	public void show() {
-		battleMusic.setPosition(0);
-		battleMusic.play();
 		battleStage = new BattleStage(new EnemyActor("Dragon", 1000, 1000, 100, 100));
 		battleStage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
 		Gdx.input.setInputProcessor(battleStage);
@@ -56,7 +50,8 @@ public class BattleScreen implements Screen {
 
 	@Override
 	public void hide() {
-		battleMusic.stop();
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override

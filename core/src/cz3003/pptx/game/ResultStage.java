@@ -3,6 +3,7 @@ package cz3003.pptx.game;
 import jdk.internal.util.xml.impl.Input;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -52,7 +53,7 @@ public class ResultStage extends Stage {
 
 	public ResultStage(PPTXGame game) {
 		super();
-		this.game=game;
+		this.game = game;
 		init();
 		show();
 
@@ -61,15 +62,10 @@ public class ResultStage extends Stage {
 	public void show() {
 
 		treasure = new Treasure();
-		MoveToAction movetomiddle = Actions.moveTo(
-				Gdx.graphics.getWidth() / 2 - 100,
-				Gdx.graphics.getHeight() / 2 - 300, 0.3f);
+		MoveToAction movetomiddle = Actions.moveTo(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 - 300, 0.3f);
 
-		MoveToAction movetoleftup = Actions.moveTo(100,
-				Gdx.graphics.getHeight() - 200, 0.3f);
-		MoveToAction movetomiddle2 = Actions.moveTo(
-				Gdx.graphics.getWidth() / 2 - 100,
-				Gdx.graphics.getHeight() / 2 - 300, 0.3f);
+		MoveToAction movetoleftup = Actions.moveTo(100, Gdx.graphics.getHeight() - 200, 0.3f);
+		MoveToAction movetomiddle2 = Actions.moveTo(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 - 300, 0.3f);
 		ScaleToAction scaleto = Actions.scaleTo(1, 1, 3);
 
 		// AlphaAction alpha = Actions.alpha(0.6f, duration);
@@ -80,16 +76,19 @@ public class ResultStage extends Stage {
 				treasure.state = STATE.openbox;
 			}
 		});
-		SequenceAction seaqction = Actions.sequence(movetomiddle, movetoleftup,
-				movetomiddle2);
+		SequenceAction seaqction = Actions.sequence(movetomiddle, movetoleftup, movetomiddle2);
 		// ParallelAction paaction=Actions.parallel(seaqction,scaleto);
 
-		treasure.setPosition(Gdx.graphics.getWidth() - 100,
-				Gdx.graphics.getHeight() - 200);
+		treasure.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 200);
 		treasure.addAction(Actions.sequence(seaqction, endAction));
 		this.addActor(treasure);
 		// sequenceAction.setActor(fightcharacter);
 		// fightcharacter.addAction(sequenceAction);
+
+		Music music = PPTXGame.getAssetManager().get("music/(05) The Winner.mp3");
+		music.setLooping(true);
+		music.setVolume(0.75f);
+		music.play();
 	}
 
 	public void init() {
@@ -97,35 +96,31 @@ public class ResultStage extends Stage {
 		backgroundregion = new Texture(ImgFile.resultbackground);
 		backgroundimage = new Image(backgroundregion);
 		backgroundimage.setPosition(0, 0);
-		backgroundimage.addListener(new InputListener(){
+		backgroundimage.addListener(new InputListener() {
 			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				// TODO Auto-generated method stub
 				game.setScreen(game.selectionscreen);
 				return true;
 			}
 		});
-		
+
 		this.addActor(backgroundimage);
 
-		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle
-				.getBoldFont().getColor());
+		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle.getBoldFont().getColor());
 
 		String result = "Your Score is " + Quiz.getScore();
 		lblresult = new Label(result, style);
 		lblresult.setPosition(100, 300);
 		lblresult.setFontScale(1);
-		//this.addActor(lblresult);
+		// this.addActor(lblresult);
 
 	}
 
-	
-
 	public void updatescore() {
 		String result = "Your Score is " + Quiz.getScore();
-		lblresult.setText(result);																																								 
-	} 
+		lblresult.setText(result);
+	}
 
 	public void backtomain() {
 		DelayAction delay = Actions.delay(1f);

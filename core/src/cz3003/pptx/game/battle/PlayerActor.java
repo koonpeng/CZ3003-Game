@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.FloatAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
@@ -26,6 +27,7 @@ public class PlayerActor extends BattleActor {
 	}
 
 	private final Array<Sprite> spriteSheet;
+	private final Sprite attackSprite;
 	private final Random rand = new Random();
 	private final Sound[] attackSounds = new Sound[1];
 	private final Animation startAttackAnimation;
@@ -34,10 +36,12 @@ public class PlayerActor extends BattleActor {
 
 	private State currentState = State.IDLE;
 	private float stateTime = 0;
+	private float kamehamehaLength = 400;
 
 	public PlayerActor(String name, int hp, int maxHp, int att, int def) {
 		super(name, hp, maxHp, att, def);
 
+		attackSprite = new Sprite(PPTXGame.getAssetManager().get("wave.gif", Texture.class));
 		Texture tex = PPTXGame.getAssetManager().get("fight.png");
 		TextureRegion[][] texRegion = TextureRegion.split(tex, tex.getWidth() / 5, tex.getHeight() / 5);
 		spriteSheet = new Array<Sprite>(10);
@@ -101,8 +105,13 @@ public class PlayerActor extends BattleActor {
 				currentState = State.END_ATTACK;
 			}
 		});
-		return Actions.sequence(attackAct, Actions.delay(startAttackAnimation.getAnimationDuration()), Actions.delay(1),
-				attackSound, endAttackAct);
+		attackSprite.setSize(0, attackSprite.getHeight());
+		FloatAction kamehameha = new KamehamehaAction();
+		kamehameha.setStart(0);
+		kamehameha.setEnd(kamehamehaLength);
+		kamehameha.setDuration(0.5f);
+		return Actions.sequence(attackAct, Actions.delay(startAttackAnimation.getAnimationDuration()), kamehameha, attackSound,
+				endAttackAct);
 	}
 
 	@Override
@@ -112,6 +121,7 @@ public class PlayerActor extends BattleActor {
 
 	@Override
 	protected void sizeChanged() {
+		attackSprite.setSize(0, getHeight() * 0.8f);
 		Vector2 scaling = Scaling.fit.apply(spriteSheet.get(0).getRegionWidth(), spriteSheet.get(0).getRegionHeight(),
 				getWidth(), getHeight());
 		for (Sprite s : spriteSheet)
@@ -120,6 +130,7 @@ public class PlayerActor extends BattleActor {
 
 	@Override
 	protected void positionChanged() {
+		attackSprite.setPosition(getX() + getParent().getX() + 125, getY() + getParent().getY() + 25);
 		for (Sprite s : spriteSheet)
 			s.setPosition(getX() + getParent().getX(), getY() + getParent().getY());
 	}
@@ -158,6 +169,18 @@ public class PlayerActor extends BattleActor {
 
 		frame.setColor(getColor().tmp().mul(1, 1, 1, parentAlpha));
 		frame.draw(batch);
+		if (currentState == State.ATTACKING)
+			attackSprite.draw(batch);
+	}
+
+	private class KamehamehaAction extends FloatAction {
+
+		@Override
+		protected void update(float percent) {
+			super.update(percent);
+			attackSprite.setSize(getEnd() * percent, attackSprite.getHeight());
+			attackSprite.setU2(percent);
+		}
 	}
 
 }

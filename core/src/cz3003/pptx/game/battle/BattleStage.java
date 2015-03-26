@@ -2,6 +2,7 @@ package cz3003.pptx.game.battle;
 
 import java.util.Random;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -37,6 +38,7 @@ public class BattleStage extends Stage {
 	private final EnemyActor enemy;
 	private final Random rand = new Random();
 	private final Quiz test;
+	private final Music battleMusic;
 
 	public BattleStage(final EnemyActor enemy) {
 		super(new StretchViewport(PPTXGame.GAME_WIDTH, PPTXGame.GAME_HEIGHT));
@@ -78,6 +80,7 @@ public class BattleStage extends Stage {
 		battleUI.setHeight(PPTXGame.GAME_HEIGHT / 2);
 		battleUI.add(player).size(150).left();
 		battleUI.add(enemy).size(150).right();
+		player.setZIndex(2);
 		battleUI.row();
 		battleUI.add(enemyHpBar).padTop(50).colspan(2);
 		battleUI.setPosition(0, PPTXGame.GAME_HEIGHT / 2);
@@ -86,6 +89,11 @@ public class BattleStage extends Stage {
 		addActor(questionResultLbl);
 		addActor(battleUI);
 		addActor(enemyNameLbl);
+
+		battleMusic = PPTXGame.getAssetManager().get("music/1-15 Unrest - Hoist the Sword with Pride in the Heart.mp3");
+		battleMusic.setLooping(true);
+		battleMusic.setVolume(0.75f);
+		battleMusic.play();
 	}
 
 	private void updateEnemyHpBar() {
@@ -163,6 +171,7 @@ public class BattleStage extends Stage {
 					deathActDisappear.setTarget(enemy);
 					addAction(Actions.sequence(Actions.parallel(deathAct, deathActDisappear), Actions.run(new Runnable() {
 						public void run() {
+							battleMusic.stop();
 							PPTXGame.toResultScreen();
 						}
 					})));
