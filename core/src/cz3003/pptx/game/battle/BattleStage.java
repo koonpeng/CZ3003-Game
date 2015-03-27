@@ -49,13 +49,15 @@ public class BattleStage extends Stage {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if (event.getTarget().getName() != null && event.getTarget().getName().equals("ansButton")) {
-					if (test.verifyAnswer((String) event.getTarget().getUserObject())) {
-						doAttack(player, enemy, true);
-						questionResultLbl.setText("Correct!");
-					} else {
-						doAttack(player, enemy, false);
-						questionResultLbl.setText("Wrong... :(");
-					}
+//					if (test.verifyAnswer((String) event.getTarget().getUserObject())) {
+//						doAttack(player, enemy, true);
+//						questionResultLbl.setText("Correct!");
+//					} else {
+//						doAttack(player, enemy, false);
+//						questionResultLbl.setText("Wrong... :(");
+//					}
+					doAttack(player, enemy, false);
+					questionResultLbl.setText("Wrong... :(");
 					Action showQuestionResulLbltAct = Actions.show();
 					showQuestionResulLbltAct.setTarget(questionResultLbl);
 					questionResultLbl.pack();
@@ -74,22 +76,22 @@ public class BattleStage extends Stage {
 		questionResultLbl = new Label("", style);
 		questionResultLbl.setVisible(false);
 		background = new Sprite(PPTXGame.getAssetManager().get("backgrounds/environment_forest_alt1.png", Texture.class));
-		enemyHpBar = new HPBar(500, 56);
+		enemyHpBar = new HPBar();
 		battleUI.setBackground(new SpriteDrawable(background));
 		battleUI.setWidth(PPTXGame.GAME_WIDTH);
 		battleUI.setHeight(PPTXGame.GAME_HEIGHT / 2);
-		battleUI.add(player).size(150).left();
-		battleUI.add(enemy).size(150).right();
+		battleUI.add(player).size(150).left().spaceRight(200);
+		battleUI.add(enemy).size(250).right();
 		player.setZIndex(2);
 		battleUI.row();
-		battleUI.add(enemyHpBar).padTop(50).colspan(2);
+		battleUI.add(enemyHpBar).colspan(2).size(500, 56);
 		battleUI.setPosition(0, PPTXGame.GAME_HEIGHT / 2);
 
 		addActor(questionUI);
 		addActor(questionResultLbl);
 		addActor(battleUI);
 		addActor(enemyNameLbl);
-
+		
 		battleMusic = PPTXGame.getAssetManager().get("music/1-15 Unrest - Hoist the Sword with Pride in the Heart.mp3");
 		battleMusic.setLooping(true);
 		battleMusic.setVolume(0.75f);

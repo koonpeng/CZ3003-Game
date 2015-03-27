@@ -36,7 +36,7 @@ public class PlayerActor extends BattleActor {
 
 	private State currentState = State.IDLE;
 	private float stateTime = 0;
-	private float kamehamehaLength = 300;
+	private float kamehamehaLength = 350;
 
 	public PlayerActor(String name, int hp, int maxHp, int att, int def) {
 		super(name, hp, maxHp, att, def);
@@ -60,6 +60,12 @@ public class PlayerActor extends BattleActor {
 		Array<Sprite> startAttackSprites = new Array<Sprite>(4);
 		startAttackSprites.add(spriteSheet.get(1));
 		startAttackSprites.add(spriteSheet.get(2));
+		startAttackSprites.add(spriteSheet.get(3));
+		startAttackSprites.add(spriteSheet.get(4));
+		startAttackSprites.add(spriteSheet.get(3));
+		startAttackSprites.add(spriteSheet.get(4));
+		startAttackSprites.add(spriteSheet.get(3));
+		startAttackSprites.add(spriteSheet.get(4));
 		startAttackSprites.add(spriteSheet.get(3));
 		startAttackSprites.add(spriteSheet.get(4));
 
@@ -114,7 +120,7 @@ public class PlayerActor extends BattleActor {
 		kamehamehaEnd.setDuration(0.25f);
 		attackSprite.setAlpha(1);
 		return Actions.sequence(attackAct, Actions.delay(startAttackAnimation.getAnimationDuration()), kamehameha,
-				Actions.sequence(Actions.repeat(5, Actions.sequence(attackSound, Actions.delay(0.1f)))), kamehamehaEnd,
+				Actions.sequence(Actions.repeat(5, Actions.sequence(attackSound, Actions.delay(0.15f)))), kamehamehaEnd,
 				endAttackAct);
 	}
 

@@ -47,7 +47,7 @@ public class EnemyActor extends BattleActor {
 
 	@Override
 	protected void positionChanged() {
-		sprite.setPosition(getX() + getParent().getX(), getY() + getParent().getY());
+		sprite.setPosition(getX() + getParent().getX(), getY() + getParent().getY() + 30);
 	}
 
 	@Override

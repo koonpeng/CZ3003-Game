@@ -2,11 +2,8 @@ package cz3003.pptx.game.battle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-
-import cz3003.pptx.game.PPTXGame;
 
 public class BattleScreen implements Screen {
 
@@ -17,7 +14,7 @@ public class BattleScreen implements Screen {
 
 	@Override
 	public void show() {
-		battleStage = new BattleStage(new EnemyActor("Dragon", 1000, 1000, 100, 100));
+		battleStage = new BattleStage(new EnemyActor("Dragon", 5000, 5000, 100, 100));
 		battleStage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
 		Gdx.input.setInputProcessor(battleStage);
 	}

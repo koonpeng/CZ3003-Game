@@ -19,18 +19,18 @@ public class HPBar extends Actor {
 
 	private float curPercent = 1;
 
-	public HPBar(float width, float height) {
+	public HPBar() {
 		redTex = PPTXGame.getAssetManager().get("RedBar.png");
 		redTex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		emptyTex = PPTXGame.getAssetManager().get("EmptyBar.png");
 		emptyTex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		redSprite = new Sprite(redTex);
 		emptySprite = new Sprite(emptyTex);
-		redSprite.setSize(width, height);
-		emptySprite.setSize(width, height);
+		redSprite.setSize(redTex.getWidth(), redTex.getHeight());
+		emptySprite.setSize(emptyTex.getWidth(), emptyTex.getHeight());
 
-		setWidth(width);
-		setHeight(height);
+		setWidth(emptySprite.getWidth());
+		setHeight(emptySprite.getHeight());
 	}
 
 	public void setPercent(float newPercent) {
