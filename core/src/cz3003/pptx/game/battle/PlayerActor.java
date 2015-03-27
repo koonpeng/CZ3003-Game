@@ -36,12 +36,12 @@ public class PlayerActor extends BattleActor {
 
 	private State currentState = State.IDLE;
 	private float stateTime = 0;
-	private float kamehamehaLength = 400;
+	private float kamehamehaLength = 300;
 
 	public PlayerActor(String name, int hp, int maxHp, int att, int def) {
 		super(name, hp, maxHp, att, def);
 
-		attackSprite = new Sprite(PPTXGame.getAssetManager().get("wave.gif", Texture.class));
+		attackSprite = new Sprite(PPTXGame.getAssetManager().get("kamehameha.png", Texture.class));
 		Texture tex = PPTXGame.getAssetManager().get("fight.png");
 		TextureRegion[][] texRegion = TextureRegion.split(tex, tex.getWidth() / 5, tex.getHeight() / 5);
 		spriteSheet = new Array<Sprite>(10);
@@ -109,8 +109,12 @@ public class PlayerActor extends BattleActor {
 		FloatAction kamehameha = new KamehamehaAction();
 		kamehameha.setStart(0);
 		kamehameha.setEnd(kamehamehaLength);
-		kamehameha.setDuration(0.5f);
-		return Actions.sequence(attackAct, Actions.delay(startAttackAnimation.getAnimationDuration()), kamehameha, attackSound,
+		kamehameha.setDuration(0.25f);
+		FloatAction kamehamehaEnd = new KamehamehaEndAction();
+		kamehamehaEnd.setDuration(0.25f);
+		attackSprite.setAlpha(1);
+		return Actions.sequence(attackAct, Actions.delay(startAttackAnimation.getAnimationDuration()), kamehameha,
+				Actions.sequence(Actions.repeat(5, Actions.sequence(attackSound, Actions.delay(0.1f)))), kamehamehaEnd,
 				endAttackAct);
 	}
 
@@ -121,7 +125,7 @@ public class PlayerActor extends BattleActor {
 
 	@Override
 	protected void sizeChanged() {
-		attackSprite.setSize(0, getHeight() * 0.8f);
+		attackSprite.setSize(0, getHeight() * 0.6f);
 		Vector2 scaling = Scaling.fit.apply(spriteSheet.get(0).getRegionWidth(), spriteSheet.get(0).getRegionHeight(),
 				getWidth(), getHeight());
 		for (Sprite s : spriteSheet)
@@ -130,7 +134,7 @@ public class PlayerActor extends BattleActor {
 
 	@Override
 	protected void positionChanged() {
-		attackSprite.setPosition(getX() + getParent().getX() + 125, getY() + getParent().getY() + 25);
+		attackSprite.setPosition(getX() + getParent().getX() + 125, getY() + getParent().getY() + 50);
 		for (Sprite s : spriteSheet)
 			s.setPosition(getX() + getParent().getX(), getY() + getParent().getY());
 	}
@@ -174,12 +178,19 @@ public class PlayerActor extends BattleActor {
 	}
 
 	private class KamehamehaAction extends FloatAction {
-
 		@Override
 		protected void update(float percent) {
 			super.update(percent);
 			attackSprite.setSize(getEnd() * percent, attackSprite.getHeight());
 			attackSprite.setU2(percent);
+		}
+	}
+
+	private class KamehamehaEndAction extends FloatAction {
+		@Override
+		protected void update(float percent) {
+			super.update(percent);
+			attackSprite.setAlpha(1 - percent);
 		}
 	}
 

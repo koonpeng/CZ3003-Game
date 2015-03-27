@@ -68,7 +68,7 @@ public class PPTXGame extends Game {
 		assetManager.load("empty.png", Texture.class);
 		assetManager.load("button.png", Texture.class);
 		assetManager.load("fight.png", Texture.class);
-		assetManager.load("wave.gif", Texture.class);
+		assetManager.load("kamehameha.png", Texture.class);
 		assetManager.load("monsters/dragon.png", Texture.class);
 		assetManager.load("RedBar.png", Texture.class);
 		assetManager.load("EmptyBar.png", Texture.class);
