@@ -41,8 +41,8 @@ public class PlayerActor extends BattleActor {
 	public PlayerActor(String name, int hp, int maxHp, int att, int def) {
 		super(name, hp, maxHp, att, def);
 
-		attackSprite = new Sprite(PPTXGame.getAssetManager().get("kamehameha.png", Texture.class));
-		Texture tex = PPTXGame.getAssetManager().get("fight.png");
+		attackSprite = new Sprite(PPTXGame.getAssetManager().get("player/kamehameha.png", Texture.class));
+		Texture tex = PPTXGame.getAssetManager().get("player/battle.png");
 		TextureRegion[][] texRegion = TextureRegion.split(tex, tex.getWidth() / 5, tex.getHeight() / 5);
 		spriteSheet = new Array<Sprite>(10);
 		spriteSheet.add(new Sprite(texRegion[0][1]));
@@ -60,8 +60,6 @@ public class PlayerActor extends BattleActor {
 		Array<Sprite> startAttackSprites = new Array<Sprite>(4);
 		startAttackSprites.add(spriteSheet.get(1));
 		startAttackSprites.add(spriteSheet.get(2));
-		startAttackSprites.add(spriteSheet.get(3));
-		startAttackSprites.add(spriteSheet.get(4));
 		startAttackSprites.add(spriteSheet.get(3));
 		startAttackSprites.add(spriteSheet.get(4));
 		startAttackSprites.add(spriteSheet.get(3));
@@ -140,7 +138,7 @@ public class PlayerActor extends BattleActor {
 
 	@Override
 	protected void positionChanged() {
-		attackSprite.setPosition(getX() + getParent().getX() + 125, getY() + getParent().getY() + 50);
+		attackSprite.setPosition(getX() + getParent().getX() + 125, getY() + getParent().getY() + 55);
 		for (Sprite s : spriteSheet)
 			s.setPosition(getX() + getParent().getX(), getY() + getParent().getY());
 	}

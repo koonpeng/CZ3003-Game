@@ -11,8 +11,8 @@ public class DesktopLauncher {
 	public static void main(String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "";
-		config.width = 360;
-		config.height = 640;
+		config.width = 504;
+		config.height = 896;
 		new LwjglApplication(PPTXGame.getInstance(), config);
 		SocialMediaSharedVariable.instance.setDesktopApplication(true);
 	}

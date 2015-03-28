@@ -14,7 +14,7 @@ public class BattleScreen implements Screen {
 
 	@Override
 	public void show() {
-		battleStage = new BattleStage(new EnemyActor("Dragon", 5000, 5000, 100, 100));
+		battleStage = new BattleStage(new EnemyActor("Dragon", 50000, 50000, 5000, 5000));
 		battleStage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
 		Gdx.input.setInputProcessor(battleStage);
 	}
