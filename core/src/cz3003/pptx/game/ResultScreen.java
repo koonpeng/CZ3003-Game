@@ -19,7 +19,7 @@ public class ResultScreen implements Screen {
 		@Override
 		public void show() {
 			// TODO Auto-generated method stub
-			resultstage=new ResultStage(game);
+			resultstage=new ResultStage(game,true);
 			resultstage.setViewport(AndroidView.getview());
 			Gdx.input.setInputProcessor(resultstage);
 			statetime=0;

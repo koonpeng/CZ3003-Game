@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import cz3003.pptx.game.Treasure.STATE;
 import cz3003.pptx.game.battle.quiz.Quiz;
@@ -51,10 +52,10 @@ public class ResultStage extends Stage {
 	Image backgroundimage;
 	Treasure treasure;
 
-	public ResultStage(PPTXGame game) {
+	public ResultStage(PPTXGame game,boolean result) {
 		super();
 		this.game = game;
-		init();
+		init(false);
 		show();
 
 	}
@@ -91,30 +92,140 @@ public class ResultStage extends Stage {
 		music.play();
 	}
 
-	public void init() {
+	public void init(Boolean result) {
+		
+		if(!result)
+		{
+			backgroundregion = new Texture(ImgFile.resultbackground_gameover);
+			backgroundimage = new Image(backgroundregion);
+			backgroundimage.setPosition(0, 0);
+			
+			
+			Texture backregion = new Texture(ImgFile.backbutton);
+			Image backimage = new Image(backregion);
+			backimage.setPosition(405, 177);
+			backimage.setSize(240, 76);
+			backimage.addListener(new InputListener() {
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					// TODO Auto-generated method stub
+					game.setScreen(game.selectionscreen);
+					return true;
+				}
+			});
+			
+			Texture playagainregion = new Texture(ImgFile.playagainbutton);
+			Image playagainimage = new Image(playagainregion);
+			playagainimage.setPosition(93,177);
+			playagainimage.setSize(240, 76);
+			playagainimage.addListener(new InputListener() {
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					// TODO Auto-generated method stub
+					game.setScreen(game.selectionscreen);
+					return true;
+				}
+			});
+			
+			Texture checkleaderboardregion = new Texture(ImgFile.checkleaderboarbutton);
+			Image checkleaderboardimage = new Image(checkleaderboardregion);
+			checkleaderboardimage.setPosition(92,64);
+			checkleaderboardimage.setSize(551, 76);
+			checkleaderboardimage.addListener(new InputListener() {
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					// TODO Auto-generated method stub
+					game.setScreen(game.selectionscreen);
+					return true;
+				}
+			});
+			
+			Texture scoreregion = new Texture(ImgFile.scorebackground);
+			Image scoreimage = new Image(scoreregion);
+			scoreimage.setPosition(166,798);
+			scoreimage.setSize(361, 92);
+			
+			style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle.getBoldFont().getColor());
 
-		backgroundregion = new Texture(ImgFile.resultbackground);
-		backgroundimage = new Image(backgroundregion);
-		backgroundimage.setPosition(0, 0);
-		backgroundimage.addListener(new InputListener() {
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				// TODO Auto-generated method stub
-				game.setScreen(game.selectionscreen);
-				return true;
-			}
-		});
+			String result1 = "Score is " + Quiz.getScore();
+			lblresult = new Label(result1, style);
+			lblresult.setPosition(166, 798);
+			lblresult.setAlignment(Align.center);
+			lblresult.setSize(361, 92);
+			this.addActor(backgroundimage);
+			this.addActor(scoreimage);
+			this.addActor(playagainimage);
+			this.addActor(checkleaderboardimage);
+			this.addActor(backimage);
+			this.addActor(lblresult);
+			
+		}
+		else
+		{
+			backgroundregion = new Texture(ImgFile.resultbackground_youwinr);
+			backgroundimage = new Image(backgroundregion);
+			backgroundimage.setPosition(0, 0);
+		
+			
+			Texture backregion = new Texture(ImgFile.backbutton);
+			Image backimage = new Image(backregion);
+			backimage.setPosition(397, 146);
+			backimage.setSize(240, 76);
+			backimage.addListener(new InputListener() {
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					// TODO Auto-generated method stub
+					game.setScreen(game.selectionscreen);
+					return true;
+				}
+			});
+			
+			Texture playagainregion = new Texture(ImgFile.playagainbutton);
+			Image playagainimage = new Image(playagainregion);
+			playagainimage.setPosition(86,146);
+			playagainimage.setSize(240, 76);
+			playagainimage.addListener(new InputListener() {
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					// TODO Auto-generated method stub
+					game.setScreen(game.selectionscreen);
+					return true;
+				}
+			});
+			
+			Texture checkleaderboardregion = new Texture(ImgFile.checkleaderboarbutton);
+			Image checkleaderboardimage = new Image(checkleaderboardregion);
+			checkleaderboardimage.setPosition(84,33);
+			checkleaderboardimage.setSize(551, 76);
+			checkleaderboardimage.addListener(new InputListener() {
+				@Override
+				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+					// TODO Auto-generated method stub
+					game.setScreen(game.selectionscreen);
+					return true;
+				}
+			});
+			
+			Texture scoreregion = new Texture(ImgFile.scorebackground);
+			Image scoreimage = new Image(scoreregion);
+			scoreimage.setPosition(172,639);
+			scoreimage.setSize(361, 92);
+			
+			style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle.getBoldFont().getColor());
 
-		this.addActor(backgroundimage);
-
-		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle.getBoldFont().getColor());
-
-		String result = "Your Score is " + Quiz.getScore();
-		lblresult = new Label(result, style);
-		lblresult.setPosition(100, 300);
-		lblresult.setFontScale(1);
-		// this.addActor(lblresult);
-
+			String result1 = "Score is " + Quiz.getScore();
+			lblresult = new Label(result1, style);
+			lblresult.setPosition(172, 639);
+			lblresult.setAlignment(Align.center);
+			lblresult.setSize(361, 92);
+			this.addActor(backgroundimage);
+			this.addActor(scoreimage);
+			this.addActor(playagainimage);
+			this.addActor(checkleaderboardimage);
+			this.addActor(backimage);
+			this.addActor(lblresult);
+		}
+		
 	}
 
 	public void updatescore() {

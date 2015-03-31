@@ -22,7 +22,12 @@ public class ImgFile {
 	public static FileHandle nextquestion=Gdx.files.internal("nextquestion.png");
 	
 	//result part
-	public static FileHandle resultbackground=Gdx.files.internal("result.jpg");
+	public static FileHandle resultbackground_gameover=Gdx.files.internal("resultpage/gameover.jpg");
+	public static FileHandle resultbackground_youwinr=Gdx.files.internal("resultpage/youwin.jpg");
+	public static FileHandle backbutton=Gdx.files.internal("resultpage/back.png");
+	public static FileHandle checkleaderboarbutton=Gdx.files.internal("resultpage/checkleaderboar.png");
+	public static FileHandle scorebackground=Gdx.files.internal("resultpage/score.png");
+	public static FileHandle playagainbutton=Gdx.files.internal("resultpage/playagain.png");
 	//loading part
 	public static FileHandle loadingbackground=Gdx.files.internal("loading.jpg");
 	//treasure
