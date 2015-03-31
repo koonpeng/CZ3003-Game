@@ -2,6 +2,7 @@ package cz3003.pptx.game.battle;
 
 import java.util.Random;
 
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -29,7 +31,9 @@ public class BattleStage extends Stage {
 	private final Label enemyNameLbl;
 	private final LabelStyle style;
 	private final LabelStyle damageLblStyle;
-	private final Sprite background;
+	private final Sprite battleBackground;
+	private final Sprite questionBackground;
+	private final Image questionBackgroundHolder;
 	private final HPBar enemyHpBar;
 	private final Table battleUI;
 	private final QuestionUI questionUI;
@@ -37,6 +41,7 @@ public class BattleStage extends Stage {
 	private final EnemyActor enemy;
 	private final Random rand = new Random();
 	private final Quiz test;
+	private final Music battleMusic;
 
 	public BattleStage(final EnemyActor enemy) {
 		super(new StretchViewport(PPTXGame.GAME_WIDTH, PPTXGame.GAME_HEIGHT));
@@ -47,45 +52,57 @@ public class BattleStage extends Stage {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if (event.getTarget().getName() != null && event.getTarget().getName().equals("ansButton")) {
-					if (test.verifyAnswer((String) event.getTarget().getUserObject())) {
-						doAttack(player, enemy, true);
-						questionResultLbl.setText("Correct!");
-					} else {
-						doAttack(player, enemy, false);
-						questionResultLbl.setText("Wrong... :(");
-					}
+//					if (test.verifyAnswer((String) event.getTarget().getUserObject())) {
+//						doAttack(player, enemy, true);
+//						questionResultLbl.setText("Correct!");
+//					} else {
+//						doAttack(player, enemy, false);
+//						questionResultLbl.setText("Wrong... :(");
+//					}
+					doAttack(player, enemy, true);
+					questionResultLbl.setText("Wrong... :(");
 					Action showQuestionResulLbltAct = Actions.show();
 					showQuestionResulLbltAct.setTarget(questionResultLbl);
 					questionResultLbl.pack();
 					LayoutUtils.center(questionUI, questionResultLbl);
-					questionUI.addAction(Actions.sequence(Actions.moveBy(720, 0, 0.2f), showQuestionResulLbltAct));
+					questionUI.addAction(Actions.sequence(Actions.moveBy(PPTXGame.GAME_WIDTH, 0, 0.2f), showQuestionResulLbltAct));
 				}
 			}
 		});
 
 		battleUI = new Table();
-		style = new LabelStyle(PPTXGame.getAssetManager().get("size36.ttf", BitmapFont.class), Color.RED);
+		style = new LabelStyle(PPTXGame.getAssetManager().get("size36.ttf", BitmapFont.class), Color.BLACK);
 		this.enemy = enemy;
 		enemyNameLbl = new Label(enemy.getName(), style);
 		enemyNameLbl.setPosition(0, PPTXGame.GAME_HEIGHT - enemyNameLbl.getHeight());
-		damageLblStyle = style;
+		damageLblStyle = new LabelStyle(PPTXGame.getAssetManager().get("size36.ttf", BitmapFont.class), Color.WHITE);
 		questionResultLbl = new Label("", style);
 		questionResultLbl.setVisible(false);
-		background = new Sprite(PPTXGame.getAssetManager().get("backgrounds/environment_forest_alt1.png", Texture.class));
-		enemyHpBar = new HPBar(500, 56);
-		//battleUI.setBackground(new SpriteDrawable(background));
+		battleBackground = new Sprite(PPTXGame.getAssetManager().get("backgrounds/environment_forest_alt1.png", Texture.class));
+		questionBackground = new Sprite(PPTXGame.getAssetManager().get("backgrounds/crumpled-paper.jpg", Texture.class));
+		questionBackgroundHolder = new Image(new SpriteDrawable(questionBackground));
+		questionBackgroundHolder.setSize(questionUI.getWidth(), questionUI.getHeight());
+		enemyHpBar = new HPBar();
+		battleUI.setBackground(new SpriteDrawable(battleBackground));
 		battleUI.setWidth(PPTXGame.GAME_WIDTH);
 		battleUI.setHeight(PPTXGame.GAME_HEIGHT / 2);
-		battleUI.add(player).size(150).left();
-		battleUI.add(enemy).size(150).right();
+		battleUI.add(player).size(150).left().spaceRight(200).padTop(100);
+		battleUI.add(enemy).size(250).right().padTop(100);
+		player.setZIndex(2);
 		battleUI.row();
-		battleUI.add(enemyHpBar).padTop(50).colspan(2);
+		battleUI.add(enemyHpBar).colspan(2).size(500, 56);
 		battleUI.setPosition(0, PPTXGame.GAME_HEIGHT / 2);
 
+		addActor(questionBackgroundHolder);
 		addActor(questionUI);
 		addActor(questionResultLbl);
 		addActor(battleUI);
 		addActor(enemyNameLbl);
+
+		battleMusic = PPTXGame.getAssetManager().get("music/(10) Force Your Way.mp3");
+		battleMusic.setLooping(true);
+		battleMusic.setVolume(0.75f);
+		battleMusic.play();
 	}
 
 	private void updateEnemyHpBar() {
@@ -163,6 +180,7 @@ public class BattleStage extends Stage {
 					deathActDisappear.setTarget(enemy);
 					addAction(Actions.sequence(Actions.parallel(deathAct, deathActDisappear), Actions.run(new Runnable() {
 						public void run() {
+							battleMusic.stop();
 							PPTXGame.toResultScreen();
 						}
 					})));
@@ -197,9 +215,9 @@ public class BattleStage extends Stage {
 		damageLbl.setText(Integer.toString(combatParams.dmg));
 		damageLbl.pack();
 		LayoutUtils.center(enemy, damageLbl);
-		damageLbl.moveBy(0, 50);
+		damageLbl.moveBy(0, 100);
 		damageLbl.setVisible(true);
-		damageLbl.addAction(Actions.sequence(Actions.moveBy(0, 100, 1), Actions.hide()));
+		damageLbl.addAction(Actions.parallel(Actions.moveBy(0, 150, 1), Actions.fadeOut(1)));
 		addActor(damageLbl);
 	}
 

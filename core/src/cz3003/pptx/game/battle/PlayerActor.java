@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.FloatAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Scaling;
@@ -26,6 +27,7 @@ public class PlayerActor extends BattleActor {
 	}
 
 	private final Array<Sprite> spriteSheet;
+	private final Sprite attackSprite;
 	private final Random rand = new Random();
 	private final Sound[] attackSounds = new Sound[1];
 	private final Animation startAttackAnimation;
@@ -34,11 +36,13 @@ public class PlayerActor extends BattleActor {
 
 	private State currentState = State.IDLE;
 	private float stateTime = 0;
+	private float kamehamehaLength = 350;
 
 	public PlayerActor(String name, int hp, int maxHp, int att, int def) {
 		super(name, hp, maxHp, att, def);
 
-		Texture tex = PPTXGame.getAssetManager().get("fight.png");
+		attackSprite = new Sprite(PPTXGame.getAssetManager().get("player/kamehameha.png", Texture.class));
+		Texture tex = PPTXGame.getAssetManager().get("player/battle.png");
 		TextureRegion[][] texRegion = TextureRegion.split(tex, tex.getWidth() / 5, tex.getHeight() / 5);
 		spriteSheet = new Array<Sprite>(10);
 		spriteSheet.add(new Sprite(texRegion[0][1]));
@@ -56,6 +60,10 @@ public class PlayerActor extends BattleActor {
 		Array<Sprite> startAttackSprites = new Array<Sprite>(4);
 		startAttackSprites.add(spriteSheet.get(1));
 		startAttackSprites.add(spriteSheet.get(2));
+		startAttackSprites.add(spriteSheet.get(3));
+		startAttackSprites.add(spriteSheet.get(4));
+		startAttackSprites.add(spriteSheet.get(3));
+		startAttackSprites.add(spriteSheet.get(4));
 		startAttackSprites.add(spriteSheet.get(3));
 		startAttackSprites.add(spriteSheet.get(4));
 
@@ -101,8 +109,17 @@ public class PlayerActor extends BattleActor {
 				currentState = State.END_ATTACK;
 			}
 		});
-		return Actions.sequence(attackAct, Actions.delay(startAttackAnimation.getAnimationDuration()), Actions.delay(1),
-				attackSound, endAttackAct);
+		attackSprite.setSize(0, attackSprite.getHeight());
+		FloatAction kamehameha = new KamehamehaAction();
+		kamehameha.setStart(0);
+		kamehameha.setEnd(kamehamehaLength);
+		kamehameha.setDuration(0.25f);
+		FloatAction kamehamehaEnd = new KamehamehaEndAction();
+		kamehamehaEnd.setDuration(0.25f);
+		attackSprite.setAlpha(1);
+		return Actions.sequence(attackAct, Actions.delay(startAttackAnimation.getAnimationDuration()), kamehameha,
+				Actions.sequence(Actions.repeat(5, Actions.sequence(attackSound, Actions.delay(0.15f)))), kamehamehaEnd,
+				endAttackAct);
 	}
 
 	@Override
@@ -112,6 +129,7 @@ public class PlayerActor extends BattleActor {
 
 	@Override
 	protected void sizeChanged() {
+		attackSprite.setSize(0, getHeight() * 0.6f);
 		Vector2 scaling = Scaling.fit.apply(spriteSheet.get(0).getRegionWidth(), spriteSheet.get(0).getRegionHeight(),
 				getWidth(), getHeight());
 		for (Sprite s : spriteSheet)
@@ -120,6 +138,7 @@ public class PlayerActor extends BattleActor {
 
 	@Override
 	protected void positionChanged() {
+		attackSprite.setPosition(getX() + getParent().getX() + 125, getY() + getParent().getY() + 55);
 		for (Sprite s : spriteSheet)
 			s.setPosition(getX() + getParent().getX(), getY() + getParent().getY());
 	}
@@ -158,6 +177,25 @@ public class PlayerActor extends BattleActor {
 
 		frame.setColor(getColor().tmp().mul(1, 1, 1, parentAlpha));
 		frame.draw(batch);
+		if (currentState == State.ATTACKING)
+			attackSprite.draw(batch);
+	}
+
+	private class KamehamehaAction extends FloatAction {
+		@Override
+		protected void update(float percent) {
+			super.update(percent);
+			attackSprite.setSize(getEnd() * percent, attackSprite.getHeight());
+			attackSprite.setU2(percent);
+		}
+	}
+
+	private class KamehamehaEndAction extends FloatAction {
+		@Override
+		protected void update(float percent) {
+			super.update(percent);
+			attackSprite.setAlpha(1 - percent);
+		}
 	}
 
 }

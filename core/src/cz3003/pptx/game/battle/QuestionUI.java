@@ -21,8 +21,7 @@ import cz3003.pptx.game.battle.quiz.Quiz;
 public class QuestionUI extends Table {
 
 	public static final int WIDTH = PPTXGame.GAME_WIDTH;
-	public static final int HEIGHT = PPTXGame.GAME_HEIGHT / 2; // Half the
-																// screen
+	public static final int HEIGHT = PPTXGame.GAME_HEIGHT / 2;
 
 	private final BitmapFont font;
 	private final BitmapFont ansFont;
@@ -43,9 +42,9 @@ public class QuestionUI extends Table {
 		ansGroups = new ArrayList<HorizontalGroup>(4);
 
 		font = PPTXGame.getAssetManager().get("size36.ttf");
-		font.setColor(Color.RED);
+		font.setColor(Color.BLACK);
 		ansFont = PPTXGame.getAssetManager().get("size24.ttf");
-		ansFont.setColor(Color.RED);
+		ansFont.setColor(Color.BLACK);
 
 		style = new LabelStyle(font, font.getColor());
 		ansStyle = new LabelStyle(ansFont, ansFont.getColor());
