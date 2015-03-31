@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package cz3003.pptx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.TextInputListener;
@@ -28,7 +28,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.SelectBox.SelectBoxStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.mygdx.game.FightCharacter.STATE;
 
 /**
  * @author wbw
@@ -48,7 +47,7 @@ public class CreateQuestion extends Stage {
 
 	Texture backgroundtexture;
 	ImageButton[] btnABCDTF;
-	MyGdxGame game;
+	PPTXGame game;
 	/* ******Label Control Part****** */
 
 	LabelStyle style;
@@ -61,7 +60,7 @@ public class CreateQuestion extends Stage {
 	Image nextimage;
 	Image backimage;
 
-	Test test;
+	//Test test;
 	String[] question;
 
 	@Override
@@ -70,7 +69,7 @@ public class CreateQuestion extends Stage {
 		super.draw();
 	}
 
-	public CreateQuestion(MyGdxGame game) {
+	public CreateQuestion(PPTXGame game) {
 		super();
 		this.game = game;
 

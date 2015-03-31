@@ -19,6 +19,8 @@ public class ImgFile {
 
 	//question part
 	public static FileHandle questionButton=Gdx.files.internal("button.png");
+	public static FileHandle nextquestion=Gdx.files.internal("nextquestion.png");
+	
 	//result part
 	public static FileHandle resultbackground=Gdx.files.internal("result.jpg");
 	//loading part
@@ -26,5 +28,6 @@ public class ImgFile {
 	//treasure
 	//loading part
 	public static FileHandle treasureaction=Gdx.files.internal("action.png");
+	
 	
 }

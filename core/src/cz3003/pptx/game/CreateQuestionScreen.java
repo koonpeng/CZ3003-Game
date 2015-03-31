@@ -1,4 +1,4 @@
-package com.mygdx.game;
+package cz3003.pptx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,15 +8,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class CreateQuestionScreen implements Screen{
-	MyGdxGame game;
+	PPTXGame game;
 	public float statetime;
 	SpriteBatch batch;
 
 	Stage stage;
 
 	CreateQuestion createquestion;
-	public CreateQuestionScreen(MyGdxGame game)
+	public CreateQuestionScreen(PPTXGame game)
 	{
+
 		this.game=game;
 		
 	}

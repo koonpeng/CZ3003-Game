@@ -73,7 +73,7 @@ public class BattleStage extends Stage {
 		questionResultLbl.setVisible(false);
 		background = new Sprite(PPTXGame.getAssetManager().get("backgrounds/environment_forest_alt1.png", Texture.class));
 		enemyHpBar = new HPBar(500, 56);
-		battleUI.setBackground(new SpriteDrawable(background));
+		//battleUI.setBackground(new SpriteDrawable(background));
 		battleUI.setWidth(PPTXGame.GAME_WIDTH);
 		battleUI.setHeight(PPTXGame.GAME_HEIGHT / 2);
 		battleUI.add(player).size(150).left();

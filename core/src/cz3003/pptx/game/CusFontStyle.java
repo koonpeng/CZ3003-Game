@@ -13,7 +13,7 @@ public class CusFontStyle {
 	public static BitmapFont getNormalFont() {
 		if (normalfont == null) {
 			FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
-					Gdx.files.internal("font/Trebuchet MS.ttf"));
+					Gdx.files.internal("font/font.ttf"));
 			FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 			parameter.size = 36;
 			normalfont = generator.generateFont(parameter); // font size
@@ -28,7 +28,7 @@ public class CusFontStyle {
 	public static BitmapFont getBoldFont() {
 		if (boldfont == null) {
 			FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
-					Gdx.files.internal("font/Trebuchet MS.ttf"));
+					Gdx.files.internal("font/font_bold.ttf"));
 			FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 			parameter.size = 36;
 			boldfont = generator.generateFont(parameter); // font size
