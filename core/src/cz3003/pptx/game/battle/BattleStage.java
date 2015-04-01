@@ -28,12 +28,14 @@ import cz3003.pptx.game.util.LayoutUtils;
 public class BattleStage extends Stage {
 
 	private final Label questionResultLbl;
-	private final Label enemyNameLbl;
+	private final Label playerLbl;
+	private final Label enemyLbl;
 	private final LabelStyle style;
 	private final LabelStyle damageLblStyle;
 	private final Sprite battleBackground;
 	private final Sprite questionBackground;
 	private final Image questionBackgroundHolder;
+	private final HPBar playerHpBar;
 	private final HPBar enemyHpBar;
 	private final Table battleUI;
 	private final QuestionUI questionUI;
@@ -73,8 +75,10 @@ public class BattleStage extends Stage {
 		battleUI = new Table();
 		style = new LabelStyle(PPTXGame.getAssetManager().get("size36.ttf", BitmapFont.class), Color.BLACK);
 		this.enemy = enemy;
-		enemyNameLbl = new Label(enemy.getName(), style);
-		enemyNameLbl.setPosition(0, PPTXGame.GAME_HEIGHT - enemyNameLbl.getHeight());
+		playerLbl = new Label("Player", style);
+		playerLbl.pack();
+		enemyLbl = new Label(enemy.getName(), style);
+		enemyLbl.pack();
 		damageLblStyle = new LabelStyle(PPTXGame.getAssetManager().get("size36.ttf", BitmapFont.class), Color.WHITE);
 		questionResultLbl = new Label("", style);
 		questionResultLbl.setVisible(false);
@@ -82,14 +86,19 @@ public class BattleStage extends Stage {
 		questionBackground = new Sprite(PPTXGame.getAssetManager().get("backgrounds/crumpled-paper.jpg", Texture.class));
 		questionBackgroundHolder = new Image(new SpriteDrawable(questionBackground));
 		questionBackgroundHolder.setSize(questionUI.getWidth(), questionUI.getHeight());
+		playerHpBar = new HPBar();
 		enemyHpBar = new HPBar();
 		battleUI.setBackground(new SpriteDrawable(battleBackground));
 		battleUI.setWidth(PPTXGame.GAME_WIDTH);
 		battleUI.setHeight(PPTXGame.GAME_HEIGHT / 2);
-		battleUI.add(player).size(150).left().spaceRight(200).padTop(100);
+		battleUI.add(player).size(150).left().padTop(100);
 		battleUI.add(enemy).size(250).right().padTop(100);
 		player.setZIndex(2);
 		battleUI.row();
+		battleUI.add(playerLbl).top();
+		battleUI.add(playerHpBar).size(500, 56);
+		battleUI.row();
+		battleUI.add(enemyLbl).top();
 		battleUI.add(enemyHpBar).colspan(2).size(500, 56);
 		battleUI.setPosition(0, PPTXGame.GAME_HEIGHT / 2);
 
@@ -97,7 +106,6 @@ public class BattleStage extends Stage {
 		addActor(questionUI);
 		addActor(questionResultLbl);
 		addActor(battleUI);
-		addActor(enemyNameLbl);
 
 		battleMusic = PPTXGame.getAssetManager().get("music/(10) Force Your Way.mp3");
 		battleMusic.setLooping(true);
