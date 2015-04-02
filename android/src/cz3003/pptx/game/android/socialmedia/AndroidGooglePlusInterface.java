@@ -191,7 +191,7 @@ public class AndroidGooglePlusInterface extends Activity implements GooglePlusIn
 	@Override
 	public void onConnected(Bundle arg0) {
 		
-		Toast.makeText(this, "User is connected!", Toast.LENGTH_LONG).show();
+		//Toast.makeText(this, "User is connected!", Toast.LENGTH_LONG).show();
 		
 		
 		Gdx.app.log(TAG, "google + connected");

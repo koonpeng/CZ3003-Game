@@ -18,17 +18,10 @@ public class Constants {
 	public static final float VIEWPORT_GUI_WIDTH = 720f;
 	public static final float VIEWPORT_GUI_HEIGHT = 1280;
 	
-	// Location of description file for texture atlas
-	public static final String TEXTURE_ATLAS_OBJECTS =
-		"images/image1.pack";
-	public static final String TEXTURE_ATLAS_UI =
-		"images/appone-ui.pack";
-	public static final String TEXTURE_ATLAS_LIBGDX_UI =
-		"images/uiskin.atlas";
-	// Location of description file for skins
-	public static final String SKIN_LIBGDX_UI =
-		"images/uiskin.json";
-	public static final String SKIN_APPONE_UI =
-		"images/appone-ui.json";
+
+	public static final String OBJ_LOGINSCREEN_UI =
+		"loginscreen-ui/loginscreen-ui.pack";
+	public static final String SKIN_LOGINSCREEN_UI =
+		"loginscreen-ui/loginscreen-ui.json";
 	
 }

@@ -119,7 +119,7 @@ public class PPTXGame extends Game {
 		
 		resultscreen = new ResultScreen(this);
 		loadingscreen = new LoadingScreen(this);
-		this.setScreen(resultscreen);
+		this.setScreen(menuscreen);
 	}
 
 }

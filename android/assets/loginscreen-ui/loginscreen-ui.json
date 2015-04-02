@@ -1,0 +1,13 @@
+{
+	com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	google_play: { down: login_ui_google_plus_down, up: login_ui_google_plus_up },
+	twitter: { down: login_ui_twitter_down, up: login_ui_twitter_up },
+	play_now: {down: login_ui_playnow_down , up: login_ui_playnow_up },
+	logout: {down: login_ui_logout_down, up: login_ui_logout_up},
+	},
+	com.badlogic.gdx.scenes.scene2d.ui.Image: {
+	login_ui_background: { drawable: login_ui_background },
+	login_ui_title: { drawable: login_ui_title },
+	transparent: { drawable: transparent},
+	},
+}
