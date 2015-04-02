@@ -116,7 +116,7 @@ public class PPTXGame extends Game {
 		battleScreen = new BattleScreen();
 		menuscreen = new MenuScreen(this);
 
-		selectionscreen = new SelectionScreen(this);
+		
 		resultscreen = new ResultScreen(this);
 		loadingscreen = new LoadingScreen(this);
 		this.setScreen(resultscreen);
