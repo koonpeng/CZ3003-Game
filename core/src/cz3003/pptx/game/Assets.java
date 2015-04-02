@@ -15,9 +15,6 @@ public class Assets implements Disposable, AssetErrorListener {
 	public static final String TAG = Assets.class.getName();
 	public static final Assets instance = new Assets();
 	
-	public AssetLemonPie lemonPie;
-	public AssetApplePie applePie;
-	
 	private AssetManager assetManager;
 	
 	// singleton: prevent instantiation from other classes
@@ -26,31 +23,29 @@ public class Assets implements Disposable, AssetErrorListener {
 	public void init (AssetManager assetManager) {
 		this.assetManager = assetManager;
 		
-		// set asset manager error handler
-		assetManager.setErrorListener(this);
-		
-		// load texture atlas
-		assetManager.load(Constants.TEXTURE_ATLAS_OBJECTS,
-		TextureAtlas.class);
-		
-		// start loading assets and wait until finished
-		assetManager.finishLoading();
-		
-		Gdx.app.debug(TAG, "# of assets loaded: "
-		+ assetManager.getAssetNames().size);
-		
-		for (String a : assetManager.getAssetNames())
-			Gdx.app.debug(TAG, "asset: " + a);
-		
-		TextureAtlas atlas =
-				assetManager.get(Constants.TEXTURE_ATLAS_OBJECTS);
-		
-		// enable texture filtering for pixel smoothing
-		for (Texture t : atlas.getTextures())
-		t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		// create game resource objects
-		lemonPie = new AssetLemonPie(atlas);
-		applePie = new AssetApplePie(atlas);
+//		// set asset manager error handler
+//		assetManager.setErrorListener(this);
+//		
+//		// load texture atlas
+//		assetManager.load(Constants.TEXTURE_ATLAS_OBJECTS,
+//		TextureAtlas.class);
+//		
+//		// start loading assets and wait until finished
+//		assetManager.finishLoading();
+//		
+//		Gdx.app.debug(TAG, "# of assets loaded: "
+//		+ assetManager.getAssetNames().size);
+//		
+//		for (String a : assetManager.getAssetNames())
+//			Gdx.app.debug(TAG, "asset: " + a);
+//		
+//		TextureAtlas atlas =
+//				assetManager.get(Constants.TEXTURE_ATLAS_OBJECTS);
+//		
+//		// enable texture filtering for pixel smoothing
+//		for (Texture t : atlas.getTextures())
+//		t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+//		// create game resource objects
 	}
 	
 	@Override
@@ -63,19 +58,5 @@ public class Assets implements Disposable, AssetErrorListener {
 		Gdx.app.error(TAG, "Couldn't load asset '"
 				+ asset.fileName + "'", (Exception)throwable);
 		
-	}
-	
-	public class AssetLemonPie {
-		public final AtlasRegion lemonPie;
-		public AssetLemonPie (TextureAtlas atlas) {
-			lemonPie = atlas.findRegion("lemon_chiffon_pie");
-		}
-	}
-	
-	public class AssetApplePie {
-		public final AtlasRegion applePie;
-		public AssetApplePie (TextureAtlas atlas) {
-			applePie = atlas.findRegion("apple_pie");
-		}
 	}
 }

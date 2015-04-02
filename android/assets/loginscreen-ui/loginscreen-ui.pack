@@ -1,0 +1,82 @@
+
+loginscreen-ui.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+login_ui_background
+  rotate: false
+  xy: 1, 487
+  size: 720, 1280
+  orig: 720, 1280
+  offset: 0, 0
+  index: -1
+login_ui_title
+  rotate: false
+  xy: 1, 405
+  size: 396, 80
+  orig: 396, 80
+  offset: 0, 0
+  index: -1
+login_ui_google_plus_down
+  rotate: false
+  xy: 723, 1668
+  size: 279, 99
+  orig: 279, 99
+  offset: 0, 0
+  index: -1
+login_ui_google_plus_up
+  rotate: false
+  xy: 1, 304
+  size: 279, 99
+  orig: 279, 99
+  offset: 0, 0
+  index: -1
+login_ui_logout_down
+  rotate: false
+  xy: 723, 1567
+  size: 279, 99
+  orig: 279, 99
+  offset: 0, 0
+  index: -1
+login_ui_logout_up
+  rotate: false
+  xy: 1, 203
+  size: 279, 99
+  orig: 279, 99
+  offset: 0, 0
+  index: -1
+login_ui_playnow_down
+  rotate: false
+  xy: 723, 1466
+  size: 279, 99
+  orig: 279, 99
+  offset: 0, 0
+  index: -1
+login_ui_playnow_up
+  rotate: false
+  xy: 1, 102
+  size: 279, 99
+  orig: 279, 99
+  offset: 0, 0
+  index: -1
+login_ui_twitter_down
+  rotate: false
+  xy: 723, 1365
+  size: 279, 99
+  orig: 279, 99
+  offset: 0, 0
+  index: -1
+login_ui_twitter_up
+  rotate: false
+  xy: 1, 1
+  size: 279, 99
+  orig: 279, 99
+  offset: 0, 0
+  index: -1
+transparent
+  rotate: false
+  xy: 282, 303
+  size: 100, 100
+  orig: 100, 100
+  offset: 0, 0
+  index: -1

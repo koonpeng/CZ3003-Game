@@ -33,7 +33,6 @@ public class MenuScreen extends AbstractGameScreen{
 	
 	// menu
 	private Image imgBackground;
-	private Image imgTeamName;
 	private Image imgTitle;
 	private Image imgTransparent;
 	private Button btnGooglePlay;
@@ -57,13 +56,10 @@ public class MenuScreen extends AbstractGameScreen{
 	}
 	
 	private void rebuildStage () {
-		skinAppOne = new Skin(
-		Gdx.files.internal(Constants.SKIN_APPONE_UI),
-		new TextureAtlas(Constants.TEXTURE_ATLAS_UI));
+		skinAppOne = new Skin(Gdx.files.internal(Constants.SKIN_LOGINSCREEN_UI), new TextureAtlas(Constants.OBJ_LOGINSCREEN_UI));
 		// build all layers
 		Table layerBackground = buildBackgroundLayer();
 		Table layerObjects = buildObjectsLayer();
-		Table layerLogos = buildLogosLayer();
 		Table layerControls = buildControlsLayer();
 		// assemble stage for menu screen
 		stage.clear();
@@ -73,14 +69,13 @@ public class MenuScreen extends AbstractGameScreen{
 		Constants.VIEWPORT_GUI_HEIGHT);
 		stack.add(layerBackground);
 		stack.add(layerObjects);
-		stack.add(layerLogos);
 		stack.add(layerControls);
 	}
 	
 	private Table buildBackgroundLayer () {
 		Table layer = new Table();
 		// + Background
-		imgBackground = new Image(skinAppOne, "background");
+		imgBackground = new Image(skinAppOne, "login_ui_background");
 		layer.add(imgBackground);
 		return layer;
 		}
@@ -89,17 +84,8 @@ public class MenuScreen extends AbstractGameScreen{
 		Table layer = new Table();
 		layer.center();
 		// + Game Name
-		imgTitle = new Image(skinAppOne, "title");
+		imgTitle = new Image(skinAppOne, "login_ui_title");
 		layer.add(imgTitle);
-		return layer;
-	}
-	
-	private Table buildLogosLayer () {
-		Table layer = new Table();
-		layer.left().top();
-		// + Team Name
-		imgTeamName = new Image(skinAppOne, "teamName");
-		layer.add(imgTeamName);
 		return layer;
 	}
 	
