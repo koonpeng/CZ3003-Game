@@ -45,7 +45,7 @@ public class BattleStage extends Stage {
 	private final Quiz test;
 	private final Music battleMusic;
 
-	public BattleStage(final EnemyActor enemy) {
+	public BattleStage(final EnemyActor enemy, int dungeonId, String dungeonName) {
 		super(new StretchViewport(PPTXGame.GAME_WIDTH, PPTXGame.GAME_HEIGHT));
 		player = PPTXGame.player.genBattleActor();
 		test = new Quiz(0);

@@ -36,7 +36,7 @@ public class PPTXGame extends Game {
 	LoginScreen loginscreen;
 	public SelectionScreen selectionscreen;
 	public static ResultScreen resultscreen;
-	private BattleScreen battleScreen;
+	private static BattleScreen battleScreen;
 	LoadingScreen loadingscreen;
 	MenuScreen menuscreen;
 
@@ -62,6 +62,16 @@ public class PPTXGame extends Game {
 
 	public static void toResultScreen() {
 		pptxGame.setScreen(resultscreen);
+	}
+	
+	public static void toBattleScreen(int id) {
+		battleScreen.setDungeonId(id);
+		pptxGame.setScreen(battleScreen);
+	}
+	
+	public static void toBattleScreen(int id, String name) {
+		battleScreen.setDungeonId(id);
+		pptxGame.setScreen(battleScreen);
 	}
 
 	private void loadAssets() {
