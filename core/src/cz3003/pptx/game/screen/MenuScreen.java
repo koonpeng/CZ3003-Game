@@ -184,6 +184,7 @@ public class MenuScreen extends AbstractGameScreen{
 	private void onPlayNowClicked(){
 		if (SocialMediaSharedVariable.instance.isUserLoggedIn() ||
 			SocialMediaSharedVariable.instance.isDesktopApplication()){
+			game.selectionscreen = new SelectionScreen(game);
 			game.setScreen(game.selectionscreen);
 			//game.getTwitterInterface().publishMaterialToSocialMedia(null);
 		}else{
