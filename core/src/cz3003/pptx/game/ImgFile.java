@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 
 public class ImgFile {
 	
+	
 	//data selection part
 	public static FileHandle smallwukongimg=Gdx.files.internal("privategirl.png");
 	public static FileHandle smallwukongbackground=Gdx.files.internal("loading.jpg");
@@ -19,8 +20,11 @@ public class ImgFile {
 
 	//question part
 	public static FileHandle questionButton=Gdx.files.internal("button.png");
-	public static FileHandle nextquestion=Gdx.files.internal("nextquestion.png");
-	
+	public static FileHandle nextquestion=Gdx.files.internal("createquestionpage/nextquestion.png");
+	public static FileHandle backquestion=Gdx.files.internal("createquestionpage/backquestion.png");
+	public static FileHandle submitquestion=Gdx.files.internal("createquestionpage/submitquestion.png");
+	public static FileHandle creatquestionbutton=Gdx.files.internal("createquestionpage/createquestionbutton.png");
+	public static FileHandle managequestionbutton=Gdx.files.internal("createquestionpage/managequestionbutton.png");
 	//result part
 	public static FileHandle resultbackground_gameover=Gdx.files.internal("resultpage/gameover.jpg");
 	public static FileHandle resultbackground_youwinr=Gdx.files.internal("resultpage/youwin.jpg");

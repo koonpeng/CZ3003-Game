@@ -18,7 +18,7 @@ public class TopBar {
 	private static Group topbar;
 	static Label lbllogin;
 	static Label lblsetting;
-	static Label lblchoosedungeon;
+	
 	static Label lblHP;
 	
 	//label
@@ -60,16 +60,10 @@ public class TopBar {
 			lblsetting.setAlignment(Align.center);
 			
 			
-			lblchoosedungeon = new Label("Choose a dungeon", style);
-			lblchoosedungeon.setPosition(0, 1080);
-
-			lblchoosedungeon.setWidth(720);
-			lblchoosedungeon.setHeight(100);
-			lblchoosedungeon.setWrap(true);
-			lblchoosedungeon.setAlignment(Align.topLeft);
+		
 			topbar.addActor(lbllogin);
 			topbar.addActor(lblsetting);
-			topbar.addActor(lblchoosedungeon);
+		
 			topbar.addActor(lblHP);
 			
 		}

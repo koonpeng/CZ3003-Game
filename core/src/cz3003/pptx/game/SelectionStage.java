@@ -38,7 +38,7 @@ public class SelectionStage extends Stage {
 	//label
 	LabelStyle style;
 	Label lblHP;
-	
+	static Label lblchoosedungeon;
 	
 	Image[] imageDungeon;
 	private static int DUNGEONNO=5;
@@ -86,7 +86,7 @@ public class SelectionStage extends Stage {
 				int dungeonid=stagesensation();
 				if(dungeonid!=-1)
 				{
-					// game.battleScreen.setDungonid(dungeonid);
+					//game.toBattleScreen(dungeonid, name);
 					// game.setScreen(game.questionscreen);
 				}
 //				System.out.print("x is :" + PrivateGirl.x + " y is :"
@@ -108,11 +108,11 @@ public class SelectionStage extends Stage {
 		dugeonatlas = new TextureAtlas(ImgFile.dungeon);
 		
 		
-		dugeonini(0,0,700,true);
-		dugeonini(1,240,700,true);
-		dugeonini(2,480,700,true);
-		dugeonini(3,120,380,true);
-		dugeonini(4,360,380,true);
+		dugeonini(0,0,700,false);
+		dugeonini(1,240,700,Profile.getStageLockedArray()[1]);
+		dugeonini(2,480,700,Profile.getStageLockedArray()[2]);
+		dugeonini(3,120,380,Profile.getStageLockedArray()[3]);
+		dugeonini(4,360,380,Profile.getStageLockedArray()[4]);
 		
 		privategirl = new PrivateGirl(Constants.SCREENWIDTH/2, Constants.SCREENHEIGHT/2);
 		//this.addActor(privategirl.backgroundimage);
@@ -120,7 +120,14 @@ public class SelectionStage extends Stage {
 		this.addActor(privategirl.touchpad);
 		Hp monsterhp = new Hp(200, 1200, 3);
 		this.addActor(monsterhp);
-		
+		lblchoosedungeon = new Label("Choose a dungeon", style);
+		lblchoosedungeon.setPosition(0, 1080);
+
+		lblchoosedungeon.setWidth(720);
+		lblchoosedungeon.setHeight(100);
+		lblchoosedungeon.setWrap(true);
+		lblchoosedungeon.setAlignment(Align.topLeft);
+		this.addActor(lblchoosedungeon);
 		
 	}
 	private void dugeonini(int index,int x, int y,Boolean lock)

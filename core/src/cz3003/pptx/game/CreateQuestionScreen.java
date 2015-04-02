@@ -13,12 +13,11 @@ public class CreateQuestionScreen implements Screen{
 	SpriteBatch batch;
 
 	Stage stage;
-
 	CreateQuestion createquestion;
-	public CreateQuestionScreen(PPTXGame game)
+	public CreateQuestionScreen(int questionnumber)
 	{
 
-		this.game=game;
+		createquestion=new CreateQuestion(questionnumber);
 		
 	}
 
@@ -27,7 +26,7 @@ public class CreateQuestionScreen implements Screen{
 		// TODO Auto-generated method stub
 
 	
-		createquestion=new CreateQuestion(game);
+		
 		Gdx.input.setInputProcessor(createquestion);
 		createquestion.setViewport(AndroidView.getview());
 	

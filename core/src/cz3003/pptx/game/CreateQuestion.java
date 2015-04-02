@@ -1,5 +1,9 @@
 package cz3003.pptx.game;
 
+import java.io.IOException;
+
+import org.json.JSONException;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.audio.Music;
@@ -43,7 +47,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  */
 public class CreateQuestion extends Stage {
 	Skin skin;
-	private static String[] ABCD = { "Question", "A", "B", "C", "D" };
+	private static String[] ABCD = { "Question", "A", "B", "C", "D",
+			"Answer(A/B/C/D)" };
 
 	Texture backgroundtexture;
 	ImageButton[] btnABCDTF;
@@ -52,16 +57,21 @@ public class CreateQuestion extends Stage {
 
 	LabelStyle style;
 	BitmapFont font;
-
+	Label lblQuestionNoLabel;
 	Label[] lblABCD;
 	Label lblF;
 	Label lblT;
 	// image
 	Image nextimage;
 	Image backimage;
+	Image submitimage;
 
-	//Test test;
+	// Test test;
 	String[] question;
+	int currentQuestionIndex;
+
+	MyDungeonQuestion mydungeonquestion;
+	int numberofquestions;
 
 	@Override
 	public void draw() {
@@ -69,42 +79,148 @@ public class CreateQuestion extends Stage {
 		super.draw();
 	}
 
-	public CreateQuestion(PPTXGame game) {
+	public CreateQuestion(int questionnumber)  {
 		super();
-		this.game = game;
-
+		numberofquestions = questionnumber;
+		currentQuestionIndex = 0;
 		uiinit();
+		try {
+			mydungeonquestion=new MyDungeonQuestion("username",questionnumber);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// displaylblbut();
+
+	}
+
+	private void checkQuestion() {
+
+	}
+
+	private void saveQuestion() {
+		String cusquestion[] = new String[7];
+		cusquestion[0] = "B";
+		cusquestion[1] = lblABCD[0].getText().toString();
+		cusquestion[2] = lblABCD[1].getText().toString();
+		cusquestion[3] = lblABCD[2].getText().toString();
+		cusquestion[4] = lblABCD[3].getText().toString();
+		cusquestion[5] = lblABCD[4].getText().toString();
+		try {
+			mydungeonquestion.addQns(cusquestion, currentQuestionIndex);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void backQuestion() {
+		saveQuestion();
+		currentQuestionIndex--;
+	}
+
+	private void nextQuestion() {
+		saveQuestion();
+		currentQuestionIndex++;
+		try {
+			String returnquestion[] = new String[7];
+			returnquestion = mydungeonquestion.getQnsPos(currentQuestionIndex);
+			if (returnquestion.length!=1) {
+				if (currentQuestionIndex < numberofquestions - 1) {
+					questionUIReset();
+				} else if (currentQuestionIndex == numberofquestions - 1) {
+					lastquestionUI();
+				}
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace(); 
+		}
+
+	}
+
+	private void questionlabelReset() {
+		lblABCD[0].setText("Question: Please Click to type in");
+		lblABCD[1].setText("A: Please Click to type in");
+		lblABCD[2].setText("B: Please Click to type in");
+		lblABCD[3].setText("C: Please Click to type in");
+		lblABCD[4].setText("D: Please Click to type in");
+		lblABCD[5].setText("Answer(A/B/C/D): Please Click to type in");
+	}
+
+	private void lastquestionUI() {
+		questionlabelReset();
+		nextimage.setVisible(false);
+		submitimage.setVisible(true);
+
+	}
+
+	private void questionUIReset() {
+		questionlabelReset();
+		submitimage.setVisible(false);
+		nextimage.setVisible(true);
 	}
 
 	public void uiinit() {
-		lblABCD = new Label[5];
-		question = new String[5];
+		lblABCD = new Label[6];
+		question = new String[6];
 		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle
 				.getBoldFont().getColor());
 		LabelStyle style2 = new LabelStyle(CusFontStyle.getNormalFont(),
 				CusFontStyle.getNormalFont().getColor());
 
-		lblini("Question: Please Click to type in", 0, 50, 700);
+		lblini("Question: Please Click to type in", 0, 50, 800);
 		/* ******Label Control A Part****** */
-		lblini("A: Please Click to type in", 1, 70, 330);
+		lblini("A: Please Click to type in", 1, 70, 550);
 		/* ******Label Control B Part****** */
 
-		lblini("B: Please Click to type in", 2, 70, 280);
+		lblini("B: Please Click to type in", 2, 70, 500);
 
 		/* ******Label Control C Part****** */
 
-		lblini("C: Please Click to type in", 3, 70, 230);
+		lblini("C: Please Click to type in", 3, 70, 450);
 
 		/* ******Label Control D Part****** */
 
-		lblini("D: Please Click to type in", 4, 70, 180);
+		lblini("D: Please Click to type in", 4, 70, 400);
+		lblini("Answer(A/B/C/D): Please Click to type in", 5, 70, 350);
 
 		Texture texture = new Texture(ImgFile.nextquestion);
 
 		nextimage = new Image(texture);
+		nextimage.setPosition(458, 170);
 		nextimage.addListener(new InputListener() {
 
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				nextQuestion();
+
+				return true;
+			}
+
+		});
+		Texture texture2 = new Texture(ImgFile.backquestion);
+		backimage = new Image(texture2);
+		backimage.setPosition(192, 170);
+		backimage.addListener(new InputListener() {
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				// TODO Auto-generated method stub
+				backQuestion();
+
+				return true;
+			}
+
+		});
+		Texture texture3 = new Texture(ImgFile.submitquestion);
+		submitimage = new Image(texture3);
+		submitimage.setPosition(258, 170);
+		submitimage.addListener(new InputListener() {
+			
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
@@ -116,6 +232,12 @@ public class CreateQuestion extends Stage {
 		});
 
 		this.addActor(TopBar.getTopbar());
+		this.addActor(nextimage);
+		this.addActor(backimage);
+		this.addActor(submitimage);
+		nextimage.setVisible(true);
+		submitimage.setVisible(false);
+		backimage.setVisible(false);
 
 	}
 
@@ -171,23 +293,7 @@ public class CreateQuestion extends Stage {
 					@Override
 					public void canceled() {
 						// TODO Auto-generated method stub
-						Texture texture = new Texture(Gdx.files
-								.internal("shop.png"));
 
-						TextureRegion SubmitRegion = new TextureRegion(texture,
-								512, 256, 512, 128);
-						nextimage = new Image(SubmitRegion);
-						nextimage.addListener(new InputListener() {
-
-							@Override
-							public boolean touchDown(InputEvent event, float x,
-									float y, int pointer, int button) {
-								// TODO Auto-generated method stub
-
-								return true;
-							}
-
-						});
 					}
 
 				}, "Please input the " + ABCD[index], null, null);

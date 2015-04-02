@@ -39,7 +39,9 @@ public class PPTXGame extends Game {
 	private static BattleScreen battleScreen;
 	LoadingScreen loadingscreen;
 	MenuScreen menuscreen;
-
+	private static CreateQuestionScreen creatquestionscreen;
+	QuestionListScreen questionlistscreen;
+	
 	public static final int GAME_WIDTH = 720;
 	public static final int GAME_HEIGHT = 1280;
 
@@ -73,6 +75,13 @@ public class PPTXGame extends Game {
 		battleScreen.setDungeonId(id);
 		pptxGame.setScreen(battleScreen);
 	}
+	public static void toCreateQuestionScreen(int questionnumber) {
+		creatquestionscreen=new CreateQuestionScreen(questionnumber);
+		pptxGame.setScreen(creatquestionscreen);
+	}
+	
+	
+	
 
 	private void loadAssets() {
 		assetManager.load("empty.png", Texture.class);
@@ -125,11 +134,12 @@ public class PPTXGame extends Game {
 		loginscreen = new LoginScreen(this);
 		battleScreen = new BattleScreen();
 		menuscreen = new MenuScreen(this);
-
+		questionlistscreen=new QuestionListScreen(this);
 		
 		resultscreen = new ResultScreen(this);
 		loadingscreen = new LoadingScreen(this);
-		this.setScreen(menuscreen);
+		//toCreateQuestionScreen(5);
+		this.setScreen(questionlistscreen);
 	}
 
 }
