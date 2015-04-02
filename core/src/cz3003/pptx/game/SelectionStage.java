@@ -108,7 +108,7 @@ public class SelectionStage extends Stage {
 		dugeonatlas = new TextureAtlas(ImgFile.dungeon);
 		
 		
-		dugeonini(0,0,700,false);
+		dugeonini(0,0,700,true);
 		dugeonini(1,240,700,true);
 		dugeonini(2,480,700,true);
 		dugeonini(3,120,380,true);

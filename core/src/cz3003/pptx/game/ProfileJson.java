@@ -181,12 +181,12 @@ public class ProfileJson {
 			// populate the data
 			this.id = (int) obj.get("id");
 			this.difficulty = (int) obj.get("difficulty");
-			this.stageOneUnlocked = (boolean) obj.get(stageOneUnlocked);
-			this.stageTwoUnlocked = (boolean) obj.get(stageTwoUnlocked);
-			this.stageThreeUnlocked = (boolean) obj.get(stageThreeUnlocked);
-			this.stageFourUnlocked = (boolean) obj.get(stageFourUnlocked);
-			this.stageFiveUnlocked = (boolean) obj.get(stageFiveUnlocked);
-			this.stageSixUnlocked = (boolean) obj.get(stageSixUnlocked);
+//			this.stageOneUnlocked = (boolean) obj.get(stageOneUnlocked);
+//			this.stageTwoUnlocked = (boolean) obj.get(stageTwoUnlocked);
+//			this.stageThreeUnlocked = (boolean) obj.get(stageThreeUnlocked);
+//			this.stageFourUnlocked = (boolean) obj.get(stageFourUnlocked);
+//			this.stageFiveUnlocked = (boolean) obj.get(stageFiveUnlocked);
+//			this.stageSixUnlocked = (boolean) obj.get(stageSixUnlocked);
 
 			br.close();
 
