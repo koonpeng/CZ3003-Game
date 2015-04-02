@@ -1,10 +1,6 @@
 package cz3003.pptx.game.screen;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
-
-import cz3003.pptx.game.Assets;
 import cz3003.pptx.game.PPTXGame;
 
 public abstract class AbstractGameScreen implements Screen{
@@ -23,10 +19,10 @@ public abstract class AbstractGameScreen implements Screen{
 	public abstract void hide ();
 	public abstract void pause ();
 	public void resume () {
-	Assets.instance.init(new AssetManager());
+		//init assets
 	}
 	public void dispose () {
-	Assets.instance.dispose();
+		//dispose assets
 	}
 	
 }
