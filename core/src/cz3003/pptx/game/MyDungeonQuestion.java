@@ -70,6 +70,11 @@ public class MyDungeonQuestion {
 	
 	//get qns of position
 	public String[] getQnsPos(int pos) throws JSONException{
+		if(custom_test[pos]==null){
+			return null;
+		}
+		else
+		{
 		JSONObject review = new JSONObject(custom_test[pos]);
 		String[] qns = null;
 		if(review.getString("Type").equals("A")){
@@ -88,7 +93,7 @@ public class MyDungeonQuestion {
 			qns[5] = review.getString("D");
 			qns[6] = review.getString("Answer");
 		}
-		return qns;
+		return qns;}
 	}
 	
 	//write out qns to file(change to append)

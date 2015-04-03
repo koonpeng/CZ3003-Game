@@ -28,6 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import cz3003.pptx.game.Treasure.STATE;
@@ -47,6 +48,7 @@ public class QuestionListStage extends Stage {
 	Label lblresult;
 	BitmapFont font;
 	LabelStyle style;
+	LabelStyle style2;
 
 	/* ******background part ******** */
 	Texture backgroundregion;
@@ -67,6 +69,12 @@ public class QuestionListStage extends Stage {
 	}
 
 	public void init(Boolean result) {
+		
+		
+		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle
+						.getBoldFont().getColor());
+		style = new LabelStyle(CusFontStyle.getNormalFont(), CusFontStyle
+				.getNormalFont().getColor());
 		
 		createquestionimage = new Image(new Texture(ImgFile.creatquestionbutton));
 		createquestionimage.setPosition(130, 220);
@@ -127,6 +135,29 @@ public class QuestionListStage extends Stage {
 
 		});
 		this.addActor(managequestionimage);
+		Label lblquestionsets=new Label("Question Sets",style);
+		lblquestionsets.setPosition(50, 1100);
+		this.addActor(lblquestionsets);
+		
+		Table table=new Table();
+		table.setPosition(380,1000);
+		Label lblindex=new Label("index",style);
+		Label lblquestion=new Label("Question Title",style);
+		table.add(lblindex).width(120).align(Align.center).pad(10);;
+		table.add(lblquestion).width(500);
+		
+		table.row();
+		Label labelcount=new Label("1",style);
+		Label lbltitle=new Label("What i want to know is that .........",style);
+		lbltitle.setWrap(true);
+		table.add(labelcount).width(120).align(Align.center).pad(10);;
+		table.add(lbltitle).width(500);
+		
+		this.addActor(table);
+		
+		
+		
+		
 		}
 	private boolean tryParseInt(String value)  
 	{  

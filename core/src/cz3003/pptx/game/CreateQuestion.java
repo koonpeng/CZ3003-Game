@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -23,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -30,6 +32,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox.SelectBoxStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
@@ -46,7 +51,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  *
  */
 public class CreateQuestion extends Stage {
-	Skin skin;
+	LabelStyle style2;
 	private static String[] ABCD = { "Question", "A", "B", "C", "D",
 			"Answer(A/B/C/D)" };
 
@@ -79,22 +84,19 @@ public class CreateQuestion extends Stage {
 		super.draw();
 	}
 
-	public CreateQuestion(int questionnumber)  {
+	public CreateQuestion(int questionnumber) {
 		super();
 		numberofquestions = questionnumber;
 		currentQuestionIndex = 0;
 		uiinit();
 		try {
-			mydungeonquestion=new MyDungeonQuestion("username",questionnumber);
+			mydungeonquestion = new MyDungeonQuestion("username",
+					questionnumber);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// displaylblbut();
-
-	}
-
-	private void checkQuestion() {
 
 	}
 
@@ -106,6 +108,7 @@ public class CreateQuestion extends Stage {
 		cusquestion[3] = lblABCD[2].getText().toString();
 		cusquestion[4] = lblABCD[3].getText().toString();
 		cusquestion[5] = lblABCD[4].getText().toString();
+		cusquestion[6] = lblABCD[5].getText().toString();
 		try {
 			mydungeonquestion.addQns(cusquestion, currentQuestionIndex);
 		} catch (JSONException e) {
@@ -118,73 +121,113 @@ public class CreateQuestion extends Stage {
 	private void backQuestion() {
 		saveQuestion();
 		currentQuestionIndex--;
+		if (currentQuestionIndex == 0) {
+			nextimage.setVisible(true);
+			submitimage.setVisible(false);
+			backimage.setVisible(false);
+		} else {
+			nextimage.setVisible(true);
+			submitimage.setVisible(false);
+			backimage.setVisible(true);
+		}
+
+		try {
+			String returnquestion[] = new String[7];
+			returnquestion = mydungeonquestion.getQnsPos(currentQuestionIndex);
+			for (int i = 0; i < 6; i++) {
+				lblABCD[i].setText(returnquestion[i + 1]);
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	private void nextQuestion() {
 		saveQuestion();
 		currentQuestionIndex++;
+		String returnquestion[] = new String[7];
+		if (currentQuestionIndex == numberofquestions - 1) {
+
+			nextimage.setVisible(false);
+			submitimage.setVisible(true);
+			backimage.setVisible(true);
+		} else if (currentQuestionIndex < numberofquestions - 1) {
+			submitimage.setVisible(false);
+			nextimage.setVisible(true);
+			backimage.setVisible(true);
+		} else {
+			nextimage.setVisible(true);
+			submitimage.setVisible(false);
+			backimage.setVisible(true);
+		}
+
 		try {
-			String returnquestion[] = new String[7];
+
 			returnquestion = mydungeonquestion.getQnsPos(currentQuestionIndex);
-			if (returnquestion.length!=1) {
+			if (returnquestion == null) {
 				if (currentQuestionIndex < numberofquestions - 1) {
-					questionUIReset();
-				} else if (currentQuestionIndex == numberofquestions - 1) {
-					lastquestionUI();
+
+					questionlabelReset();
+
 				}
+				if (currentQuestionIndex == numberofquestions - 1) {
+
+					questionlabelReset();
+
+				}
+
+			} else {
+				for (int i = 0; i < 6; i++) {
+					lblABCD[i].setText(returnquestion[i + 1]);
+
+				}
+
 			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace(); 
-		}
+			e.printStackTrace();
 
+		}
 	}
 
 	private void questionlabelReset() {
-		lblABCD[0].setText("Question: Please Click to type in");
-		lblABCD[1].setText("A: Please Click to type in");
-		lblABCD[2].setText("B: Please Click to type in");
-		lblABCD[3].setText("C: Please Click to type in");
-		lblABCD[4].setText("D: Please Click to type in");
-		lblABCD[5].setText("Answer(A/B/C/D): Please Click to type in");
+		lblABCD[0].setText("Please Click to type in");
+		lblABCD[1].setText("Please Click to type in");
+		lblABCD[2].setText("Please Click to type in");
+		lblABCD[3].setText("Please Click to type in");
+		lblABCD[4].setText("Please Click to type in");
+		lblABCD[5].setText("Please Click to type in");
 	}
 
-	private void lastquestionUI() {
-		questionlabelReset();
-		nextimage.setVisible(false);
-		submitimage.setVisible(true);
-
-	}
-
-	private void questionUIReset() {
-		questionlabelReset();
-		submitimage.setVisible(false);
-		nextimage.setVisible(true);
-	}
-
+	/**
+	 * 
+	 */
 	public void uiinit() {
 		lblABCD = new Label[6];
 		question = new String[6];
 		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle
 				.getBoldFont().getColor());
-		LabelStyle style2 = new LabelStyle(CusFontStyle.getNormalFont(),
+		style2 = new LabelStyle(CusFontStyle.getNormalFont(),
 				CusFontStyle.getNormalFont().getColor());
 
-		lblini("Question: Please Click to type in", 0, 50, 800);
+		lblini("Please Click to type in", 0, 50, 900);
 		/* ******Label Control A Part****** */
-		lblini("A: Please Click to type in", 1, 70, 550);
+		lblini("Please Click to type in", 1, 70, 600);
 		/* ******Label Control B Part****** */
 
-		lblini("B: Please Click to type in", 2, 70, 500);
+		lblini("Please Click to type in", 2, 70, 520);
 
 		/* ******Label Control C Part****** */
 
-		lblini("C: Please Click to type in", 3, 70, 450);
+		lblini("Please Click to type in", 3, 70, 440);
 
 		/* ******Label Control D Part****** */
 
-		lblini("D: Please Click to type in", 4, 70, 400);
-		lblini("Answer(A/B/C/D): Please Click to type in", 5, 70, 350);
+		lblini("Please Click to type in", 4, 70, 360);
+		lblini("Please Click to type in", 5, 70, 280);
 
 		Texture texture = new Texture(ImgFile.nextquestion);
 
@@ -220,21 +263,65 @@ public class CreateQuestion extends Stage {
 		submitimage = new Image(texture3);
 		submitimage.setPosition(258, 170);
 		submitimage.addListener(new InputListener() {
-			
+
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// TODO Auto-generated method stub
-
+				mydungeonquestion.commitQns();
+				PPTXGame.toQuestionListScreen();
 				return true;
 			}
 
 		});
+		
+		String strindex[]={"Question: ","A: ","B: ","C: ","D: ","Answer: "};
+		Label lblABCDindex[] = new Label[6];
+		for (int i = 0; i < 6; i++) {
+			lblABCDindex[i] = new Label(strindex[i], style);
+			lblABCDindex[i].setWidth(200);
+			
+			//lblABCDindex[i].setWrap(true);
+		}
+		
+		
+		Group group=new Group();
+		
+
+		//this.add(attributeTable).expand().fill().padRight(5f);
+
+		
+		Table table = new Table();
+		table.setPosition(380,700);
+		table.add(lblABCDindex[0]).width(190) ;
+		table.add(lblABCD[0]).width(500);
+		Label lblheight=new Label(": ",style);
+		lblheight.setHeight(200);
+		table.add(lblheight).height(200);
+		table.row();
+		Label lbloption=new Label("Options: ",style);
+		table.add(lbloption).align(Align.left);
+		for (int i = 1; i < 6; i++) {
+			table.row();
+			table.add(lblABCDindex[i]).width(190);
+			
+			
+			table.add(lblABCD[i]).width(500);
+		}
+		
+		
+		this.addActor(table);
+		
+	
+	
+
 
 		this.addActor(TopBar.getTopbar());
 		this.addActor(nextimage);
 		this.addActor(backimage);
 		this.addActor(submitimage);
+		//logicaltable.addActor(table);
+	
 		nextimage.setVisible(true);
 		submitimage.setVisible(false);
 		backimage.setVisible(false);
@@ -272,10 +359,10 @@ public class CreateQuestion extends Stage {
 	// }
 	// }
 	private void lblini(final String answer, final int index, int x, int y) {
-		lblABCD[index] = new Label(answer, style);
-		lblABCD[index].setPosition(x, y);
-		lblABCD[index].setWidth(600);
-		lblABCD[index].setWrap(true);
+			lblABCD[index] = new Label(answer, style2);
+			//lblABCD[index].setPosition(x, y);
+			lblABCD[index].setWidth(500);
+			lblABCD[index].setWrap(true);
 		lblABCD[index].addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
@@ -286,8 +373,8 @@ public class CreateQuestion extends Stage {
 					@Override
 					public void input(String texteSaisi) {
 						question[index] = texteSaisi;
-						lblABCD[index].setText(ABCD[index] + ":" + texteSaisi);
-
+						lblABCD[index].setText(texteSaisi);
+						
 					}
 
 					@Override
@@ -302,7 +389,7 @@ public class CreateQuestion extends Stage {
 			}
 
 		});
-		this.addActor(lblABCD[index]);
+		// this.addActor(lblABCD[index]);
 	}
 }
 

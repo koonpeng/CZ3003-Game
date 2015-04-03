@@ -40,7 +40,7 @@ public class PPTXGame extends Game {
 	LoadingScreen loadingscreen;
 	MenuScreen menuscreen;
 	private static CreateQuestionScreen creatquestionscreen;
-	QuestionListScreen questionlistscreen;
+	static QuestionListScreen questionlistscreen;
 	
 	public static final int GAME_WIDTH = 720;
 	public static final int GAME_HEIGHT = 1280;
@@ -79,7 +79,11 @@ public class PPTXGame extends Game {
 		creatquestionscreen=new CreateQuestionScreen(questionnumber);
 		pptxGame.setScreen(creatquestionscreen);
 	}
-	
+	public static void toQuestionListScreen() {
+		questionlistscreen.dispose();
+		questionlistscreen=new QuestionListScreen(pptxGame);
+		pptxGame.setScreen(questionlistscreen);
+	}
 	
 	
 
