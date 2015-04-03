@@ -1,0 +1,10 @@
+{"Type":"B","Question":"Which of the following is NOT a requirement gathering method?","A":"Interview","B":"Workshop","C":"Observation","D":"Imagining","Answer":"D"}
+{"Type":"B","Question":"Which of the following is NOT an example of non-functional requirements?","A":"Usability","B":"Authentication","C":"Supportability","D":"Reliability","Answer":"B"}
+{"Type":"B","Question":"Which of the following is NOT a part of requirements specification?","A":"Design","B":"Analyze","C":"Elicit","D":"Validate","Answer":"A"}
+{"Type":"B","Question":"Which of the following is NOT a SDLC model?","A":"Waterfall","B":"Spiral","C":"Incremental","D":"Forest","Answer":"D"}
+{"Type":"A","Question":"Use cases can be used in generating requirements.","Answer":"T"}
+{"Type":"A","Question":"User friendliness is NOT included in requirement gathering.","Answer":"F"}
+{"Type":"A","Question":"Requirements Elicitation is the second phase of software engineering life cycle.","Answer":"F"}
+{"Type":"A","Question":"All numbers should display up to 2 decimals places is a non-functional requirement.","Answer":"T"}
+{"Type":"A","Question":"System to respond in 3 seconds is a functional requirement.","Answer":"F"}
+{"Type":"A","Question":"There are 2 types of requirements. Functional & Non-functional.","Answer":"T"}

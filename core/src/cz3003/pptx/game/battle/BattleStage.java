@@ -42,27 +42,25 @@ public class BattleStage extends Stage {
 	private final BattleActor player;
 	private final EnemyActor enemy;
 	private final Random rand = new Random();
-	private final Quiz test;
+	private final Quiz quiz;
 	private final Music battleMusic;
 
 	public BattleStage(final EnemyActor enemy, int dungeonId, String dungeonName) {
 		super(new StretchViewport(PPTXGame.GAME_WIDTH, PPTXGame.GAME_HEIGHT));
 		player = PPTXGame.player.genBattleActor();
-		test = new Quiz(0);
-		questionUI = new QuestionUI(test);
+		quiz = new Quiz(0, 1);
+		questionUI = new QuestionUI(quiz);
 		questionUI.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				if (event.getTarget().getName() != null && event.getTarget().getName().equals("ansButton")) {
-//					if (test.verifyAnswer((String) event.getTarget().getUserObject())) {
-//						doAttack(player, enemy, true);
-//						questionResultLbl.setText("Correct!");
-//					} else {
-//						doAttack(player, enemy, false);
-//						questionResultLbl.setText("Wrong... :(");
-//					}
-					doAttack(player, enemy, true);
-					questionResultLbl.setText("Wrong... :(");
+					if (quiz.verifyAnswer((String) event.getTarget().getUserObject())) {
+						doAttack(player, enemy, true);
+						questionResultLbl.setText("Correct!");
+					} else {
+						doAttack(player, enemy, false);
+						questionResultLbl.setText("Wrong... :(");
+					}
 					Action showQuestionResulLbltAct = Actions.show();
 					showQuestionResulLbltAct.setTarget(questionResultLbl);
 					questionResultLbl.pack();
@@ -110,7 +108,7 @@ public class BattleStage extends Stage {
 		battleMusic = PPTXGame.getAssetManager().get("music/(10) Force Your Way.mp3");
 		battleMusic.setLooping(true);
 		battleMusic.setVolume(0.75f);
-		battleMusic.play();
+//		battleMusic.play();
 	}
 
 	private void updateEnemyHpBar() {
@@ -189,7 +187,7 @@ public class BattleStage extends Stage {
 					addAction(Actions.sequence(Actions.parallel(deathAct, deathActDisappear), Actions.run(new Runnable() {
 						public void run() {
 							battleMusic.stop();
-							PPTXGame.toResultScreen();
+							PPTXGame.toResultScreen(quiz, true);
 						}
 					})));
 					return;

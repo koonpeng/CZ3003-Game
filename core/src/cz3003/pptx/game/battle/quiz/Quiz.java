@@ -1,106 +1,128 @@
 package cz3003.pptx.game.battle.quiz;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
 public class Quiz {
-	private int questionsetno = 0;
-	private int readindex;
-	private String[] lines;
-	private String[] question;
-	private int answerindex;
-	private String[] answerlines;
-	private int kind=1;
-	public int getKind() {
-		return kind;
-	}
 
-	public void setKind(int kind) {
-		this.kind = kind;
-	}
-	private static  int score=0;
+	private static String[] qnaList = new String[20];
+	private int count = 0;
+	private JSONObject qns_current = new JSONObject();
+	private Score current;
 
-	public static int getScore() {
-		return score;
-	}
-
-	public static void setScore(int s) {
-		score = s;
-	}
-
-	public Quiz(int questionsetno) {
-		this.questionsetno = questionsetno;
-		score=0;
-		readindex=0;
-		answerindex=0;
-		question=new String[5];
-		lines=null;
-		answerlines=null;
-		QuestionSetreading();
-		AnswerSetreading();
-		nextquestion();
-		
-
-	}
-	private void AnswerSetreading() {
-		switch (questionsetno) {
-		case 0:
-
-			FileHandle file = Gdx.files.internal("Answers0.txt");
-			String text = file.readString();
-			answerlines = text.split("\\r?\\n");
-
-			break;
-		case 1:
-			break;
-		}
-		
-		
-	}
-	
-	private void QuestionSetreading() {
-		switch (questionsetno) {
-		case 0:
-
-			FileHandle file = Gdx.files.internal("Questions0.txt");
-			String text = file.readString();
-			lines = text.split("\\r?\\n");
-
-			break;
-		case 1:
-			break;
+	// /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Create class
+	public Quiz(int difficulty, int dungeon) {
+		try {
+			current = new Score();
+			int file = dungeon * 10 + difficulty;
+			String fileName = "quiz/" + file + ".txt";
+			FileHandle f = Gdx.files.internal(fileName);
+			qnaList = readFile(f);
+			randomQns();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
-	public void nextquestion() {
-		
-		if (readindex >=lines.length) {
-			//question = null;
-			readindex=0;
-			answerindex=0;
-		} else {
-			for (int i = 0; i < 5; i++) {
-				if(i==0){
-					question[i] = "Question "+(readindex+5)/5+": "+lines[readindex++];
-				}
-				else{
-				question[i] = lines[readindex++];
-				}
+	public Quiz(int difficulty, int dungeon, String id) {
+		try {
+			current = new Score();
+			String file = id;
+			String fileName = "quiz/" + file + "student.txt";
+			FileHandle f = Gdx.files.internal(fileName);
+			qnaList = readFile(f);
+			randomQns();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
+	// /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Functions
+	private static void randomQns() {
+		Collections.shuffle(Arrays.asList(qnaList));
+	}
+
+	public String[] getQuestion() {
+		try {
+			String[] qns = null;
+			if (qnaList[count] != (null)) {
+				JSONObject qna = new JSONObject(qnaList[count++]);
+				qns_current = qna;
+				if (qna.getString("Type").equals("A")) {
+					qns = new String[2];
+					qns[0] = "A";
+					qns[1] = qna.getString("Question");
+				} else if (qna.getString("Type").equals("B")) {
+					qns = new String[6];
+					qns[0] = "B";
+					qns[1] = qna.getString("Question");
+					qns[2] = qna.getString("A");
+					qns[3] = qna.getString("B");
+					qns[4] = qna.getString("C");
+					qns[5] = qna.getString("D");
+				}
+			} else {
+				reset();
+				qns = getQuestion();
 			}
+			return qns;
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public Score getScore() {
+		return current;
+	}
+
+	// /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Utilities
+	private void reset() {
+		this.count = 0;
+		randomQns();
+	}
+
+	private static String[] readFile(FileHandle f) throws IOException {
+		BufferedReader br = new BufferedReader(f.reader());
+		String[] qna = new String[20];
+		String line = null;
+		int i = 0;
+		while ((line = br.readLine()) != null) {
+			qna[i] = line;
+			// System.out.println(line);
+			i++;
 		}
 
+		br.close();
+		return qna;
 	}
-	public boolean verifyAnswer(String useranswer)
-	{
-		if(useranswer.equals(answerlines[answerindex++]))
-		{
-			score++;
-			return true;
+
+	public boolean verifyAnswer(String answer) {
+		try {
+			String check_answer = qns_current.getString("Answer");
+			if (check_answer.equalsIgnoreCase(answer)) {
+				current.addScore(true);
+				return true;
+			} else {
+				current.addScore(false);
+				return false;
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
 		return false;
 	}
-	public String[] getQuestion() {
-		return question;
-	}
+
 }

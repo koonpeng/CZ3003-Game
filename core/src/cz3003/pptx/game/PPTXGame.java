@@ -19,6 +19,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 
 import cz3003.pptx.game.battle.BattleScreen;
+import cz3003.pptx.game.battle.quiz.Quiz;
 import cz3003.pptx.game.equipment.EquipmentFactory;
 import cz3003.pptx.game.screen.MenuScreen;
 
@@ -41,7 +42,7 @@ public class PPTXGame extends Game {
 	MenuScreen menuscreen;
 	private static CreateQuestionScreen creatquestionscreen;
 	static QuestionListScreen questionlistscreen;
-	
+
 	public static final int GAME_WIDTH = 720;
 	public static final int GAME_HEIGHT = 1280;
 
@@ -62,30 +63,32 @@ public class PPTXGame extends Game {
 		return assetManager;
 	}
 
-	public static void toResultScreen() {
+	public static void toResultScreen(Quiz quiz, boolean result) {
+		resultscreen.setQuiz(quiz);
+		resultscreen.setResult(result);
 		pptxGame.setScreen(resultscreen);
 	}
-	
+
 	public static void toBattleScreen(int id) {
 		battleScreen.setDungeonId(id);
 		pptxGame.setScreen(battleScreen);
 	}
-	
+
 	public static void toBattleScreen(int id, String name) {
 		battleScreen.setDungeonId(id);
 		pptxGame.setScreen(battleScreen);
 	}
+
 	public static void toCreateQuestionScreen(int questionnumber) {
-		creatquestionscreen=new CreateQuestionScreen(questionnumber);
+		creatquestionscreen = new CreateQuestionScreen(questionnumber);
 		pptxGame.setScreen(creatquestionscreen);
 	}
+
 	public static void toQuestionListScreen() {
 		questionlistscreen.dispose();
-		questionlistscreen=new QuestionListScreen(pptxGame);
+		questionlistscreen = new QuestionListScreen(pptxGame);
 		pptxGame.setScreen(questionlistscreen);
 	}
-	
-	
 
 	private void loadAssets() {
 		assetManager.load("empty.png", Texture.class);
@@ -138,12 +141,12 @@ public class PPTXGame extends Game {
 		loginscreen = new LoginScreen(this);
 		battleScreen = new BattleScreen();
 		menuscreen = new MenuScreen(this);
-		questionlistscreen=new QuestionListScreen(this);
-		
+		questionlistscreen = new QuestionListScreen(this);
+
 		resultscreen = new ResultScreen(this);
 		loadingscreen = new LoadingScreen(this);
-		//toCreateQuestionScreen(5);
-		this.setScreen(questionlistscreen);
+		// toCreateQuestionScreen(5);
+		this.setScreen(battleScreen);
 	}
 
 }

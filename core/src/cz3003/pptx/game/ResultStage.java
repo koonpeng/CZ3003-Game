@@ -1,27 +1,16 @@
 package cz3003.pptx.game;
 
-import jdk.internal.util.xml.impl.Input;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import com.badlogic.gdx.scenes.scene2d.actions.ParallelAction;
-import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -52,12 +41,14 @@ public class ResultStage extends Stage {
 	Image backgroundimage;
 	Treasure treasure;
 
-	public ResultStage(PPTXGame game,boolean result) {
+	private Quiz quiz;
+
+	public ResultStage(PPTXGame game, boolean result, Quiz quiz) {
 		super();
 		this.game = game;
 		init(false);
 		show();
-
+		this.quiz = quiz;
 	}
 
 	public void show() {
@@ -93,14 +84,12 @@ public class ResultStage extends Stage {
 	}
 
 	public void init(Boolean result) {
-		
-		if(!result)
-		{
+
+		if (!result) {
 			backgroundregion = new Texture(ImgFile.resultbackground_gameover);
 			backgroundimage = new Image(backgroundregion);
 			backgroundimage.setPosition(0, 0);
-			
-			
+
 			Texture backregion = new Texture(ImgFile.backbutton);
 			Image backimage = new Image(backregion);
 			backimage.setPosition(405, 177);
@@ -113,10 +102,10 @@ public class ResultStage extends Stage {
 					return true;
 				}
 			});
-			
+
 			Texture playagainregion = new Texture(ImgFile.playagainbutton);
 			Image playagainimage = new Image(playagainregion);
-			playagainimage.setPosition(93,177);
+			playagainimage.setPosition(93, 177);
 			playagainimage.setSize(240, 76);
 			playagainimage.addListener(new InputListener() {
 				@Override
@@ -126,10 +115,10 @@ public class ResultStage extends Stage {
 					return true;
 				}
 			});
-			
+
 			Texture checkleaderboardregion = new Texture(ImgFile.checkleaderboarbutton);
 			Image checkleaderboardimage = new Image(checkleaderboardregion);
-			checkleaderboardimage.setPosition(92,64);
+			checkleaderboardimage.setPosition(92, 64);
 			checkleaderboardimage.setSize(551, 76);
 			checkleaderboardimage.addListener(new InputListener() {
 				@Override
@@ -139,15 +128,15 @@ public class ResultStage extends Stage {
 					return true;
 				}
 			});
-			
+
 			Texture scoreregion = new Texture(ImgFile.scorebackground);
 			Image scoreimage = new Image(scoreregion);
-			scoreimage.setPosition(166,798);
+			scoreimage.setPosition(166, 798);
 			scoreimage.setSize(361, 92);
-			
+
 			style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle.getBoldFont().getColor());
 
-			String result1 = "Score is " + Quiz.getScore();
+			String result1 = "Score is " + quiz.getScore();
 			lblresult = new Label(result1, style);
 			lblresult.setPosition(166, 798);
 			lblresult.setAlignment(Align.center);
@@ -158,15 +147,12 @@ public class ResultStage extends Stage {
 			this.addActor(checkleaderboardimage);
 			this.addActor(backimage);
 			this.addActor(lblresult);
-			
-		}
-		else
-		{
+
+		} else {
 			backgroundregion = new Texture(ImgFile.resultbackground_youwinr);
 			backgroundimage = new Image(backgroundregion);
 			backgroundimage.setPosition(0, 0);
-		
-			
+
 			Texture backregion = new Texture(ImgFile.backbutton);
 			Image backimage = new Image(backregion);
 			backimage.setPosition(397, 146);
@@ -179,10 +165,10 @@ public class ResultStage extends Stage {
 					return true;
 				}
 			});
-			
+
 			Texture playagainregion = new Texture(ImgFile.playagainbutton);
 			Image playagainimage = new Image(playagainregion);
-			playagainimage.setPosition(86,146);
+			playagainimage.setPosition(86, 146);
 			playagainimage.setSize(240, 76);
 			playagainimage.addListener(new InputListener() {
 				@Override
@@ -192,10 +178,10 @@ public class ResultStage extends Stage {
 					return true;
 				}
 			});
-			
+
 			Texture checkleaderboardregion = new Texture(ImgFile.checkleaderboarbutton);
 			Image checkleaderboardimage = new Image(checkleaderboardregion);
-			checkleaderboardimage.setPosition(84,33);
+			checkleaderboardimage.setPosition(84, 33);
 			checkleaderboardimage.setSize(551, 76);
 			checkleaderboardimage.addListener(new InputListener() {
 				@Override
@@ -205,15 +191,15 @@ public class ResultStage extends Stage {
 					return true;
 				}
 			});
-			
+
 			Texture scoreregion = new Texture(ImgFile.scorebackground);
 			Image scoreimage = new Image(scoreregion);
-			scoreimage.setPosition(172,639);
+			scoreimage.setPosition(172, 639);
 			scoreimage.setSize(361, 92);
-			
+
 			style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle.getBoldFont().getColor());
 
-			String result1 = "Score is " + Quiz.getScore();
+			String result1 = "Score is " + quiz.getScore();
 			lblresult = new Label(result1, style);
 			lblresult.setPosition(172, 639);
 			lblresult.setAlignment(Align.center);
@@ -225,11 +211,11 @@ public class ResultStage extends Stage {
 			this.addActor(backimage);
 			this.addActor(lblresult);
 		}
-		
+
 	}
 
 	public void updatescore() {
-		String result = "Your Score is " + Quiz.getScore();
+		String result = "Your Score is " + quiz.getScore();
 		lblresult.setText(result);
 	}
 

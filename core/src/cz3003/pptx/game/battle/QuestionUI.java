@@ -33,10 +33,10 @@ public class QuestionUI extends Table {
 	private final ArrayList<HorizontalGroup> ansGroups;
 	private final Quiz questionPool;
 
-	public QuestionUI(Quiz questionPool) {
+	public QuestionUI(Quiz quiz) {
 		super();
-		this.questionPool = questionPool;
-		String[] question = questionPool.getQuestion();
+		this.questionPool = quiz;
+		String[] question = quiz.getQuestion();
 		ansBtns = new ArrayList<Button>(4);
 		ansLbls = new ArrayList<Label>(4);
 		ansGroups = new ArrayList<HorizontalGroup>(4);
@@ -64,7 +64,6 @@ public class QuestionUI extends Table {
 	}
 
 	public void nextQuestion() {
-		questionPool.nextquestion();
 		setQuestion(questionPool.getQuestion());
 	}
 
@@ -99,13 +98,6 @@ public class QuestionUI extends Table {
 			choices[1] = question[3];
 			choices[2] = question[4];
 			choices[3] = question[5];
-		} else {
-			lblTitle.setText(question[0]);
-			choices = new String[4];
-			choices[0] = question[1];
-			choices[1] = question[2];
-			choices[2] = question[3];
-			choices[3] = question[4];
 		}
 
 		float ansLabelWidth = WIDTH - 72 - getPadLeft() - getPadRight();
@@ -122,8 +114,13 @@ public class QuestionUI extends Table {
 				btn = createAnsButtons();
 				ansBtns.add(btn);
 			}
-			lbl.setText(question[i]);
-			btn.setUserObject(Character.getName('A' + i)); // Convert ASCII codepoint to String
+			lbl.setText(choices[i]);
+			if (choices[i].equals("True"))
+				btn.setUserObject(String.valueOf('T'));
+			else if (choices[i].equals("False"))
+				btn.setUserObject(String.valueOf('F'));
+			else
+				btn.setUserObject(String.valueOf((char) ('A' + i))); // Convert ASCII codepoint to String
 
 			HorizontalGroup hGrp;
 			if (ansGroups.size() > i) {
