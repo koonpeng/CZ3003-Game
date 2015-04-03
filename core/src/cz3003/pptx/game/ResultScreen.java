@@ -80,8 +80,7 @@ public class ResultScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+		resultstage.dispose();
 	}
 
 }

@@ -46,9 +46,9 @@ public class ResultStage extends Stage {
 	public ResultStage(PPTXGame game, boolean result, Quiz quiz) {
 		super();
 		this.game = game;
-		init(false);
 		show();
 		this.quiz = quiz;
+		init(result);
 	}
 
 	public void show() {
@@ -76,11 +76,6 @@ public class ResultStage extends Stage {
 		this.addActor(treasure);
 		// sequenceAction.setActor(fightcharacter);
 		// fightcharacter.addAction(sequenceAction);
-
-		Music music = PPTXGame.getAssetManager().get("music/(05) The Winner.mp3");
-		music.setLooping(true);
-		music.setVolume(0.75f);
-		music.play();
 	}
 
 	public void init(Boolean result) {
@@ -210,6 +205,11 @@ public class ResultStage extends Stage {
 			this.addActor(checkleaderboardimage);
 			this.addActor(backimage);
 			this.addActor(lblresult);
+
+			Music music = PPTXGame.getAssetManager().get("music/(05) The Winner.mp3");
+			music.setLooping(true);
+			music.setVolume(0.75f);
+			music.play();
 		}
 
 	}

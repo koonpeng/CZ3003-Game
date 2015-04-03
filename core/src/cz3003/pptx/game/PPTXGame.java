@@ -93,11 +93,12 @@ public class PPTXGame extends Game {
 	private void loadAssets() {
 		assetManager.load("empty.png", Texture.class);
 		assetManager.load("button.png", Texture.class);
-		assetManager.load("player/battle.png", Texture.class);
-		assetManager.load("player/kamehameha.png", Texture.class);
+		assetManager.load("battle/player.png", Texture.class);
+		assetManager.load("battle/kamehameha.png", Texture.class);
 		assetManager.load("monsters/dragon.png", Texture.class);
-		assetManager.load("RedBar.png", Texture.class);
-		assetManager.load("EmptyBar.png", Texture.class);
+		assetManager.load("battle/RedBar.png", Texture.class);
+		assetManager.load("battle/EmptyBar.png", Texture.class);
+		assetManager.load("battle/fire.png", Texture.class);
 		assetManager.load("backgrounds/environment_forest_alt1.png", Texture.class);
 		assetManager.load("backgrounds/crumpled-paper.jpg", Texture.class);
 		assetManager.load("music/(10) Force Your Way.mp3", Music.class);
@@ -134,7 +135,7 @@ public class PPTXGame extends Game {
 		assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
 		assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 		loadAssets();
-		player = new Player("Player", 1000, 5000, 5000);
+		player = new Player("Player", 10000, 5000, 5000);
 		player.equip(EquipmentFactory.getEquipment("Excalibur"));
 		assetManager.finishLoading();
 

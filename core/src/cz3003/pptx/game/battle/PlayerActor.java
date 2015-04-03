@@ -41,17 +41,7 @@ public class PlayerActor extends BattleActor {
 	public PlayerActor(String name, int hp, int maxHp, int att, int def) {
 		super(name, hp, maxHp, att, def);
 
-		Texture kamehamehaTex = PPTXGame.getAssetManager().get("player/kamehameha.png");
-		kamehamehaSprite = new Sprite[3];
-		kamehamehaSprite[0] = new Sprite(kamehamehaTex, 0, 0, 65, kamehamehaTex.getHeight());
-		kamehamehaSprite[1] = new Sprite(kamehamehaTex, 65, 0, 80, kamehamehaTex.getHeight());
-		kamehamehaSprite[2] = new Sprite(kamehamehaTex, 145, 0, 65, kamehamehaTex.getHeight());
-		kamehamehaSprite[1].setPosition(kamehamehaSprite[0].getX() + kamehamehaSprite[0].getWidth(), kamehamehaSprite[0].getY());
-		kamehamehaSprite[2].setPosition(kamehamehaSprite[1].getX() + kamehamehaSprite[1].getWidth(), kamehamehaSprite[0].getY());
-		for (Sprite s : kamehamehaSprite)
-			s.setSize(0, s.getHeight() * 1.2f);
-
-		Texture tex = PPTXGame.getAssetManager().get("player/battle.png");
+		Texture tex = PPTXGame.getAssetManager().get("battle/player.png");
 		TextureRegion[][] texRegion = TextureRegion.split(tex, tex.getWidth() / 5, tex.getHeight() / 5);
 		spriteSheet = new Array<Sprite>(10);
 		spriteSheet.add(new Sprite(texRegion[0][1]));
@@ -90,11 +80,24 @@ public class PlayerActor extends BattleActor {
 		attackingAnimation = new Animation(0.1f, attackingSprites, PlayMode.LOOP_PINGPONG);
 		endAttackAnimation = new Animation(0.1f, endAttackSprites, PlayMode.NORMAL);
 
+		Texture kamehamehaTex = PPTXGame.getAssetManager().get("battle/kamehameha.png");
+		kamehamehaSprite = new Sprite[3];
+		kamehamehaSprite[0] = new Sprite(kamehamehaTex, 0, 0, 65, kamehamehaTex.getHeight());
+		kamehamehaSprite[1] = new Sprite(kamehamehaTex, 65, 0, 80, kamehamehaTex.getHeight());
+		kamehamehaSprite[2] = new Sprite(kamehamehaTex, 145, 0, 65, kamehamehaTex.getHeight());
+		kamehamehaSprite[0].setPosition(130, 60);
+		kamehamehaSprite[1].setPosition(kamehamehaSprite[0].getX() + kamehamehaSprite[0].getWidth(), kamehamehaSprite[0].getY());
+		kamehamehaSprite[2].setPosition(kamehamehaSprite[1].getX() + kamehamehaSprite[1].getWidth(), kamehamehaSprite[0].getY());
+		for (Sprite s : kamehamehaSprite)
+			s.setSize(0, s.getHeight() * 1.2f);
+
+		setSize(spriteSheet.get(0).getWidth(), spriteSheet.get(0).getHeight());
+
 		attackSounds[0] = PPTXGame.getAssetManager().get("sound/explosion.wav");
 	}
 
 	@Override
-	public Action getAttackAction() {
+	public Action getAttackAction(BattleActor target) {
 		RunnableAction attackSound = Actions.run(new Runnable() {
 			@Override
 			public void run() {
@@ -135,7 +138,12 @@ public class PlayerActor extends BattleActor {
 
 	@Override
 	public Action getTakeDamageAction() {
-		return null;
+		Action showAct = Actions.visible(true);
+		Action hideAct = Actions.visible(false);
+		showAct.setTarget(this);
+		hideAct.setTarget(this);
+		Action blinkAction = Actions.repeat(3, Actions.sequence(hideAct, Actions.delay(0.2f), showAct, Actions.delay(0.2f)));
+		return blinkAction;
 	}
 
 	@Override
@@ -147,16 +155,8 @@ public class PlayerActor extends BattleActor {
 	}
 
 	@Override
-	protected void positionChanged() {
-		kamehamehaSprite[0].setPosition(getX() + getParent().getX() + 130, getY() + getParent().getY() + 60);
-		kamehamehaSprite[1].setPosition(kamehamehaSprite[0].getX() + kamehamehaSprite[0].getWidth(), kamehamehaSprite[0].getY());
-		kamehamehaSprite[2].setPosition(kamehamehaSprite[1].getX() + kamehamehaSprite[1].getWidth(), kamehamehaSprite[1].getY());
-		for (Sprite s : spriteSheet)
-			s.setPosition(getX() + getParent().getX(), getY() + getParent().getY());
-	}
-
-	@Override
 	public void draw(Batch batch, float parentAlpha) {
+		applyTransform(batch, computeTransform());
 		Sprite frame;
 		switch (currentState) {
 		case IDLE:
@@ -192,6 +192,7 @@ public class PlayerActor extends BattleActor {
 		if (currentState == State.ATTACKING)
 			for (Sprite s : kamehamehaSprite)
 				s.draw(batch);
+		resetTransform(batch);
 		batch.flush();
 	}
 

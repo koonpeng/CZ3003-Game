@@ -1,9 +1,9 @@
 package cz3003.pptx.game.battle;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 
-public abstract class BattleActor extends Actor {
+public abstract class BattleActor extends Group {
 
 	private int hp;
 	private int maxHp;
@@ -19,7 +19,7 @@ public abstract class BattleActor extends Actor {
 		this.name = name;
 	}
 
-	public abstract Action getAttackAction();
+	public abstract Action getAttackAction(BattleActor target);
 
 	public abstract Action getTakeDamageAction();
 

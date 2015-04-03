@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.actions.FloatAction;
 
 import cz3003.pptx.game.PPTXGame;
@@ -20,9 +19,9 @@ public class HPBar extends Actor {
 	private float curPercent = 1;
 
 	public HPBar() {
-		redTex = PPTXGame.getAssetManager().get("RedBar.png");
+		redTex = PPTXGame.getAssetManager().get("battle/RedBar.png");
 		redTex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		emptyTex = PPTXGame.getAssetManager().get("EmptyBar.png");
+		emptyTex = PPTXGame.getAssetManager().get("battle/EmptyBar.png");
 		emptyTex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		redSprite = new Sprite(redTex);
 		emptySprite = new Sprite(emptyTex);
@@ -58,11 +57,10 @@ public class HPBar extends Actor {
 
 	@Override
 	protected void positionChanged() {
-		Group parent = getParent();
-		redSprite.setX(getX() + parent.getX());
-		redSprite.setY(getY() + parent.getY());
-		emptySprite.setX(getX() + parent.getX());
-		emptySprite.setY(getY() + parent.getY());
+		float x = getX();
+		float y = getY();
+		redSprite.setPosition(x, y);
+		emptySprite.setPosition(x, y);
 	}
 
 	private class ChangeHpBarAction extends FloatAction {

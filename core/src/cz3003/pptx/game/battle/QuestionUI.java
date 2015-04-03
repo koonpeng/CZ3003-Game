@@ -125,6 +125,7 @@ public class QuestionUI extends Table {
 			HorizontalGroup hGrp;
 			if (ansGroups.size() > i) {
 				hGrp = ansGroups.get(i);
+				hGrp.setVisible(true);
 			} else {
 				hGrp = new HorizontalGroup();
 				hGrp.addActor(btn);
@@ -136,7 +137,7 @@ public class QuestionUI extends Table {
 		}
 
 		for (int i = choices.length; i < ansGroups.size(); i++) {
-			removeActor(ansGroups.get(i));
+			ansGroups.get(i).setVisible(false);
 		}
 	}
 }

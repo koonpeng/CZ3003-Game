@@ -16,7 +16,7 @@ public class BattleScreen implements Screen {
 
 	@Override
 	public void show() {
-		battleStage = new BattleStage(new EnemyActor("Dragon", 50000, 50000, 5000, 5000), dungeonId, dungeonName);
+		battleStage = new BattleStage(new EnemyActor("Dragon", 20000, 20000, 5000, 5000), dungeonId, dungeonName);
 		battleStage.addAction(Actions.sequence(Actions.alpha(0), Actions.fadeIn(1)));
 		Gdx.input.setInputProcessor(battleStage);
 	}
@@ -63,8 +63,7 @@ public class BattleScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+		battleStage.dispose();
 	}
 
 }
