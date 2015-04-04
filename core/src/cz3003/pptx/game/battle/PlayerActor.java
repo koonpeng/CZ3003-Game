@@ -98,6 +98,7 @@ public class PlayerActor extends BattleActor {
 
 	@Override
 	public Action getAttackAction(BattleActor target) {
+		kamehamehaLength = target.getX() - getX();
 		RunnableAction attackSound = Actions.run(new Runnable() {
 			@Override
 			public void run() {

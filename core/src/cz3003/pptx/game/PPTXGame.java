@@ -1,7 +1,6 @@
 package cz3003.pptx.game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.assets.AssetLoaderParameters.LoadedCallback;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
@@ -104,29 +103,20 @@ public class PPTXGame extends Game {
 		assetManager.load("music/(10) Force Your Way.mp3", Music.class);
 		assetManager.load("music/(05) The Winner.mp3", Music.class);
 		assetManager.load("sound/explosion.wav", Sound.class);
-		FreeTypeFontLoaderParameter fontParam = new FreeTypeFontLoaderParameter();
-		fontParam.fontFileName = "fonts/calibri.ttf";
-		fontParam.loadedCallback = new LoadedCallback() {
-			@Override
-			public void finishedLoading(AssetManager assetManager, String fileName, @SuppressWarnings("rawtypes") Class type) {
-				BitmapFont font = assetManager.get(fileName);
-				font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-			}
-		};
-		fontParam.fontParameters.size = 36;
-		assetManager.load("size36.ttf", BitmapFont.class, fontParam);
 
-		FreeTypeFontLoaderParameter ansFontParams = new FreeTypeFontLoaderParameter();
-		ansFontParams.fontFileName = "fonts/calibri.ttf";
-		ansFontParams.loadedCallback = new LoadedCallback() {
-			@Override
-			public void finishedLoading(AssetManager assetManager, String fileName, @SuppressWarnings("rawtypes") Class type) {
-				BitmapFont font = assetManager.get(fileName);
-				font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-			}
-		};
-		ansFontParams.fontParameters.size = 24;
-		assetManager.load("size24.ttf", BitmapFont.class, ansFontParams);
+		FreeTypeFontLoaderParameter calibri36 = new FreeTypeFontLoaderParameter();
+		calibri36.fontFileName = "font/calibri.ttf";
+		calibri36.fontParameters.size = 36;
+		calibri36.fontParameters.minFilter = TextureFilter.Linear;
+		calibri36.fontParameters.magFilter = TextureFilter.Linear;
+		assetManager.load("calibri36.ttf", BitmapFont.class, calibri36);
+
+		FreeTypeFontLoaderParameter calibri24 = new FreeTypeFontLoaderParameter();
+		calibri24.fontFileName = "font/calibri.ttf";
+		calibri24.fontParameters.size = 24;
+		calibri24.fontParameters.minFilter = TextureFilter.Linear;
+		calibri24.fontParameters.magFilter = TextureFilter.Linear;
+		assetManager.load("calibri24.ttf", BitmapFont.class, calibri24);
 	}
 
 	@Override

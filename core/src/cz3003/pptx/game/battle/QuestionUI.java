@@ -41,9 +41,9 @@ public class QuestionUI extends Table {
 		ansLbls = new ArrayList<Label>(4);
 		ansGroups = new ArrayList<HorizontalGroup>(4);
 
-		font = PPTXGame.getAssetManager().get("size36.ttf");
+		font = PPTXGame.getAssetManager().get("calibri36.ttf");
 		font.setColor(Color.BLACK);
-		ansFont = PPTXGame.getAssetManager().get("size24.ttf");
+		ansFont = PPTXGame.getAssetManager().get("calibri24.ttf");
 		ansFont.setColor(Color.BLACK);
 
 		style = new LabelStyle(font, font.getColor());

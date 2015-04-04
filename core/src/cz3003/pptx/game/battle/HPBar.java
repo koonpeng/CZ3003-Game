@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.FloatAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
 import cz3003.pptx.game.PPTXGame;
 
-public class HPBar extends Actor {
+public class HPBar extends Widget {
 
 	private final Texture redTex;
 	private final Texture emptyTex;
@@ -19,6 +19,7 @@ public class HPBar extends Actor {
 	private float curPercent = 1;
 
 	public HPBar() {
+		super();
 		redTex = PPTXGame.getAssetManager().get("battle/RedBar.png");
 		redTex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		emptyTex = PPTXGame.getAssetManager().get("battle/EmptyBar.png");
@@ -28,8 +29,7 @@ public class HPBar extends Actor {
 		redSprite.setSize(redTex.getWidth(), redTex.getHeight());
 		emptySprite.setSize(emptyTex.getWidth(), emptyTex.getHeight());
 
-		setWidth(emptySprite.getWidth());
-		setHeight(emptySprite.getHeight());
+		setSize(getPrefWidth(), getPrefHeight());
 	}
 
 	public void setPercent(float newPercent) {
@@ -43,24 +43,21 @@ public class HPBar extends Actor {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
+		super.draw(batch, parentAlpha);
+		emptySprite.setPosition(getX(), getY());
+		redSprite.setPosition(getX(), getY());
 		emptySprite.setAlpha(parentAlpha);
 		redSprite.setAlpha(parentAlpha);
 		emptySprite.draw(batch);
 		redSprite.draw(batch);
+		batch.flush();
 	}
 
 	@Override
 	protected void sizeChanged() {
+		super.sizeChanged();
 		redSprite.setSize(getWidth(), getHeight());
 		emptySprite.setSize(getWidth(), getHeight());
-	}
-
-	@Override
-	protected void positionChanged() {
-		float x = getX();
-		float y = getY();
-		redSprite.setPosition(x, y);
-		emptySprite.setPosition(x, y);
 	}
 
 	private class ChangeHpBarAction extends FloatAction {

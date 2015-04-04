@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -17,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -37,7 +37,7 @@ public class BattleStage extends Stage {
 	private final Image questionBackgroundHolder;
 	private final HPBar playerHpBar;
 	private final HPBar enemyHpBar;
-	private final Group battleUI;
+	private final Table battleUI;
 	private final QuestionUI questionUI;
 	private final BattleActor player;
 	private final EnemyActor enemy;
@@ -47,9 +47,23 @@ public class BattleStage extends Stage {
 
 	public BattleStage(final EnemyActor enemy, int dungeonId, String dungeonName) {
 		super(new StretchViewport(PPTXGame.GAME_WIDTH, PPTXGame.GAME_HEIGHT));
+
 		player = PPTXGame.player.genBattleActor();
+		this.enemy = enemy;
+		battleUI = new Table();
 		quiz = new Quiz(0, 1);
 		questionUI = new QuestionUI(quiz);
+		style = new LabelStyle(PPTXGame.getAssetManager().get("calibri36.ttf", BitmapFont.class), Color.BLACK);
+		damageLblStyle = new LabelStyle(PPTXGame.getAssetManager().get("calibri36.ttf", BitmapFont.class), Color.WHITE);
+		playerLbl = new Label("Player", style);
+		enemyLbl = new Label(enemy.getName(), style);
+		questionResultLbl = new Label("", style);
+		background = new Sprite(PPTXGame.getAssetManager().get("backgrounds/environment_forest_alt1.png", Texture.class));
+		questionBackground = new Sprite(PPTXGame.getAssetManager().get("backgrounds/crumpled-paper.jpg", Texture.class));
+		questionBackgroundHolder = new Image(new SpriteDrawable(questionBackground));
+		playerHpBar = new HPBar();
+		enemyHpBar = new HPBar();
+
 		questionUI.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -71,47 +85,25 @@ public class BattleStage extends Stage {
 			}
 		});
 
-		battleUI = new Group();
-		style = new LabelStyle(PPTXGame.getAssetManager().get("size36.ttf", BitmapFont.class), Color.BLACK);
-		this.enemy = enemy;
-		playerLbl = new Label("Player", style);
 		playerLbl.pack();
-		enemyLbl = new Label(enemy.getName(), style);
 		enemyLbl.pack();
-		damageLblStyle = new LabelStyle(PPTXGame.getAssetManager().get("size36.ttf", BitmapFont.class), Color.WHITE);
-		questionResultLbl = new Label("", style);
 		questionResultLbl.setVisible(false);
-		background = new Sprite(PPTXGame.getAssetManager().get("backgrounds/environment_forest_alt1.png", Texture.class));
-		questionBackground = new Sprite(PPTXGame.getAssetManager().get("backgrounds/crumpled-paper.jpg", Texture.class));
-		questionBackgroundHolder = new Image(new SpriteDrawable(questionBackground));
 		questionBackgroundHolder.setSize(questionUI.getWidth(), questionUI.getHeight());
-		playerHpBar = new HPBar();
-		enemyHpBar = new HPBar();
 
-		battleUI.addActor(new EffectActor(background));
-		battleUI.addActor(player);
-		battleUI.addActor(enemy);
-		battleUI.addActor(playerLbl);
-		battleUI.addActor(playerHpBar);
-		battleUI.addActor(enemyLbl);
-		battleUI.addActor(enemyHpBar);
-
+		battleUI.setBackground(new SpriteDrawable(background));
 		battleUI.setWidth(PPTXGame.GAME_WIDTH);
 		battleUI.setHeight(PPTXGame.GAME_HEIGHT / 2);
 		battleUI.setPosition(0, PPTXGame.GAME_HEIGHT / 2);
-
-		player.setPosition(20, 270);
-		player.setSize(150, 150);
-		enemy.setPosition(420, 270);
-		enemy.setSize(250, 250);
-		playerLbl.setPosition(20, 170);
-		playerHpBar.setSize(500, 56);
-		playerHpBar.setX(150);
-		LayoutUtils.alignY(playerHpBar, playerLbl, -10);
-		enemyLbl.setPosition(20, 100);
-		enemyHpBar.setSize(500, 56);
-		enemyHpBar.setX(150);
-		LayoutUtils.alignY(enemyHpBar, enemyLbl, -10);
+		battleUI.left();
+		battleUI.add(player).size(150).left().bottom().padLeft(20);
+		battleUI.add().width(300);
+		battleUI.add(enemy).size(250).right();
+		battleUI.row();
+		battleUI.add(playerLbl).padTop(50);
+		battleUI.add(playerHpBar).size(500, 56).left().padTop(60).colspan(2);
+		battleUI.row();
+		battleUI.add(enemyLbl);
+		battleUI.add(enemyHpBar).size(500, 56).left().padTop(10).colspan(2);
 
 		addActor(questionBackgroundHolder);
 		addActor(questionUI);

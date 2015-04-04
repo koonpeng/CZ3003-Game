@@ -131,7 +131,7 @@ public class ResultStage extends Stage {
 
 			style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle.getBoldFont().getColor());
 
-			String result1 = "Score is " + quiz.getScore();
+			String result1 = "Score is " + quiz.getScore().getScore();
 			lblresult = new Label(result1, style);
 			lblresult.setPosition(166, 798);
 			lblresult.setAlignment(Align.center);
@@ -194,7 +194,7 @@ public class ResultStage extends Stage {
 
 			style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle.getBoldFont().getColor());
 
-			String result1 = "Score is " + quiz.getScore();
+			String result1 = "Score is " + quiz.getScore().getScore();
 			lblresult = new Label(result1, style);
 			lblresult.setPosition(172, 639);
 			lblresult.setAlignment(Align.center);

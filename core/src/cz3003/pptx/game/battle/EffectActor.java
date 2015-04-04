@@ -1,36 +1,39 @@
 package cz3003.pptx.game.battle;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class EffectActor extends Actor {
 
-	private final Sprite sprite;
+	private final Animation animation;
+	private float stateTime = 0;
 
-	public EffectActor(Sprite sprite) {
+	public EffectActor(Animation animation) {
 		super();
-		this.sprite = sprite;
-		setSize(sprite.getWidth(), sprite.getHeight());
+		this.animation = animation;
+		TextureRegion firstFrame = animation.getKeyFrame(0);
+		setSize(firstFrame.getRegionWidth(), firstFrame.getRegionHeight());
 	}
 
-	@Override
-	protected void positionChanged() {
-		super.positionChanged();
-		sprite.setPosition(getX(), getY());
+	public EffectActor(TextureRegion effect) {
+		this(new Animation(1, effect));
 	}
 
-	@Override
-	protected void sizeChanged() {
-		super.sizeChanged();
-		sprite.setSize(getWidth(), getHeight());
+	public void reset() {
+		stateTime = 0;
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		sprite.setColor(getColor());
-		sprite.draw(batch);
+		TextureRegion frame = animation.getKeyFrame(stateTime);
+		batch.setColor(getColor());
+		batch.draw(frame, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(),
+				getRotation());
+
+		stateTime += Gdx.graphics.getDeltaTime();
 		batch.flush();
 	}
-
 }

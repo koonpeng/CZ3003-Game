@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -23,7 +24,7 @@ public class EnemyActor extends BattleActor {
 		sprite = new Sprite(tex);
 
 		tex = PPTXGame.getAssetManager().get("battle/fire.png");
-		fireBreath = new EffectActor(new Sprite(tex, 192, 192, 192, 192));
+		fireBreath = new EffectActor(new TextureRegion(tex, 192, 192, 192, 192));
 
 		attackSound = PPTXGame.getAssetManager().get("sound/explosion.wav");
 
@@ -35,6 +36,7 @@ public class EnemyActor extends BattleActor {
 		Action addActor = Actions.run(new Runnable() {
 			@Override
 			public void run() {
+				fireBreath.reset();
 				addActor(fireBreath);
 			}
 		});
