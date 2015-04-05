@@ -18,6 +18,7 @@ public class Profile{
 	public static Profile instance = new Profile();
 
 	private static final String TAG = Profile.class.getName();
+	private static final int STAGE_LEVELS = 5;
 
 	private final String JSONFilePath = "bin/json_resource/" + "playerProfile.json";
 	private String username;
@@ -27,6 +28,7 @@ public class Profile{
 	private boolean ProfileJsonExists;
 	
 	private boolean[] stageLockedArray;
+	private int[] stageHighScoreArray;
 	
 	//complete object with all the profiles
 	private JSONObject jsonObj;
@@ -53,6 +55,8 @@ public class Profile{
 			this.hasProfile = true;
 			this.stageLockedArray = new boolean[]
 				{false,false,true,true,true};
+			this.stageHighScoreArray = new int[]
+					{20,0,0,0,0};
 			this.dirtyBit = true;
 		}
 	};
@@ -66,6 +70,8 @@ public class Profile{
 		this.hasProfile = true;
 		this.stageLockedArray = new boolean[]
 			{false,true,true,true,true};
+		this.stageHighScoreArray = new int[]
+				{0,0,0,0,0};
 	};
 	
 	//Setter - set dirty bit to true if any set method is used
@@ -91,6 +97,12 @@ public class Profile{
 		this.stageLockedArray[0] = false;
 	}
 	
+	public void setStageHighScoreArray(int[] array){
+		this.dirtyBit = true;
+		stageHighScoreArray = new int[array.length];
+		stageHighScoreArray = Arrays.copyOf(array, array.length);
+	}
+	
 	//Getter
 	public String getUsername(){
 		return this.username;
@@ -112,6 +124,13 @@ public class Profile{
 			return new boolean[]{false,true,true,true,true};
 		}
 		return stageLockedArray;
+	}
+	
+	public int[] getStageHighScoreArray(){
+		if (this.stageHighScoreArray == null) {
+			return new int[]{0,0,0,0,0};
+		}
+		return stageHighScoreArray;
 	}
 	
 	//Create Json file
@@ -183,10 +202,16 @@ public class Profile{
 			this.id = (int) obj.get("id");
 			this.difficulty = (int) obj.get("difficulty");
 			
-			for (int i = 0; i < this.stageLockedArray.length; i++){
+			for (int i = 0; i < this.STAGE_LEVELS; i++){
 				stageName = "stageLocked" + (i+1);
 				this.stageLockedArray[i] = (boolean) obj.get(stageName);
 			}	
+			
+			for (int i = 0; i < this.STAGE_LEVELS; i++){
+				stageName = "stageHighScore" + (i+1);
+				this.stageHighScoreArray[i] = (int) obj.get(stageName);
+			}
+			
 		}catch (FileNotFoundException e){
 			Gdx.app.log(TAG, e.getMessage());
 		}catch (JSONException e){
@@ -244,11 +269,14 @@ public class Profile{
 			obj.put("id", this.id);
 			obj.put("difficulty", this.difficulty);
 
-			for (int i = 0; i < this.stageLockedArray.length; i++){
+			for (int i = 0; i < this.STAGE_LEVELS; i++){
 				stageName = "stageLocked" + (i+1);
 				obj.put(stageName, this.stageLockedArray[i]);
 			}
-
+			for (int i = 0; i < this.STAGE_LEVELS; i++){
+				stageName = "stageHighScore" + (i+1);
+				obj.put(stageName, this.stageHighScoreArray[i]);
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
