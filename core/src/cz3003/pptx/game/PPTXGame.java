@@ -137,7 +137,7 @@ public class PPTXGame extends Game {
 		resultscreen = new ResultScreen(this);
 		loadingscreen = new LoadingScreen(this);
 		// toCreateQuestionScreen(5);
-		this.setScreen(battleScreen);
+		this.setScreen(menuscreen);
 	}
 
 }

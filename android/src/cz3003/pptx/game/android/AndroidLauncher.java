@@ -83,5 +83,4 @@ public class AndroidLauncher extends AndroidApplication implements
 		intent.putExtra("action", "REVOKE_ACCESS");
 		startActivity(intent);
 	}
-
 }

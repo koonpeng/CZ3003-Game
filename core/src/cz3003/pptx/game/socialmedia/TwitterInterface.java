@@ -8,4 +8,7 @@ public interface TwitterInterface extends SocialMediaInterface {
 	@Override
 	public void publishMaterialToSocialMedia(String message);
 	
+	@Override
+	public void populateProfile();
+	
 }

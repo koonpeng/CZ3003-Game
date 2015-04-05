@@ -8,9 +8,11 @@ import android.net.Uri;
 
 import com.badlogic.gdx.Gdx;
 
+import cz3003.pptx.game.socialmedia.Profile;
 import cz3003.pptx.game.socialmedia.SocialMediaSharedVariable;
 import cz3003.pptx.game.socialmedia.TwitterInterface;
 import cz3003.pptx.game.socialmedia.TwitterResource;
+
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -114,6 +116,8 @@ public class AndroidTwitterInterface implements TwitterInterface{
 
            TwitterResource.instance.setTwitterLoggedIn(true);
            SocialMediaSharedVariable.instance.setUserLoggedIn(true);
+           
+           this.populateProfile();
 		}else{
 			Gdx.app.log(TAG, "invalid uri");
 		}
@@ -132,7 +136,7 @@ public class AndroidTwitterInterface implements TwitterInterface{
 	@Override
 	public void publishMaterialToSocialMedia(String message){
 		
-		//check access token and secret is not null
+		//check that access token and secret are not null
 		if (TwitterResource.instance.getOauth_token() == null || 
 			TwitterResource.instance.getOauth_token_secret() == null){
 			Gdx.app.log(TAG, "Access Token not initialized");
@@ -157,5 +161,15 @@ public class AndroidTwitterInterface implements TwitterInterface{
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void populateProfile(){
+		
+		Profile.instance.setUsername(TwitterResource.instance.getUsername());
+    	Profile.instance.retrievePlayerProfile();
+    	Profile.instance.updateJsonObject();
+    	
+    	Gdx.app.log(TAG, ""+Profile.instance.getDifficulty());
 	}
 }

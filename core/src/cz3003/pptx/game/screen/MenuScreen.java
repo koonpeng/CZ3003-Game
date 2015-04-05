@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import cz3003.pptx.game.Constants;
 import cz3003.pptx.game.PPTXGame;
 import cz3003.pptx.game.SelectionScreen;
+import cz3003.pptx.game.socialmedia.Profile;
 import cz3003.pptx.game.socialmedia.SocialMediaSharedVariable;
 import cz3003.pptx.game.socialmedia.TwitterResource;
 
@@ -184,6 +185,7 @@ public class MenuScreen extends AbstractGameScreen{
 	private void onPlayNowClicked(){
 		if (SocialMediaSharedVariable.instance.isUserLoggedIn() ||
 			SocialMediaSharedVariable.instance.isDesktopApplication()){
+			Profile.instance.createTestJsonObj();
 			game.selectionscreen = new SelectionScreen(game);
 			game.setScreen(game.selectionscreen);
 			//game.getTwitterInterface().publishMaterialToSocialMedia(null);

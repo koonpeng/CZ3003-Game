@@ -20,6 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import cz3003.pptx.game.socialmedia.Profile;
+
 public class SelectionStage extends Stage {
 
 	
@@ -98,6 +100,7 @@ public class SelectionStage extends Stage {
 //				}
 			return true;
 			}
+
 		});
 		this.addActor(btnA);
 		
@@ -109,10 +112,10 @@ public class SelectionStage extends Stage {
 		
 		
 		dugeonini(0,0,700,false);
-		dugeonini(1,240,700,Profile.getStageLockedArray()[1]);
-		dugeonini(2,480,700,Profile.getStageLockedArray()[2]);
-		dugeonini(3,120,380,Profile.getStageLockedArray()[3]);
-		dugeonini(4,360,380,Profile.getStageLockedArray()[4]);
+		dugeonini(1,240,700,Profile.instance.getStageLockedArray()[1]);
+		dugeonini(2,480,700,Profile.instance.getStageLockedArray()[2]);
+		dugeonini(3,120,380,Profile.instance.getStageLockedArray()[3]);
+		dugeonini(4,360,380,Profile.instance.getStageLockedArray()[4]);
 		
 		privategirl = new PrivateGirl(Constants.SCREENWIDTH/2, Constants.SCREENHEIGHT/2);
 		//this.addActor(privategirl.backgroundimage);

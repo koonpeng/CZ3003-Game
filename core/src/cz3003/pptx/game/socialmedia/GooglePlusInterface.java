@@ -9,4 +9,7 @@ public interface GooglePlusInterface extends SocialMediaInterface{
 	public void publishMaterialToSocialMedia(String message);
 	
 	public void logoutOfSocialMedia();
+	
+	@Override
+	public void populateProfile();
 }

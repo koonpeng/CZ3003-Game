@@ -8,7 +8,6 @@ import android.content.IntentSender.SendIntentException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.badlogic.gdx.Gdx;
 import com.google.android.gms.common.ConnectionResult;
@@ -19,9 +18,11 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
 
 import cz3003.pptx.game.android.AndroidLauncher;
 import cz3003.pptx.game.socialmedia.GooglePlusInterface;
+import cz3003.pptx.game.socialmedia.Profile;
 import cz3003.pptx.game.socialmedia.SocialMediaSharedVariable;
 
 
@@ -94,7 +95,7 @@ public class AndroidGooglePlusInterface extends Activity implements GooglePlusIn
     	super.onStart();
     	Gdx.app.log(TAG, "onStart ...");
     	
-    	mGoogleApiClient.connect();
+    	//mGoogleApiClient.connect();
     }
     
     @Override
@@ -200,9 +201,9 @@ public class AndroidGooglePlusInterface extends Activity implements GooglePlusIn
 		
 		if (!SocialMediaSharedVariable.instance.isLogOutBtnClicked()){
 			//return to splash page after logging in if not logging out
+			this.populateProfile();
 			Intent intent = new Intent(this, AndroidLauncher.class);
 			startActivity(intent);
-			
 		}
 	}
 
@@ -255,4 +256,28 @@ public class AndroidGooglePlusInterface extends Activity implements GooglePlusIn
                     });
         }
     }
+    
+    @Override
+	public void populateProfile(){
+    	Person currentPerson;
+    	String personName = "";
+    	Gdx.app.log(TAG, "Populating google+ profile");
+    	
+    	if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+    	    currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+    	    personName = currentPerson.getDisplayName();
+    	}else{
+    		Gdx.app.log(TAG, "current person is null");
+    		return;
+    	}
+    	
+    	Gdx.app.log(TAG, personName);
+    	
+    	Profile.instance.setUsername(personName);
+    	Profile.instance.retrievePlayerProfile();
+    	Profile.instance.setDifficulty(2);
+    	Profile.instance.updateJsonObject();
+    	
+    	Gdx.app.log(TAG, ""+Profile.instance.getUserID());
+	}
 }

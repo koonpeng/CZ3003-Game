@@ -1,12 +1,8 @@
-package cz3003.pptx.game;
+package cz3003.pptx.game.socialmedia;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileNotFoundException;
-import java.util.Iterator;
 import java.util.Arrays;
 
 import org.json.JSONException;
@@ -14,32 +10,66 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 
 public class Profile{
+	
+	//Set Profile class as singleton
+	public static Profile instance = new Profile();
 
 	private static final String TAG = Profile.class.getName();
 
-	private static final String JSONFilePath = "" + "playerProfile.json";
+	private final String JSONFilePath = "bin/json_resource/" + "playerProfile.json";
 	private String username;
 	private int id;
 	private int difficulty;
 	private boolean hasProfile;
+	private boolean ProfileJsonExists;
 	
-	private static boolean[] stageLockedArray = new boolean[5];
+	private boolean[] stageLockedArray;
 	
 	//complete object with all the profiles
 	private JSONObject jsonObj;
+	
 	private boolean dirtyBit;
 	
-	//Constructor
-	public Profile(String username){
+	private Profile(){
+		Gdx.app.log(TAG, "Profile instance created");
+		
+		String locRoot = Gdx.files.getLocalStoragePath();
+		Gdx.app.log(TAG, locRoot);
+		
+		ProfileJsonExists = 
+				Gdx.files.local(this.JSONFilePath).exists();
+		if (ProfileJsonExists == false){
+			Gdx.app.log(TAG, "Profile json does not exists");
+		}
+		
+		if (SocialMediaSharedVariable.instance.isDesktopApplication()){
+			Gdx.app.log(TAG, "Desktop app detected");
+			this.username = "Default user";
+			this.difficulty = 2;
+			this.id = 9;
+			this.hasProfile = true;
+			this.stageLockedArray = new boolean[]
+				{false,false,true,true,true};
+			this.dirtyBit = true;
+		}
+	};
+	
+	public void setNewProfile(String username){
+		Gdx.app.log(TAG, "New Profile Set");
 		this.username = username;
 		this.id = -1;
 		this.difficulty = -1;
-		this.dirtyBit = false;
-	}
+		this.dirtyBit = true;
+		this.hasProfile = true;
+		this.stageLockedArray = new boolean[]
+			{false,true,true,true,true};
+	};
 	
-	//Setter
+	//Setter - set dirty bit to true if any set method is used
+	//dirty bit is used to determine if update is required or not
 	public void setUsername(String username){
 		this.dirtyBit = true;
 		this.username = username;
@@ -53,7 +83,12 @@ public class Profile{
 		this.difficulty = difficulty;
 	}
 	public void setStageLockedArray(boolean[] array){
-		this.stageLockedArray = Arrays.copyOf(array, 5);
+		this.dirtyBit = true;
+		stageLockedArray = new boolean[array.length];
+		this.stageLockedArray = Arrays.copyOf(array, array.length);
+		
+		//Enforce that stage 1 is always unlocked
+		this.stageLockedArray[0] = false;
 	}
 	
 	//Getter
@@ -72,19 +107,22 @@ public class Profile{
 	public boolean getDirtyBit(){
 		return this.dirtyBit;
 	}
-	public static boolean[] getStageLockedArray(){
+	public boolean[] getStageLockedArray(){
+		if (this.stageLockedArray == null) {
+			return new boolean[]{false,true,true,true,true};
+		}
 		return stageLockedArray;
 	}
 	
-	//Create json file
-	private void createTestJsonFile(){
-	
+	//Create Json file
+	public void createTestJsonObj(){
+		Gdx.app.log(TAG, "Create Test Json");
 		JSONObject obj = new JSONObject();
 		
 		try {
 			obj.put("username", "paul");
 			obj.put("id", "100");
-			obj.put("stageOneUnlock", false);
+			obj.put("stageOneUnlock", true);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -92,15 +130,21 @@ public class Profile{
 		writeJSONFile(obj);
 	}
 	
-	//overwrite json file with new data
+	//Write Json file to local drive
 	public void writeJSONFile(JSONObject obj){
 		
+		Gdx.app.log(TAG, "Writing Json File");
+		
 		try {
-			 
-			FileWriter file = new FileWriter(this.JSONFilePath);
-			file.write(obj.toString());
-			file.flush();
-			file.close();
+			FileHandle fileHandle = Gdx.files.local(this.JSONFilePath);
+			if (ProfileJsonExists){
+				// True means append, false means overwrite.
+				fileHandle.writeString(obj.toString(), false);
+			}else{
+				fileHandle.file().getParentFile().mkdirs();
+				fileHandle.file().createNewFile();
+				fileHandle.writeString(obj.toString(), false);
+			}
 	 
 		} catch (IOException e) {
 			Gdx.app.log(TAG, e.getMessage());
@@ -108,32 +152,41 @@ public class Profile{
 	}
 
 	//Retrieve player profile from JSON file
-	public void retrievePlayerProfile() throws IOException{
+	public void retrievePlayerProfile(){
+		
+		this.dirtyBit = false;
 		BufferedReader br = null;
 		JSONTokener tokener = null;
 		JSONObject obj = null;
 		String jsonString;
-		String stageLocked;
 		String stageName;
 		
 		try{
-			br = new BufferedReader(new FileReader(this.JSONFilePath));
+			FileHandle fileHandle = Gdx.files.local(this.JSONFilePath);
+			br = new BufferedReader(fileHandle.reader());
 			jsonString = br.readLine();
 			tokener = new JSONTokener(jsonString);
 			
+			
 			this.jsonObj = new JSONObject(tokener);
+			
+			try{
 			obj = this.jsonObj.getJSONObject(this.username);
+			}catch (JSONException e){
+				Gdx.app.log(TAG, "username not found in class");
+				this.setNewProfile(this.username);
+				br.close();
+				return;
+			}
 			
 			//populate the data
 			this.id = (int) obj.get("id");
 			this.difficulty = (int) obj.get("difficulty");
 			
-			for (int i = 0; i < 5; i++){
+			for (int i = 0; i < this.stageLockedArray.length; i++){
 				stageName = "stageLocked" + (i+1);
 				this.stageLockedArray[i] = (boolean) obj.get(stageName);
-			}
-			br.close();
-			
+			}	
 		}catch (FileNotFoundException e){
 			Gdx.app.log(TAG, e.getMessage());
 		}catch (JSONException e){
@@ -142,6 +195,12 @@ public class Profile{
 			Gdx.app.log(TAG, e.getMessage());
 		}catch (Exception e){
 			e.printStackTrace();
+		}finally{
+			try {
+				br.close();
+			} catch (IOException e) {
+				Gdx.app.log(TAG, e.getMessage());
+			}
 		}
 		
 		//if no exception is raised, then we have a valid user profile
@@ -151,9 +210,12 @@ public class Profile{
 	//Add / Update new player profile in JSON
 	public void updateJsonObject(){
 		
+		Gdx.app.log(TAG, "Updating Json File");
+		
 		JSONObject obj;
 	
 		if (this.getDirtyBit()){
+			//if username is not found, this stmt does nothing
 			this.jsonObj.remove(this.username);
 			obj = generateProfileObject();
 			try {
@@ -170,8 +232,10 @@ public class Profile{
 		}
 	}
 	
-	public JSONObject generateProfileObject(){
+	private JSONObject generateProfileObject(){
 	
+		Gdx.app.log(TAG, "Generating Profile Json");
+		
 		String stageName;
 	
 		JSONObject obj = new JSONObject();
@@ -179,11 +243,12 @@ public class Profile{
 			obj.put("username", this.username);
 			obj.put("id", this.id);
 			obj.put("difficulty", this.difficulty);
-			
-			for (int i = 0; i < 5; i++){
+
+			for (int i = 0; i < this.stageLockedArray.length; i++){
 				stageName = "stageLocked" + (i+1);
 				obj.put(stageName, this.stageLockedArray[i]);
 			}
+
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
