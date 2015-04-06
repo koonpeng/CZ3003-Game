@@ -14,10 +14,10 @@ public class CreateQuestionScreen implements Screen{
 
 	Stage stage;
 	CreateQuestion createquestion;
-	public CreateQuestionScreen(int questionnumber)
+	public CreateQuestionScreen(int questionnumber,boolean b)
 	{
 
-		createquestion=new CreateQuestion(questionnumber);
+		createquestion=new CreateQuestion(questionnumber,b);
 		
 	}
 

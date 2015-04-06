@@ -83,8 +83,8 @@ public class Quiz {
 		return null;
 	}
 
-	public Score getScore() {
-		return current;
+	public int getScore() {
+		return current.getScore();
 	}
 
 	// /////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,7 +101,7 @@ public class Quiz {
 		int i = 0;
 		while ((line = br.readLine()) != null) {
 			qna[i] = line;
-			// System.out.println(line);
+			
 			i++;
 		}
 

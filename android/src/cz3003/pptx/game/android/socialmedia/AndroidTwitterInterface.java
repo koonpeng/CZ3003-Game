@@ -157,7 +157,7 @@ public class AndroidTwitterInterface implements TwitterInterface{
 		Status status;
 		try {
 			status = authorizedTwitter.updateStatus(mess);
-			System.out.println(status.getText());
+			
 		} catch (TwitterException e) {
 			e.printStackTrace();
 		}

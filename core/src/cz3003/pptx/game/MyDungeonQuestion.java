@@ -9,6 +9,9 @@ import java.io.IOException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+
 
 public class MyDungeonQuestion {
 	
@@ -98,20 +101,19 @@ public class MyDungeonQuestion {
 	
 	//write out qns to file(change to append)
 	public void commitQns(){
+		
 		try {
  
 			File file = new File(userid+"student.txt");
 			if (!file.exists()) {
 				file.createNewFile();
 			}
-			else if(file.exists()){
-				file.delete();
-			}
+
 			FileWriter fw = new FileWriter(file,true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			int i=0;
 			while(i != size){
-			bw.write(custom_test[i]);
+			bw.write(custom_test[i]+"\n");
 			i++;
 			}
 			bw.close();

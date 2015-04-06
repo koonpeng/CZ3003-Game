@@ -37,6 +37,9 @@ public class ImgFile {
 	//treasure
 	//loading part
 	public static FileHandle treasureaction=Gdx.files.internal("action.png");
+	//result page
+	public static FileHandle leaderboardbackbutton=Gdx.files.internal("leaderboard/backbutton.png");
+	public static FileHandle leaderboardback=Gdx.files.internal("leaderboard/leaderoard.png");
 	
 	
 }

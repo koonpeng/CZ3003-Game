@@ -34,7 +34,15 @@ public class Profile{
 	private JSONObject jsonObj;
 	
 	private boolean dirtyBit;
-	
+	private int accessdugeonid;
+	public int getAccessdugeonid() {
+		return accessdugeonid;
+	}
+
+	public void setAccessdugeonid(int accessdugeonid) {
+		this.accessdugeonid = accessdugeonid;
+	}
+
 	private Profile(){
 		Gdx.app.log(TAG, "Profile instance created");
 		

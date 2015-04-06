@@ -76,19 +76,24 @@ public class CreateQuestion extends Stage {
 	int currentQuestionIndex;
 
 	MyDungeonQuestion mydungeonquestion;
+	ManageQuestion managequestion;
 	int numberofquestions;
 
+	//create question or edit question
+	boolean createoredit;//create=true edit=flase
 	@Override
 	public void draw() {
 		// TODO Auto-generated method stub
 		super.draw();
 	}
 
-	public CreateQuestion(int questionnumber) {
+	public CreateQuestion(int questionnumber,boolean b) {
 		super();
+		
 		numberofquestions = questionnumber;
 		currentQuestionIndex = 0;
-		uiinit();
+		if(b)
+		{
 		try {
 			mydungeonquestion = new MyDungeonQuestion("username",
 					questionnumber);
@@ -96,6 +101,21 @@ public class CreateQuestion extends Stage {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		}
+		else
+		{
+			try {
+				
+				managequestion = new ManageQuestion("username");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		uiinit();
+		createoredit=b;
+		
+		
 		// displaylblbut();
 
 	}
@@ -109,11 +129,23 @@ public class CreateQuestion extends Stage {
 		cusquestion[4] = lblABCD[3].getText().toString();
 		cusquestion[5] = lblABCD[4].getText().toString();
 		cusquestion[6] = lblABCD[5].getText().toString();
+		if(createoredit)
+		{
 		try {
 			mydungeonquestion.addQns(cusquestion, currentQuestionIndex);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		}
+		else
+		{
+			try {
+				managequestion.editQns(cusquestion,currentQuestionIndex);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -130,7 +162,8 @@ public class CreateQuestion extends Stage {
 			submitimage.setVisible(false);
 			backimage.setVisible(true);
 		}
-
+		if(createoredit)
+		{
 		try {
 			String returnquestion[] = new String[7];
 			returnquestion = mydungeonquestion.getQnsPos(currentQuestionIndex);
@@ -141,7 +174,20 @@ public class CreateQuestion extends Stage {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}}
+		else
+		{
+			try {
+				String returnquestion[] = new String[7];
+				returnquestion = managequestion.getQnsPos(currentQuestionIndex);
+				for (int i = 0; i < 6; i++) {
+					lblABCD[i].setText(returnquestion[i + 1]);
+				}
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+		}}
 
 	}
 
@@ -165,8 +211,14 @@ public class CreateQuestion extends Stage {
 		}
 
 		try {
-
+			if(createoredit)
+			{
 			returnquestion = mydungeonquestion.getQnsPos(currentQuestionIndex);
+			}
+			else
+			{
+				returnquestion = managequestion.getQnsPos(currentQuestionIndex);
+			}
 			if (returnquestion == null) {
 				if (currentQuestionIndex < numberofquestions - 1) {
 
@@ -268,7 +320,15 @@ public class CreateQuestion extends Stage {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// TODO Auto-generated method stub
+				saveQuestion();
+				if(createoredit)
+				{
 				mydungeonquestion.commitQns();
+				}
+				else
+				{
+					managequestion.commitQns();
+				}
 				PPTXGame.toQuestionListScreen();
 				return true;
 			}
@@ -325,39 +385,24 @@ public class CreateQuestion extends Stage {
 		nextimage.setVisible(true);
 		submitimage.setVisible(false);
 		backimage.setVisible(false);
+		if(!createoredit)
+		{
+			String returnquestion[] = new String[7];
+			try {
+				returnquestion = managequestion.getQnsPos(0);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			for (int i = 0; i < 6; i++) {
+				lblABCD[i].setText(returnquestion[i + 1]);
+			}
+
+		}
 
 	}
 
-	// private void displaylblbut() {
-	// if (test.getKind() == 0) {
-	// lblA.setVisible(true);
-	// lblB.setVisible(true);
-	// lblC.setVisible(true);
-	// lblD.setVisible(true);
-	// lblT.setVisible(false);
-	// lblF.setVisible(false);
-	// btnABCDTF[0].setVisible(true);
-	// btnABCDTF[1].setVisible(true);
-	// btnABCDTF[2].setVisible(true);
-	// btnABCDTF[3].setVisible(true);
-	// btnABCDTF[4].setVisible(false);
-	// btnABCDTF[5].setVisible(false);
-	//
-	// } else {
-	// lblA.setVisible(false);
-	// lblB.setVisible(false);
-	// lblC.setVisible(false);
-	// lblD.setVisible(false);
-	// lblT.setVisible(true);
-	// lblF.setVisible(true);
-	// btnABCDTF[0].setVisible(false);
-	// btnABCDTF[1].setVisible(false);
-	// btnABCDTF[2].setVisible(false);
-	// btnABCDTF[3].setVisible(false);
-	// btnABCDTF[4].setVisible(true);
-	// btnABCDTF[5].setVisible(true);
-	// }
-	// }
+
 	private void lblini(final String answer, final int index, int x, int y) {
 			lblABCD[index] = new Label(answer, style2);
 			//lblABCD[index].setPosition(x, y);

@@ -1,5 +1,9 @@
 package cz3003.pptx.game;
 
+import java.io.IOException;
+
+import org.json.JSONException;
+
 import jdk.internal.util.xml.impl.Input;
 
 import com.badlogic.gdx.Gdx;
@@ -55,7 +59,8 @@ public class QuestionListStage extends Stage {
 	Image backgroundimage;
 	Image createquestionimage;
 	Image managequestionimage;
-
+	
+	ManageQuestion managequestion;
 	public QuestionListStage() {
 		super();
 	
@@ -71,6 +76,7 @@ public class QuestionListStage extends Stage {
 	public void init(Boolean result) {
 		
 		
+	
 		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle
 						.getBoldFont().getColor());
 		style = new LabelStyle(CusFontStyle.getNormalFont(), CusFontStyle
@@ -95,7 +101,7 @@ public class QuestionListStage extends Stage {
 								 @Override
 								 public void run() {
 								 // 产生结果
-									 PPTXGame.toCreateQuestionScreen(Integer.parseInt(userinput));;
+									 PPTXGame.toCreateQuestionScreen(Integer.parseInt(userinput),true);;
 								 }
 								 });
 
@@ -117,19 +123,66 @@ public class QuestionListStage extends Stage {
 		});
 		this.addActor(createquestionimage);
 		
+		
+		
+		//question set list part
+		
+		try {
+			managequestion = new ManageQuestion("username");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(managequestion.getLength()!=-1)
+		{
+			int rowcount=managequestion.getLength();
+			Table table=new Table();
+			table.setPosition(380,700);
+			Label lblindex=new Label("index",style);
+			Label lblquestion=new Label("Question Title",style);
+			table.add(lblindex).width(120).align(Align.center).pad(10);;
+			table.add(lblquestion).width(500);
+			for(int i=0;i<rowcount;i++)
+			{
+				
+				String retrivequestion[]=new String[7];
+				try {
+					retrivequestion=managequestion.getQnsPos(i);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				table.row();
+				String i2=String.valueOf(i);
+				Label labelcount=new Label(i2,style);
+				Label lbltitle=new Label(retrivequestion[1],style);
+				lbltitle.setWrap(true);
+				table.add(labelcount).width(120).align(Align.center).pad(10);
+				table.add(lbltitle).width(500);
+				
+				
+			}
+			this.addActor(table);
+			
+		}
 		managequestionimage = new Image(new Texture(ImgFile.managequestionbutton));
 		managequestionimage.setPosition(130, 130);
 		
 		managequestionimage.addListener(new InputListener() {
-			String userinput;
+			
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// TODO Auto-generated method stub
-			
-					
-					
-					
+				
+				if(managequestion.getLength()!=-1)
+				{
+				
+				PPTXGame.toCreateQuestionScreen(managequestion.getLength(),false);;//to edit question
+				
+				}
 				return true;
 			}
 
@@ -139,21 +192,8 @@ public class QuestionListStage extends Stage {
 		lblquestionsets.setPosition(50, 1100);
 		this.addActor(lblquestionsets);
 		
-		Table table=new Table();
-		table.setPosition(380,1000);
-		Label lblindex=new Label("index",style);
-		Label lblquestion=new Label("Question Title",style);
-		table.add(lblindex).width(120).align(Align.center).pad(10);;
-		table.add(lblquestion).width(500);
 		
-		table.row();
-		Label labelcount=new Label("1",style);
-		Label lbltitle=new Label("What i want to know is that .........",style);
-		lbltitle.setWrap(true);
-		table.add(labelcount).width(120).align(Align.center).pad(10);;
-		table.add(lbltitle).width(500);
 		
-		this.addActor(table);
 		
 		
 		

@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import cz3003.pptx.game.Treasure.STATE;
 import cz3003.pptx.game.battle.quiz.Quiz;
+import cz3003.pptx.game.socialmedia.Profile;
 
 public class ResultStage extends Stage {
 	// @Override
@@ -131,7 +132,7 @@ public class ResultStage extends Stage {
 
 			style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle.getBoldFont().getColor());
 
-			String result1 = "Score is " + quiz.getScore().getScore();
+			String result1 = "Score is " + quiz.getScore();
 			lblresult = new Label(result1, style);
 			lblresult.setPosition(166, 798);
 			lblresult.setAlignment(Align.center);
@@ -194,7 +195,7 @@ public class ResultStage extends Stage {
 
 			style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle.getBoldFont().getColor());
 
-			String result1 = "Score is " + quiz.getScore().getScore();
+			String result1 = "Score is " + quiz.getScore();
 			lblresult = new Label(result1, style);
 			lblresult.setPosition(172, 639);
 			lblresult.setAlignment(Align.center);
@@ -217,6 +218,16 @@ public class ResultStage extends Stage {
 	public void updatescore() {
 		String result = "Your Score is " + quiz.getScore();
 		lblresult.setText(result);
+		
+		int[] highScoreArray = Profile.instance.getStageHighScoreArray();
+		if(highScoreArray[Profile.instance.getAccessdugeonid()] <quiz.getScore() )
+		{
+		highScoreArray[Profile.instance.getAccessdugeonid()] =quiz.getScore() ;
+		Profile.instance.setStageHighScoreArray(highScoreArray);
+		}
+		
+		
+		
 	}
 
 	public void backtomain() {

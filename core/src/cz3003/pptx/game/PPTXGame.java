@@ -40,6 +40,7 @@ public class PPTXGame extends Game {
 	LoadingScreen loadingscreen;
 	MenuScreen menuscreen;
 	private static CreateQuestionScreen creatquestionscreen;
+	 LeaderBoardScreen leaderboardscreen;
 	static QuestionListScreen questionlistscreen;
 
 	public static final int GAME_WIDTH = 720;
@@ -78,8 +79,10 @@ public class PPTXGame extends Game {
 		pptxGame.setScreen(battleScreen);
 	}
 
-	public static void toCreateQuestionScreen(int questionnumber) {
-		creatquestionscreen = new CreateQuestionScreen(questionnumber);
+	public static void toCreateQuestionScreen(int questionnumber, boolean b) {
+		
+		creatquestionscreen = new CreateQuestionScreen(questionnumber,b);
+		
 		pptxGame.setScreen(creatquestionscreen);
 	}
 
@@ -137,7 +140,8 @@ public class PPTXGame extends Game {
 		resultscreen = new ResultScreen(this);
 		loadingscreen = new LoadingScreen(this);
 		// toCreateQuestionScreen(5);
-		this.setScreen(menuscreen);
+		leaderboardscreen=new LeaderBoardScreen(this);
+		this.setScreen(leaderboardscreen);
 	}
 
 }

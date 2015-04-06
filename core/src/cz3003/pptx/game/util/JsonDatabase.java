@@ -20,16 +20,19 @@ public class JsonDatabase {
 	private static final String DIR_PATH = "bin/json_resource/";
 	private static final String FILE_EXT = ".json";
 	
+	private boolean ProfileJsonExists;
+	String filePath;
+	
 	public void storeAsJson(Object obj, String fileName){
 	
 		Gdx.app.log(TAG, "Storing object as Json");
 	
 		JSONObject jObj = new JSONObject(obj);
-		String filePath;
+		
 		try{
 		
 			filePath = this.DIR_PATH + fileName + this.FILE_EXT;
-			FileHandle fileHandle = Gdx.files.local(this.JSONFilePath);
+			FileHandle fileHandle = Gdx.files.local(filePath);
 			
 			//check if file exists
 			ProfileJsonExists = 
@@ -61,7 +64,7 @@ public class JsonDatabase {
 		String jString;
 		JSONObject jObj = null;
 		JSONTokener jTokener = null;
-		BufferedReader bufferedReader;
+		BufferedReader bufferedReader = null;
 		
 		filePath = this.DIR_PATH + fileName + this.FILE_EXT;
 		
@@ -76,7 +79,7 @@ public class JsonDatabase {
 		
 		try{
 		
-			FileHandle fileHandle = Gdx.files.local(this.JSONFilePath);
+			FileHandle fileHandle = Gdx.files.local(filePath);
 			bufferedReader = new BufferedReader(fileHandle.reader());
 			jString = bufferedReader.readLine();
 			jTokener = new JSONTokener(jString);
@@ -89,7 +92,12 @@ public class JsonDatabase {
 		}catch (Exception e){
 			Gdx.app.log(TAG, e.getMessage());
 		}finally{
-			bufferedReader.close();
+			try {
+				bufferedReader.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return jObj;
