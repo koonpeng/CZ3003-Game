@@ -1,6 +1,9 @@
 package cz3003.pptx.game.util;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -14,25 +17,83 @@ import com.badlogic.gdx.files.FileHandle;
 
 public class JsonDatabase {
 	private static final String TAG = JsonDatabase.class.getName();
-	private static final String DIR_PATH = "bin/json_resource";
+	private static final String DIR_PATH = "bin/json_resource/";
+	private static final String FILE_EXT = ".json";
 	
-	private boolean fileExist;
-	private String filePath;
+	public void storeAsJson(Object obj, String fileName){
 	
-	public void storeAsJson(Object obj){
+		Gdx.app.log(TAG, "Storing object as Json");
+	
+		JSONObject jObj = new JSONObject(obj);
+		String filePath;
+		try{
 		
-	}
-	
-	public Object retrieveAsJson(Object obj, String fileName){
-		
-		//check if file exist
-		fileExist = 
-				Gdx.files.local(this.DIR_PATH + fileName).exists();
-		if (fileExist == false){
-			Gdx.app.log(TAG, "Profile json does not exists");
+			filePath = this.DIR_PATH + fileName + this.FILE_EXT;
+			FileHandle fileHandle = Gdx.files.local(this.JSONFilePath);
+			
+			//check if file exists
+			ProfileJsonExists = 
+				Gdx.files.local(filePath).exists();
+			
+			//make the file if it does not exists
+			if (!ProfileJsonExists){
+				fileHandle.file().getParentFile().mkdirs();
+				fileHandle.file().createNewFile();
+			}
+
+			// True means append, false means overwrite.
+			fileHandle.writeString(jObj.toString(), false);
+			
+			
+		}catch(IOException e){
+			Gdx.app.log(TAG, e.getMessage());
+		}catch(Exception e){
+			Gdx.app.log(TAG, e.getMessage());
 		}
 		
-		
-		return obj;
+		System.out.println(jObj);
 	}
+	
+	public JSONObject retrieveAsJson(String fileName){
+	
+		Gdx.app.log(TAG, "Retrieving Json File");
+
+		String jString;
+		JSONObject jObj = null;
+		JSONTokener jTokener = null;
+		BufferedReader bufferedReader;
+		
+		filePath = this.DIR_PATH + fileName + this.FILE_EXT;
+		
+		//check if file exists
+		ProfileJsonExists = 
+			Gdx.files.local(filePath).exists();
+			
+		if (!ProfileJsonExists){
+			Gdx.app.log(TAG, filePath + " does not exists.");
+			return null;
+		}
+		
+		try{
+		
+			FileHandle fileHandle = Gdx.files.local(this.JSONFilePath);
+			bufferedReader = new BufferedReader(fileHandle.reader());
+			jString = bufferedReader.readLine();
+			jTokener = new JSONTokener(jString);
+			jObj = new JSONObject(jTokener);
+
+		}catch(IOException e){
+			Gdx.app.log(TAG, e.getMessage());
+		}catch (JSONException e){
+			Gdx.app.log(TAG, e.getMessage());
+		}catch (Exception e){
+			Gdx.app.log(TAG, e.getMessage());
+		}finally{
+			bufferedReader.close();
+		}
+		
+		return jObj;
+	}
+	
+	//implement methods to convert JsonObject to required object here.
 }
