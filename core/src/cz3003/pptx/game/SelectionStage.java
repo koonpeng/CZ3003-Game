@@ -88,7 +88,8 @@ public class SelectionStage extends Stage {
 				int dungeonid=stagesensation();
 				if(dungeonid!=-1)
 				{
-					//game.toBattleScreen(dungeonid, name);
+					
+					game.toBattleScreen(dungeonid, Profile.instance.getUsername());
 					// game.setScreen(game.questionscreen);
 				}
 //				System.out.print("x is :" + PrivateGirl.x + " y is :"
@@ -123,7 +124,7 @@ public class SelectionStage extends Stage {
 		this.addActor(privategirl.touchpad);
 		Hp monsterhp = new Hp(200, 1200, 3);
 		this.addActor(monsterhp);
-		lblchoosedungeon = new Label("Choose a dungeon", style);
+		lblchoosedungeon = new Label("Choose a dungeon: ", style);
 		lblchoosedungeon.setPosition(0, 1080);
 
 		lblchoosedungeon.setWidth(720);

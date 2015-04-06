@@ -12,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
+import cz3003.pptx.game.socialmedia.Profile;
+
 
 public class TopBar {
 
@@ -27,13 +29,14 @@ public class TopBar {
 	public static Group getTopbar()
 	{
 		
+		style = new LabelStyle(PPTXGame.getAssetManager().get("calibri36.ttf", BitmapFont.class), Color.BLACK);
 		
-		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle.getBoldFont().getColor());
 		if(lbllogin==null)
 		{
 			topbar=new Group();
 			/* ******Label Control Title Part****** */
-			lbllogin = new Label("Login:", style);
+			lbllogin = new Label(
+					Profile.instance.getUsername(), style);
 			lbllogin.setPosition(0, 1180);
 			//lbllogin.setFontScale(2);
 			lbllogin.setWidth(200);
@@ -60,7 +63,6 @@ public class TopBar {
 			lblsetting.setAlignment(Align.center);
 			
 			
-		
 			topbar.addActor(lbllogin);
 			topbar.addActor(lblsetting);
 		

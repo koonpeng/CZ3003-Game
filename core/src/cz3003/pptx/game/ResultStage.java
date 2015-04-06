@@ -183,7 +183,7 @@ public class ResultStage extends Stage {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 					// TODO Auto-generated method stub
-					game.setScreen(game.selectionscreen);
+					game.setScreen(game.leaderboardscreen);
 					return true;
 				}
 			});
@@ -224,6 +224,7 @@ public class ResultStage extends Stage {
 		{
 		highScoreArray[Profile.instance.getAccessdugeonid()] =quiz.getScore() ;
 		Profile.instance.setStageHighScoreArray(highScoreArray);
+		
 		}
 		
 		
