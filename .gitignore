@@ -48,7 +48,6 @@ local.properties
 .loadpath
 .externalToolBuilders/
 *.launch
-.svn
 
 ## Gradle
 .gradle
