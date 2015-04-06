@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 public class CusFontStyle {
 	private static BitmapFont normalfont;
 	private static BitmapFont boldfont;
+	private static BitmapFont leaderboardfont;
 	public static BitmapFont getNormalFont() {
 		if (normalfont == null) {
 			FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
@@ -39,5 +40,20 @@ public class CusFontStyle {
 			
 		}
 		return boldfont;
+	}
+	public static BitmapFont getLeaderboardFont() {
+		if (leaderboardfont == null) {
+			FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
+					Gdx.files.internal("font/font_bold.ttf"));
+			FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+			parameter.size = 24;
+			leaderboardfont = generator.generateFont(parameter); // font size
+																	// 12 pixels
+			generator.dispose(); // don't forget to dispose to avoid memory
+									// leaks!
+			leaderboardfont.setColor(Color.WHITE);
+			
+		}
+		return leaderboardfont;
 	}
 }

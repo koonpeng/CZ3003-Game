@@ -9,6 +9,7 @@ public class ImgFile {
 	//data selection part
 	public static FileHandle smallwukongimg=Gdx.files.internal("privategirl.png");
 	public static FileHandle smallwukongbackground=Gdx.files.internal("loading.jpg");
+	public static FileHandle dugeonbackground=Gdx.files.internal("dugeon/background.png");
 	
 	public static FileHandle dungeon=Gdx.files.internal("dugeon/dugeon.pack");
 	//fighting part

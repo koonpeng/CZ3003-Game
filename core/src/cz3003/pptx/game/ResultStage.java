@@ -94,7 +94,7 @@ public class ResultStage extends Stage {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 					// TODO Auto-generated method stub
-					game.setScreen(game.selectionscreen);
+					PPTXGame.toSelectionScreen();
 					return true;
 				}
 			});
@@ -107,7 +107,7 @@ public class ResultStage extends Stage {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 					// TODO Auto-generated method stub
-					game.setScreen(game.selectionscreen);
+					game.toBattleScreen(SelectionStage.getCurrentDungeon());;
 					return true;
 				}
 			});
@@ -120,7 +120,7 @@ public class ResultStage extends Stage {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 					// TODO Auto-generated method stub
-					game.setScreen(game.selectionscreen);
+					game.setScreen(game.leaderboardscreen);
 					return true;
 				}
 			});
@@ -157,7 +157,8 @@ public class ResultStage extends Stage {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 					// TODO Auto-generated method stub
-					game.setScreen(game.selectionscreen);
+					PPTXGame.toSelectionScreen();
+					
 					return true;
 				}
 			});
@@ -170,7 +171,8 @@ public class ResultStage extends Stage {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 					// TODO Auto-generated method stub
-					game.setScreen(game.selectionscreen);
+					game.toBattleScreen(SelectionStage.getCurrentDungeon());;
+					
 					return true;
 				}
 			});
@@ -184,6 +186,7 @@ public class ResultStage extends Stage {
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 					// TODO Auto-generated method stub
 					game.setScreen(game.leaderboardscreen);
+					
 					return true;
 				}
 			});

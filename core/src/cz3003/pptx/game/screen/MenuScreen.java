@@ -186,8 +186,7 @@ public class MenuScreen extends AbstractGameScreen{
 		if (SocialMediaSharedVariable.instance.isUserLoggedIn() ||
 			SocialMediaSharedVariable.instance.isDesktopApplication()){
 			Profile.instance.createTestJsonObj();
-			game.selectionscreen = new SelectionScreen(game);
-			game.setScreen(game.selectionscreen);
+			PPTXGame.toSelectionScreen();
 			//game.getTwitterInterface().publishMaterialToSocialMedia(null);
 		}else{
 			Gdx.app.log(TAG, "unable to go to game screen, user is not logged in");

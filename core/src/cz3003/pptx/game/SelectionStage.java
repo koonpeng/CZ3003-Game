@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import cz3003.pptx.game.socialmedia.Profile;
@@ -44,14 +45,19 @@ public class SelectionStage extends Stage {
 	
 	Image[] imageDungeon;
 	private static int DUNGEONNO=5;
-	public SelectionStage(PPTXGame game) {
+	private static int currentDungeon;
+
+	public SelectionStage() {
 		super();
-		this.game = game;
 		
+		//super(new StretchViewport(PPTXGame.GAME_WIDTH, PPTXGame.GAME_HEIGHT));
 		
 		init();
 	
 	
+	}
+	public static int getCurrentDungeon() {
+		return currentDungeon;
 	}
 	private int stagesensation()
 	{
@@ -69,6 +75,9 @@ public class SelectionStage extends Stage {
 		
 	}
 	public void init() {
+		Image dugeonbackgroundimg=new Image(new Texture(ImgFile.dugeonbackground));
+		dugeonbackgroundimg.setPosition(0, 140);
+		this.addActor(dugeonbackgroundimg);
 		imageDungeon=new Image[DUNGEONNO];
 		
 		// button A part
@@ -88,7 +97,7 @@ public class SelectionStage extends Stage {
 				int dungeonid=stagesensation();
 				if(dungeonid!=-1)
 				{
-					
+					currentDungeon=dungeonid;
 					game.toBattleScreen(dungeonid, Profile.instance.getUsername());
 					// game.setScreen(game.questionscreen);
 				}
@@ -105,7 +114,7 @@ public class SelectionStage extends Stage {
 		});
 		this.addActor(btnA);
 		
-		style =new LabelStyle(CusFontStyle.getNormalFont(), CusFontStyle.getNormalFont().getColor());
+		style = new LabelStyle(PPTXGame.getAssetManager().get("calibri36.ttf", BitmapFont.class), Color.BLACK);
 	
 		this.addActor(TopBar.getTopbar());
 		
@@ -132,6 +141,7 @@ public class SelectionStage extends Stage {
 		lblchoosedungeon.setWrap(true);
 		lblchoosedungeon.setAlignment(Align.topLeft);
 		this.addActor(lblchoosedungeon);
+		
 		
 	}
 	private void dugeonini(int index,int x, int y,Boolean lock)

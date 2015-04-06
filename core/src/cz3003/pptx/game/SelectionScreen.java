@@ -14,17 +14,13 @@ public class SelectionScreen implements Screen {
 	PPTXGame game;
 	SelectionStage selectionstage;
 	 
-	public SelectionScreen(PPTXGame game)
-	{
-		this.game=game;
-		
-	}
+
 
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
 		
-		selectionstage=new SelectionStage(game);
+		selectionstage=new SelectionStage();
 		selectionstage.setViewport(AndroidView.getview());
 		Gdx.input.setInputProcessor(selectionstage);
 		

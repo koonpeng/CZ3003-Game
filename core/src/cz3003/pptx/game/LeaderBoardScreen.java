@@ -32,7 +32,7 @@ public class LeaderBoardScreen  implements Screen {
 		backgroundimg.setPosition(0, 0);
 		
 		Image backbuttonimg=new Image(new Texture(ImgFile.leaderboardbackbutton));
-		backbuttonimg.setPosition(40, 692);
+		backbuttonimg.setPosition(40, 120);
 		backbuttonimg.addListener(new InputListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
@@ -44,35 +44,35 @@ public class LeaderBoardScreen  implements Screen {
 			
 		});
 
-		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle.getBoldFont().getColor());
+		style = new LabelStyle(CusFontStyle.getLeaderboardFont(), CusFontStyle.getLeaderboardFont().getColor());
 		int[] highScoreArray = Profile.instance.getStageHighScoreArray();
 		Label lblfirstname= new Label("Wang Bowen", style);
-		lblfirstname.setPosition(415, 997);
+		lblfirstname.setPosition(348, 734);
 		lblfirstname.setSize(180, 43);
-		lblfirstname.setAlignment(Align.center);
+		lblfirstname.setAlignment(Align.left);
 		Label lblsecondname= new Label("Tang Chen", style);
-		lblsecondname.setPosition(415, 894);
+		lblsecondname.setPosition(348, 526);
 		lblsecondname.setSize(180, 43);
-		lblsecondname.setAlignment(Align.center);
-		Label lblthirdname= new Label("512 PTS", style);
-		lblthirdname.setPosition(415, 791);
+		lblsecondname.setAlignment(Align.left);
+		Label lblthirdname= new Label("Yanng Xu", style);
+		lblthirdname.setPosition(348, 341);
 		lblthirdname.setSize(180, 43);
-		lblthirdname.setAlignment(Align.center);
-		Label lblfirstpoint= new Label("Yanng Xu", style);
-		lblfirstpoint.setPosition(616,997 );
-		lblfirstpoint.setAlignment(Align.center);
+		lblthirdname.setAlignment(Align.left);
+		Label lblfirstpoint= new Label("512 PTS", style);
+		lblfirstpoint.setPosition(550,734 );
+		lblfirstpoint.setAlignment(Align.left);
 		lblfirstpoint.setSize(90, 43);
 		Label lblsecondpoint= new Label("410 PTS", style);
-		lblsecondpoint.setPosition(616, 894);
+		lblsecondpoint.setPosition(550, 526);
 		lblsecondpoint.setSize(90, 43);
-		lblsecondpoint.setAlignment(Align.center);
+		lblsecondpoint.setAlignment(Align.left);
 		Label lblthirdpoint= new Label("300 PTS", style);
-		lblthirdpoint.setPosition(616, 791);
+		lblthirdpoint.setPosition(550, 341);
 		lblthirdpoint.setSize(90, 43);
-		lblthirdpoint.setAlignment(Align.center);
+		lblthirdpoint.setAlignment(Align.left);
 		
 		
-		
+		stage.addActor(backgroundimg);
 		stage.addActor(lblfirstname);
 		stage.addActor(lblsecondname);
 		stage.addActor(lblthirdname);
@@ -81,7 +81,7 @@ public class LeaderBoardScreen  implements Screen {
 		stage.addActor(lblthirdpoint);
 		
 		stage.addActor(backbuttonimg);
-		stage.addActor(backgroundimg);
+		
 	}
 
 	@Override

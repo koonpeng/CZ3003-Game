@@ -33,8 +33,8 @@ public class PPTXGame extends Game {
 	float statetime = 0;
 	Sprite sprite;
 
-	LoginScreen loginscreen;
-	public SelectionScreen selectionscreen;
+	
+	private static SelectionScreen selectionscreen;
 	public static ResultScreen resultscreen;
 	private static BattleScreen battleScreen;
 	LoadingScreen loadingscreen;
@@ -78,7 +78,12 @@ public class PPTXGame extends Game {
 		battleScreen.setDungeonId(id);
 		pptxGame.setScreen(battleScreen);
 	}
-
+	
+	public static void toSelectionScreen()
+	{
+		selectionscreen = new SelectionScreen();
+		pptxGame.setScreen(selectionscreen);
+	}
 	public static void toCreateQuestionScreen(int questionnumber, boolean b) {
 		
 		creatquestionscreen = new CreateQuestionScreen(questionnumber,b);
@@ -132,7 +137,7 @@ public class PPTXGame extends Game {
 		player.equip(EquipmentFactory.getEquipment("Excalibur"));
 		assetManager.finishLoading();
 
-		loginscreen = new LoginScreen(this);
+		
 		battleScreen = new BattleScreen();
 		menuscreen = new MenuScreen(this);
 		questionlistscreen = new QuestionListScreen(this);
