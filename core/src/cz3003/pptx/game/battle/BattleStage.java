@@ -58,8 +58,8 @@ public class BattleStage extends Stage {
 		playerLbl = new Label("Player", style);
 		enemyLbl = new Label(enemy.getName(), style);
 		questionResultLbl = new Label("", style);
-		background = new Sprite(PPTXGame.getAssetManager().get("backgrounds/environment_forest_alt1.png", Texture.class));
-		questionBackground = new Sprite(PPTXGame.getAssetManager().get("backgrounds/crumpled-paper.jpg", Texture.class));
+		background = new Sprite(PPTXGame.getAssetManager().get("background/environment_forest_alt1.png", Texture.class));
+		questionBackground = new Sprite(PPTXGame.getAssetManager().get("background/crumpled-paper.jpg", Texture.class));
 		questionBackgroundHolder = new Image(new SpriteDrawable(questionBackground));
 		playerHpBar = new HPBar();
 		enemyHpBar = new HPBar();

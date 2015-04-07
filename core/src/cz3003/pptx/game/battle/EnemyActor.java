@@ -20,7 +20,7 @@ public class EnemyActor extends BattleActor {
 
 	public EnemyActor(String name, int hp, int maxHp, int att, int def) {
 		super(name, hp, maxHp, att, def);
-		Texture tex = PPTXGame.getAssetManager().get("monsters/dragon.png");
+		Texture tex = PPTXGame.getAssetManager().get("monster/dragon.png");
 		sprite = new Sprite(tex);
 
 		tex = PPTXGame.getAssetManager().get("battle/fire.png");
