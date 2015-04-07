@@ -16,7 +16,7 @@ public class Constants {
 	public static final float VIEWPORT_HEIGHT = 5f;
 	
 	public static final float VIEWPORT_GUI_WIDTH = 720f;
-	public static final float VIEWPORT_GUI_HEIGHT = 1280;
+	public static final float VIEWPORT_GUI_HEIGHT = 1280f;
 	
 
 	public static final String OBJ_LOGINSCREEN_UI =

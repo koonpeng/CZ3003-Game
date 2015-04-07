@@ -19,29 +19,26 @@ public class Profile{
 
 	private static final String TAG = Profile.class.getName();
 	private static final int STAGE_LEVELS = 5;
-
 	private final String JSONFilePath = "bin/json_resource/" + "playerProfile.json";
+	
+	//attributes to be stored in json
+		//username is used to identify a unique user - currently is it assumed 
+		//that google+ and twitter will not shared the same username.
 	private String username;
 	private int id;
 	private int difficulty;
+	private boolean[] stageLockedArray = new boolean[STAGE_LEVELS];
+	private int[] stageHighScoreArray = new int[STAGE_LEVELS];
+	
+	//attributes not to be stored
 	private boolean hasProfile;
 	private boolean ProfileJsonExists;
-	
-	private boolean[] stageLockedArray;
-	private int[] stageHighScoreArray;
-	
-	//complete object with all the profiles
-	private JSONObject jsonObj;
-	
 	private boolean dirtyBit;
 	private int accessdugeonid;
-	public int getAccessdugeonid() {
-		return accessdugeonid;
-	}
-
-	public void setAccessdugeonid(int accessdugeonid) {
-		this.accessdugeonid = accessdugeonid;
-	}
+		//hold the json profile data of all users, to be updated
+		//as necessary and will be used to overwrite existing
+		//json file.
+	private JSONObject jsonObj;
 
 	private Profile(){
 		Gdx.app.log(TAG, "Profile instance created");
@@ -51,26 +48,31 @@ public class Profile{
 		
 		ProfileJsonExists = 
 				Gdx.files.local(this.JSONFilePath).exists();
+		
 		if (ProfileJsonExists == false){
 			Gdx.app.log(TAG, "Profile json does not exists");
 		}
 		
+		//login is not supported for desktop
+		//a default profile is created for testing instead
 		if (SocialMediaSharedVariable.instance.isDesktopApplication()){
 			Gdx.app.log(TAG, "Desktop app detected");
-			this.username = "Default user";
-			this.difficulty = 2;
+			this.username = "Desktop user";
 			this.id = 9;
-			this.hasProfile = true;
+			this.difficulty = 2;
 			this.stageLockedArray = new boolean[]
 				{false,false,true,true,true};
 			this.stageHighScoreArray = new int[]
 					{20,0,0,0,0};
+			this.hasProfile = true;
 			this.dirtyBit = true;
+			this.accessdugeonid = 1;
 		}
 	};
 	
-	public void setNewProfile(String username){
-		Gdx.app.log(TAG, "New Profile Set");
+	//generate a new profile for a new user
+	public void GenerateNewProfile(String username){
+		Gdx.app.log(TAG, "New Profile Generated");
 		this.username = username;
 		this.id = -1;
 		this.difficulty = -1;
@@ -79,11 +81,11 @@ public class Profile{
 		this.stageLockedArray = new boolean[]
 			{false,true,true,true,true};
 		this.stageHighScoreArray = new int[]
-				{0,0,0,0,0};
+			{0,0,0,0,0};
 	};
 	
 	//Setter - set dirty bit to true if any set method is used
-	//dirty bit is used to determine if update is required or not
+		//dirty bit is used to determine if update is required or not
 	public void setUsername(String username){
 		this.dirtyBit = true;
 		this.username = username;
@@ -110,6 +112,9 @@ public class Profile{
 		stageHighScoreArray = new int[array.length];
 		stageHighScoreArray = Arrays.copyOf(array, array.length);
 	}
+	public void setAccessdugeonid(int accessdugeonid) {
+		this.accessdugeonid = accessdugeonid;
+	}
 	
 	//Getter
 	public String getUsername(){
@@ -133,28 +138,14 @@ public class Profile{
 		}
 		return stageLockedArray;
 	}
-	
 	public int[] getStageHighScoreArray(){
 		if (this.stageHighScoreArray == null) {
 			return new int[]{0,0,0,0,0};
 		}
 		return stageHighScoreArray;
 	}
-	
-	//Create Json file
-	public void createTestJsonObj(){
-		Gdx.app.log(TAG, "Create Test Json");
-		JSONObject obj = new JSONObject();
-		
-		try {
-			obj.put("username", "paul");
-			obj.put("id", "100");
-			obj.put("stageOneUnlock", true);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-		writeJSONFile(obj);
+	public int getAccessdugeonid() {
+		return accessdugeonid;
 	}
 	
 	//Write Json file to local drive
@@ -177,6 +168,11 @@ public class Profile{
 			Gdx.app.log(TAG, e.getMessage());
 		}
 	}
+	
+	public void deleteSingleProfile(){
+		this.jsonObj.remove(this.username);
+		writeJSONFile(jsonObj);
+	}
 
 	//Retrieve player profile from JSON file
 	public void retrievePlayerProfile(){
@@ -184,6 +180,7 @@ public class Profile{
 		this.dirtyBit = false;
 		BufferedReader br = null;
 		JSONTokener tokener = null;
+		//used to hold the json data of a single user
 		JSONObject obj = null;
 		String jsonString;
 		String stageName;
@@ -193,15 +190,19 @@ public class Profile{
 			br = new BufferedReader(fileHandle.reader());
 			jsonString = br.readLine();
 			tokener = new JSONTokener(jsonString);
-			
-			
 			this.jsonObj = new JSONObject(tokener);
 			
+			if (jsonObj != null){
+				Gdx.app.log(TAG, this.jsonObj.toString());
+			}
+			
+			this.deleteSingleProfile();
+			
 			try{
-			obj = this.jsonObj.getJSONObject(this.username);
+				obj = this.jsonObj.getJSONObject(this.username);
 			}catch (JSONException e){
-				Gdx.app.log(TAG, "username not found in class");
-				this.setNewProfile(this.username);
+				Gdx.app.log(TAG, "username not found in json file");
+				this.GenerateNewProfile(this.username);
 				br.close();
 				return;
 			}
@@ -247,6 +248,7 @@ public class Profile{
 		
 		JSONObject obj;
 	
+		//if the json data has changed
 		if (this.getDirtyBit()){
 			//if username is not found, this stmt does nothing
 			this.jsonObj.remove(this.username);
