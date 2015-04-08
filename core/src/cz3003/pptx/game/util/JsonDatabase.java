@@ -21,6 +21,7 @@ public class JsonDatabase {
 	private static final String FILE_EXT = ".json";
 	
 	private boolean ProfileJsonExists;
+	private StreamManager stream;
 	String filePath;
 	
 	public void storeAsJson(Object obj, String fileName){
@@ -55,6 +56,7 @@ public class JsonDatabase {
 		}
 		
 		System.out.println(jObj);
+		//stream.uploadJson(jObj, filename);
 	}
 	
 	public JSONObject retrieveAsJson(String fileName){
