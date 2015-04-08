@@ -76,7 +76,8 @@ public class SelectionStage extends Stage {
 	}
 	public void init() {
 		Image dugeonbackgroundimg=new Image(new Texture(ImgFile.dugeonbackground));
-		dugeonbackgroundimg.setPosition(0, 140);
+		
+		dugeonbackgroundimg.setPosition(0, 0);
 		this.addActor(dugeonbackgroundimg);
 		imageDungeon=new Image[DUNGEONNO];
 		
@@ -98,7 +99,8 @@ public class SelectionStage extends Stage {
 				if(dungeonid!=-1)
 				{
 					currentDungeon=dungeonid;
-					game.toBattleScreen(dungeonid, Profile.instance.getUsername());
+					PPTXGame.toQuestionListScreen();
+					//PPTXGame.toBattleScreen(dungeonid);
 					// game.setScreen(game.questionscreen);
 				}
 //				System.out.print("x is :" + PrivateGirl.x + " y is :"
@@ -112,9 +114,10 @@ public class SelectionStage extends Stage {
 			}
 
 		});
-		this.addActor(btnA);
 		
-		style = new LabelStyle(PPTXGame.getAssetManager().get("calibri36.ttf", BitmapFont.class), Color.BLACK);
+		style = new LabelStyle(CusFontStyle.getTopbarFont(), CusFontStyle
+				.getTopbarFont().getColor());
+		//style = new LabelStyle(PPTXGame.getAssetManager().get("calibri36.ttf", BitmapFont.class), Color.BLACK);
 	
 		this.addActor(TopBar.getTopbar());
 		
@@ -131,17 +134,16 @@ public class SelectionStage extends Stage {
 		//this.addActor(privategirl.backgroundimage);
 		this.addActor(privategirl);
 		this.addActor(privategirl.touchpad);
-		Hp monsterhp = new Hp(200, 1200, 3);
-		this.addActor(monsterhp);
+		
 		lblchoosedungeon = new Label("Choose a dungeon: ", style);
-		lblchoosedungeon.setPosition(0, 1080);
+		lblchoosedungeon.setPosition(0, 1050);
 
 		lblchoosedungeon.setWidth(720);
 		lblchoosedungeon.setHeight(100);
 		lblchoosedungeon.setWrap(true);
 		lblchoosedungeon.setAlignment(Align.topLeft);
 		this.addActor(lblchoosedungeon);
-		
+		this.addActor(btnA);
 		
 	}
 	private void dugeonini(int index,int x, int y,Boolean lock)

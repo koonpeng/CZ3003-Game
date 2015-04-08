@@ -114,9 +114,11 @@ public class Quiz {
 			String check_answer = qns_current.getString("Answer");
 			if (check_answer.equalsIgnoreCase(answer)) {
 				current.addScore(true);
+				System.out.println(current.getScore());
 				return true;
 			} else {
 				current.addScore(false);
+				System.out.println(current.getScore());
 				return false;
 			}
 		} catch (JSONException e) {

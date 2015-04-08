@@ -56,4 +56,19 @@ public class CusFontStyle {
 		}
 		return leaderboardfont;
 	}
+	public static BitmapFont getTopbarFont() {
+		if (leaderboardfont == null) {
+			FreeTypeFontGenerator generator = new FreeTypeFontGenerator(
+					Gdx.files.internal("font/font_bold.ttf"));
+			FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+			parameter.size = 36;
+			leaderboardfont = generator.generateFont(parameter); // font size
+																	// 12 pixels
+			generator.dispose(); // don't forget to dispose to avoid memory
+									// leaks!
+			leaderboardfont.setColor(Color.WHITE);
+			
+		}
+		return leaderboardfont;
+	}
 }

@@ -5,12 +5,15 @@ import com.badlogic.gdx.files.FileHandle;
 
 public class ImgFile {
 	
-	
+	public static FileHandle topsetting=Gdx.files.internal("dugeon/setting.png");
+	public static FileHandle topbarback=Gdx.files.internal("dugeon/topbarback.png");
+	public static FileHandle topbarquestion=Gdx.files.internal("dugeon/questiondugeon.png");
+	public static FileHandle topbarhome=Gdx.files.internal("dugeon/home.png");
 	//data selection part
 	public static FileHandle smallwukongimg=Gdx.files.internal("privategirl.png");
 	public static FileHandle smallwukongbackground=Gdx.files.internal("loading.jpg");
 	public static FileHandle dugeonbackground=Gdx.files.internal("dugeon/background.png");
-	
+
 	public static FileHandle dungeon=Gdx.files.internal("dugeon/dugeon.pack");
 	//fighting part
 	public static FileHandle skill1_1=Gdx.files.internal("wave.gif");

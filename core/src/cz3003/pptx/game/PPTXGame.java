@@ -70,11 +70,13 @@ public class PPTXGame extends Game {
 	}
 
 	public static void toBattleScreen(int id) {
+		battleScreen = new BattleScreen();
 		battleScreen.setDungeonId(id);
 		pptxGame.setScreen(battleScreen);
 	}
 
 	public static void toBattleScreen(int id, String name) {
+		battleScreen = new BattleScreen();
 		battleScreen.setDungeonId(id);
 		pptxGame.setScreen(battleScreen);
 	}
@@ -138,7 +140,7 @@ public class PPTXGame extends Game {
 		assetManager.finishLoading();
 
 		
-		battleScreen = new BattleScreen();
+		
 		menuscreen = new MenuScreen(this);
 		questionlistscreen = new QuestionListScreen(this);
 

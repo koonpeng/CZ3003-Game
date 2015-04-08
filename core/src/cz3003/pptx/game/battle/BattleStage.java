@@ -111,9 +111,9 @@ public class BattleStage extends Stage {
 		addActor(battleUI);
 
 		battleMusic = PPTXGame.getAssetManager().get("music/(10) Force Your Way.mp3");
-		battleMusic.setLooping(true);
-		battleMusic.setVolume(0.75f);
-		battleMusic.play();
+	battleMusic.setLooping(true);
+	battleMusic.setVolume(0.75f);
+	battleMusic.play();
 	}
 
 	private void updateEnemyHpBar() {
@@ -210,7 +210,7 @@ public class BattleStage extends Stage {
 					deathActDisappear.setTarget(enemy);
 					addAction(Actions.sequence(Actions.parallel(deathAct, deathActDisappear), Actions.run(new Runnable() {
 						public void run() {
-							battleMusic.stop();
+						battleMusic.stop();
 							PPTXGame.toResultScreen(quiz, true);
 						}
 					})));
@@ -222,7 +222,7 @@ public class BattleStage extends Stage {
 					deathActDisappear.setTarget(player);
 					addAction(Actions.sequence(Actions.parallel(deathAct, deathActDisappear), Actions.run(new Runnable() {
 						public void run() {
-							battleMusic.stop();
+						battleMusic.stop();
 							PPTXGame.toResultScreen(quiz, false);
 						}
 					})));

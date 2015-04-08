@@ -107,7 +107,7 @@ public class ResultStage extends Stage {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 					// TODO Auto-generated method stub
-					game.toBattleScreen(SelectionStage.getCurrentDungeon());;
+					PPTXGame.toBattleScreen(SelectionStage.getCurrentDungeon());;
 					return true;
 				}
 			});
@@ -171,7 +171,7 @@ public class ResultStage extends Stage {
 				@Override
 				public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 					// TODO Auto-generated method stub
-					game.toBattleScreen(SelectionStage.getCurrentDungeon());;
+					PPTXGame.toBattleScreen(SelectionStage.getCurrentDungeon());;
 					
 					return true;
 				}

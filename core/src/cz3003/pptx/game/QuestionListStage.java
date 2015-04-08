@@ -59,11 +59,12 @@ public class QuestionListStage extends Stage {
 	Image backgroundimage;
 	Image createquestionimage;
 	Image managequestionimage;
-	
+
 	ManageQuestion managequestion;
+
 	public QuestionListStage() {
 		super();
-	
+
 		init(false);
 		show();
 
@@ -74,141 +75,142 @@ public class QuestionListStage extends Stage {
 	}
 
 	public void init(Boolean result) {
-		
-		
-	
+
+		Image dugeonbackgroundimg = new Image(new Texture(
+				ImgFile.dugeonbackground));
+
+		dugeonbackgroundimg.setPosition(0, 0);
+		this.addActor(dugeonbackgroundimg);
+
+		this.addActor(TopBar.getTopbar());
+
 		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle
-						.getBoldFont().getColor());
+				.getTopbarFont().getColor());
 		style = new LabelStyle(CusFontStyle.getNormalFont(), CusFontStyle
-				.getNormalFont().getColor());
-		
-		createquestionimage = new Image(new Texture(ImgFile.creatquestionbutton));
+				.getTopbarFont().getColor());
+
+		createquestionimage = new Image(
+				new Texture(ImgFile.creatquestionbutton));
 		createquestionimage.setPosition(130, 220);
-		
+
 		createquestionimage.addListener(new InputListener() {
 			String userinput;
+
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// TODO Auto-generated method stub
-				userinput="";
-				
-					Gdx.input.getTextInput(new TextInputListener() {
-						@Override
-						public void input(String texteSaisi) {
-							userinput=texteSaisi;
-							Gdx.app.postRunnable(new Runnable() {
-								 @Override
-								 public void run() {
-								 // 产生结果
-									 PPTXGame.toCreateQuestionScreen(Integer.parseInt(userinput),true);;
-								 }
-								 });
+				userinput = "";
 
-						
-						}
-						@Override
-						public void canceled() {
-							// TODO Auto-generated method stub
-							
-						}
+				Gdx.input.getTextInput(
+						new TextInputListener() {
+							@Override
+							public void input(String texteSaisi) {
+								userinput = texteSaisi;
+								Gdx.app.postRunnable(new Runnable() {
+									@Override
+									public void run() {
+										// 产生结果
+										PPTXGame.toCreateQuestionScreen(
+												Integer.parseInt(userinput),
+												true);
+										;
+									}
+								});
 
-					}, "Please input the number of questions you want to create" , null, null);
-					
-					
-					
+							}
+
+							@Override
+							public void canceled() {
+								// TODO Auto-generated method stub
+
+							}
+
+						},
+						"Please input the number of questions you want to create",
+						null, null);
+
 				return true;
 			}
 
 		});
 		this.addActor(createquestionimage);
-		
-		
-		
-		//question set list part
-		
+
+		// question set list part
+
 		try {
 			managequestion = new ManageQuestion("username");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(managequestion.getLength()!=-1)
-		{
-			int rowcount=managequestion.getLength();
-			Table table=new Table();
-			table.setPosition(380,700);
-			Label lblindex=new Label("index",style);
-			Label lblquestion=new Label("Question Title",style);
-			table.add(lblindex).width(120).align(Align.center).pad(10);;
+		if (managequestion.getLength() != -1) {
+			int rowcount = managequestion.getLength();
+			Table table = new Table();
+			table.setPosition(380, 700);
+			Label lblindex = new Label("Index", style);
+			Label lblquestion = new Label("Question Title", style);
+			table.add(lblindex).width(120).align(Align.center).pad(10);
+			;
 			table.add(lblquestion).width(500);
-			for(int i=0;i<rowcount;i++)
-			{
-				
-				String retrivequestion[]=new String[7];
+			for (int i = 0; i < rowcount; i++) {
+
+				String retrivequestion[] = new String[7];
 				try {
-					retrivequestion=managequestion.getQnsPos(i);
+					retrivequestion = managequestion.getQnsPos(i);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
+
 				table.row();
-				String i2=String.valueOf(i);
-				Label labelcount=new Label(i2,style);
-				Label lbltitle=new Label(retrivequestion[1],style);
+				String i2 = String.valueOf(i);
+				Label labelcount = new Label(i2, style);
+				Label lbltitle = new Label(retrivequestion[1], style);
 				lbltitle.setWrap(true);
 				table.add(labelcount).width(120).align(Align.center).pad(10);
 				table.add(lbltitle).width(500);
-				
-				
+
 			}
 			this.addActor(table);
-			
+
 		}
-		managequestionimage = new Image(new Texture(ImgFile.managequestionbutton));
+		managequestionimage = new Image(new Texture(
+				ImgFile.managequestionbutton));
 		managequestionimage.setPosition(130, 130);
-		
+
 		managequestionimage.addListener(new InputListener() {
-			
+
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// TODO Auto-generated method stub
-				
-				if(managequestion.getLength()!=-1)
-				{
-				
-				PPTXGame.toCreateQuestionScreen(managequestion.getLength(),false);;//to edit question
-				
+
+				if (managequestion.getLength() != -1) {
+
+					PPTXGame.toCreateQuestionScreen(managequestion.getLength(),
+							false);
+					;// to edit question
+
 				}
 				return true;
 			}
 
 		});
 		this.addActor(managequestionimage);
-		Label lblquestionsets=new Label("Question Sets",style);
+		Label lblquestionsets = new Label("Question Sets", style);
 		lblquestionsets.setPosition(50, 1100);
 		this.addActor(lblquestionsets);
-		
-		
-		
-		
-		
-		
-		
-		}
-	private boolean tryParseInt(String value)  
-	{  
-	     try  
-	     {  
-	         Integer.parseInt(value);  
-	         return true;  
-	      } catch(NumberFormatException nfe)  
-	      {  
-	          return false;  
-	      }  
+
 	}
-	
+
+	private boolean tryParseInt(String value) {
+		try {
+			Integer.parseInt(value);
+			return true;
+		} catch (NumberFormatException nfe) {
+			return false;
+		}
+	}
+
 }

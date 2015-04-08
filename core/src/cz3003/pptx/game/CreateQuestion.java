@@ -112,10 +112,10 @@ public class CreateQuestion extends Stage {
 				e.printStackTrace();
 			}
 		}
-		uiinit();
+		
 		createoredit=b;
 		
-		
+		uiinit();
 		// displaylblbut();
 
 	}
@@ -260,10 +260,10 @@ public class CreateQuestion extends Stage {
 	public void uiinit() {
 		lblABCD = new Label[6];
 		question = new String[6];
-		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle
-				.getBoldFont().getColor());
-		style2 = new LabelStyle(CusFontStyle.getNormalFont(),
-				CusFontStyle.getNormalFont().getColor());
+		style = new LabelStyle(CusFontStyle.getTopbarFont(), CusFontStyle
+				.getTopbarFont().getColor());
+		style2 = new LabelStyle(CusFontStyle.getTopbarFont(),
+				CusFontStyle.getTopbarFont().getColor());
 
 		lblini("Please Click to type in", 0, 50, 900);
 		/* ******Label Control A Part****** */
@@ -284,7 +284,7 @@ public class CreateQuestion extends Stage {
 		Texture texture = new Texture(ImgFile.nextquestion);
 
 		nextimage = new Image(texture);
-		nextimage.setPosition(458, 170);
+		nextimage.setPosition(458, 215);
 		nextimage.addListener(new InputListener() {
 
 			@Override
@@ -298,7 +298,7 @@ public class CreateQuestion extends Stage {
 		});
 		Texture texture2 = new Texture(ImgFile.backquestion);
 		backimage = new Image(texture2);
-		backimage.setPosition(192, 170);
+		backimage.setPosition(192, 215);
 		backimage.addListener(new InputListener() {
 
 			@Override
@@ -313,7 +313,7 @@ public class CreateQuestion extends Stage {
 		});
 		Texture texture3 = new Texture(ImgFile.submitquestion);
 		submitimage = new Image(texture3);
-		submitimage.setPosition(258, 170);
+		submitimage.setPosition(258, 215);
 		submitimage.addListener(new InputListener() {
 
 			@Override
@@ -369,14 +369,20 @@ public class CreateQuestion extends Stage {
 			table.add(lblABCD[i]).width(500);
 		}
 		
-		
+		Image dugeonbackgroundimg = new Image(new Texture(
+				ImgFile.dugeonbackground));
+
+		dugeonbackgroundimg.setPosition(0, 0);
+		this.addActor(dugeonbackgroundimg);
+
+		this.addActor(TopBar.getTopbar());
 		this.addActor(table);
 		
 	
 	
 
 
-		this.addActor(TopBar.getTopbar());
+		
 		this.addActor(nextimage);
 		this.addActor(backimage);
 		this.addActor(submitimage);
