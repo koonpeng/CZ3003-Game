@@ -54,10 +54,9 @@ public class EnemyActor extends BattleActor {
 				attackSound.play();
 			}
 		});
-		
 		Action fadeOut = Actions.fadeOut(0.5f);
 		fadeOut.setTarget(fireBreath);
-		return Actions.sequence(addActor, attackAct,playSound , fadeOut, Actions.removeActor(fireBreath));
+		return Actions.sequence(addActor, attackAct, playSound, fadeOut, Actions.removeActor(fireBreath));
 	}
 
 	@Override

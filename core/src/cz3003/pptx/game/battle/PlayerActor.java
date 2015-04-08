@@ -94,7 +94,7 @@ public class PlayerActor extends BattleActor {
 
 		setSize(spriteSheet.get(0).getWidth(), spriteSheet.get(0).getHeight());
 
-		//attackSounds[0] = PPTXGame.getAssetManager().get("sound/explosion.wav");
+		attackSounds[0] = PPTXGame.getAssetManager().get("sound/explosion.wav");
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public class PlayerActor extends BattleActor {
 			public void run() {
 				switch (rand.nextInt(1)) {
 				case 0:
-					//attackSounds[0].play();
+					attackSounds[0].play();
 					break;
 				}
 			}

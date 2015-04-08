@@ -69,13 +69,11 @@ public class PPTXGame extends Game {
 	}
 
 	public static void toBattleScreen(int id) {
-		battleScreen = new BattleScreen();
 		battleScreen.setDungeonId(id);
 		pptxGame.setScreen(battleScreen);
 	}
 
 	public static void toBattleScreen(int id, String name) {
-		battleScreen = new BattleScreen();
 		battleScreen.setDungeonId(id);
 		pptxGame.setScreen(battleScreen);
 	}
@@ -108,10 +106,14 @@ public class PPTXGame extends Game {
 
 <<<<<<< HEAD
 		
+<<<<<<< HEAD
 		
 =======
 		battleScreen = new BattleScreen();
 >>>>>>> da0b266c97f477e35bd271440e35dfb60aa4dccd
+=======
+		battleScreen = new BattleScreen();
+>>>>>>> parent of 3f55f13... update selection
 		menuscreen = new MenuScreen(this);
 		questionlistscreen = new QuestionListScreen(this);
 
