@@ -14,7 +14,7 @@ public class ManageQuestion {
 
 	private JSONObject test;
 	private String[] custom_test;
-	private static String userid ="";
+	private String userid ="";
 	
 	public ManageQuestion(String id) throws IOException{
 		userid =id;
@@ -25,7 +25,7 @@ public class ManageQuestion {
 	}
 	
 	private boolean testTrue(){
-		File file = new File("sdcard/" + userid+"student.txt");
+		File file = new File(userid+"student.txt");
 		if(file.exists()){
 			return true;
 		}
@@ -80,8 +80,7 @@ public class ManageQuestion {
 	
 	//load qns if user have existing test
 	private void loadQns(String id) throws IOException{
-		//File file = new File(id+"student.txt");
-		File file = new File("sdcard/" + userid+"student.txt");
+		File file = new File(id+"student.txt");
 		custom_test = new String[100];
 		custom_test = readFile(file);
 	}
@@ -89,7 +88,7 @@ public class ManageQuestion {
 	//read file
 	private static String[] readFile(File f) throws IOException{
 		BufferedReader br = new BufferedReader(new FileReader(f));
-		String[] qna = new String[100];
+		String[] qna = new String[20];
 		String line = null;
 		int i=0;
 		while ((line = br.readLine()) != null) {
@@ -124,28 +123,30 @@ public class ManageQuestion {
 	}
 	
 	public void commitQns(){
-		 File logFile = new File("sdcard/" + userid+"student.txt");
-	        if (!logFile.exists()) {
-	            try {
-	                logFile.createNewFile();
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            }
-	        }
-	        try {
-	            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, false));
-	            int i=0;
-	            while(i != getLength()){
-	            buf.append(custom_test[i]+"\n");
-	            i++;
-	            }
-	            buf.close();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
+		try {
+ 
+			File file = new File(userid+"student.txt");
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			else if(file.exists()){
+				file.delete();
+			}
+			FileWriter fw = new FileWriter(file,false);
+			BufferedWriter bw = new BufferedWriter(fw);
+			int i=0;
+			while(i != getLength()){
+			bw.write(custom_test[i]+"\n");
+			i++;
+			}
+			bw.close();
+			System.out.println("Done");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
 	}
 	public static void clearQns(String id){
-		File file = new File("sdcard/" + userid+"student.txt");
+		File file = new File(id+"student.txt");
 		if(file.exists()){
 			file.delete();
 		}

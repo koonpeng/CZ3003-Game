@@ -5,77 +5,77 @@ filter: Nearest,Nearest
 repeat: none
 login_ui_background
   rotate: false
-  xy: 1, 487
-  size: 720, 1280
-  orig: 720, 1280
+  xy: 1, 182
+  size: 450, 800
+  orig: 450, 800
   offset: 0, 0
   index: -1
 login_ui_title
   rotate: false
-  xy: 1, 405
+  xy: 1, 100
   size: 396, 80
   orig: 396, 80
   offset: 0, 0
   index: -1
 login_ui_google_plus_down
   rotate: false
-  xy: 723, 1668
-  size: 279, 99
-  orig: 279, 99
+  xy: 453, 885
+  size: 200, 97
+  orig: 200, 97
   offset: 0, 0
   index: -1
 login_ui_google_plus_up
   rotate: false
-  xy: 1, 304
-  size: 279, 99
-  orig: 279, 99
-  offset: 0, 0
-  index: -1
-login_ui_logout_down
-  rotate: false
-  xy: 723, 1567
-  size: 279, 99
-  orig: 279, 99
-  offset: 0, 0
-  index: -1
-login_ui_logout_up
-  rotate: false
-  xy: 1, 203
-  size: 279, 99
-  orig: 279, 99
-  offset: 0, 0
-  index: -1
-login_ui_playnow_down
-  rotate: false
-  xy: 723, 1466
-  size: 279, 99
-  orig: 279, 99
-  offset: 0, 0
-  index: -1
-login_ui_playnow_up
-  rotate: false
-  xy: 1, 102
-  size: 279, 99
-  orig: 279, 99
+  xy: 1, 1
+  size: 200, 97
+  orig: 200, 97
   offset: 0, 0
   index: -1
 login_ui_twitter_down
   rotate: false
-  xy: 723, 1365
-  size: 279, 99
-  orig: 279, 99
+  xy: 453, 786
+  size: 200, 97
+  orig: 200, 97
   offset: 0, 0
   index: -1
 login_ui_twitter_up
   rotate: false
-  xy: 1, 1
-  size: 279, 99
-  orig: 279, 99
+  xy: 655, 885
+  size: 200, 97
+  orig: 200, 97
+  offset: 0, 0
+  index: -1
+login_ui_playnow_down
+  rotate: false
+  xy: 453, 712
+  size: 200, 72
+  orig: 200, 72
+  offset: 0, 0
+  index: -1
+login_ui_playnow_up
+  rotate: false
+  xy: 655, 811
+  size: 200, 72
+  orig: 200, 72
+  offset: 0, 0
+  index: -1
+login_ui_logout_down
+  rotate: false
+  xy: 453, 639
+  size: 200, 71
+  orig: 200, 71
+  offset: 0, 0
+  index: -1
+login_ui_logout_up
+  rotate: false
+  xy: 655, 738
+  size: 200, 71
+  orig: 200, 71
   offset: 0, 0
   index: -1
 transparent
   rotate: false
-  xy: 282, 303
+  xy: 857, 882
   size: 100, 100
   orig: 100, 100
   offset: 0, 0

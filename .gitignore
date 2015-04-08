@@ -53,3 +53,4 @@ local.properties
 .gradle
 gradle-app.setting
 build/
+.svn/
