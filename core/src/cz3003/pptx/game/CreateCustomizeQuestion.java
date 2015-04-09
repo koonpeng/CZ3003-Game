@@ -30,11 +30,9 @@ public class CreateCustomizeQuestion {
 	
 	//check if user have a test created already
 	private boolean testTrue(String id){
-<<<<<<< HEAD:core/src/cz3003/pptx/game/CreateCustomizeQuestion.java
+
 		File file = new File("sdcard/" + userid+".txt");
-=======
-		File file = new File(id+"student.txt");
->>>>>>> 89f34575d1f5d34d69e596ddda6dd15996568bc0:core/src/cz3003/pptx/game/MyDungeonQuestion.java
+
 		if(file.exists()){
 			return true;
 		}
@@ -108,7 +106,7 @@ public class CreateCustomizeQuestion {
 		
 		try {
  
-<<<<<<< HEAD:core/src/cz3003/pptx/game/CreateCustomizeQuestion.java
+
 		
 			  File logFile = new File("sdcard/" + userid+".txt");
 		        if (!logFile.exists()) {
@@ -131,25 +129,8 @@ public class CreateCustomizeQuestion {
 		        }
 		        String locRoot = Gdx.files.getLocalStoragePath();
 System.out.print(locRoot);
-//		        File file = new File(userid+"student.txt");
-//				if (!file.exists()) {
-//					file.createNewFile();
-//				}
-//			FileWriter fw = new FileWriter(file,true);
-//			BufferedWriter bw = new BufferedWriter(fw);
-//			int i=0;
-//			while(i != size){
-//			bw.write(custom_test[i]+"\n");
-//			i++;
-//			}
-//			bw.close();
-//			System.out.println("Done");
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}		
-//	}
-=======
-			File file = new File(userid+"student.txt");
+
+File file = new File(userid+"student.txt");
 			if (!file.exists()) {
 				file.createNewFile();
 			}
@@ -167,22 +148,8 @@ System.out.print(locRoot);
 			e.printStackTrace();
 		}		
 	}
->>>>>>> 89f34575d1f5d34d69e596ddda6dd15996568bc0:core/src/cz3003/pptx/game/MyDungeonQuestion.java
+
 	
-//	//read file
-//	private static String[] readFile(File f) throws IOException{
-//		BufferedReader br = new BufferedReader(new FileReader(f));
-//		String[] qna = new String[20];
-//		String line = null;
-//		int i=0;
-//		while ((line = br.readLine()) != null) {
-//			qna[i] = line;
-//			//System.out.println(line);
-//			i++;
-//		}
-//		br.close();
-//		return qna;	
-//	}
-	
+
 	
 }
