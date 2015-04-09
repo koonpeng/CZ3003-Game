@@ -3,10 +3,6 @@ package cz3003.pptx.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -15,7 +11,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
-import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader.FreeTypeFontLoaderParameter;
 
 import cz3003.pptx.game.battle.BattleScreen;
 import cz3003.pptx.game.battle.quiz.Quiz;
@@ -63,9 +58,10 @@ public class PPTXGame extends Game {
 	}
 
 	public static void toCustomizequestionlistscreen() {
-		customizequestionlistscreen=new CustomizeQuestionListScreen();
+		customizequestionlistscreen = new CustomizeQuestionListScreen();
 		pptxGame.setScreen(customizequestionlistscreen);
 	}
+
 	public static void toResultScreen(Quiz quiz, boolean result) {
 		resultscreen.setQuiz(quiz);
 		resultscreen.setResult(result);
@@ -73,13 +69,14 @@ public class PPTXGame extends Game {
 	}
 
 	public static void toBattleScreen(int id) {
-		battleScreen=new BattleScreen();
+		battleScreen = new BattleScreen();
 		battleScreen.setDungeonId(id);
 		pptxGame.setScreen(battleScreen);
 	}
 
 	public static void toBattleScreen(int id, String name) {
-		battleScreen=new BattleScreen();
+		battleScreen = new BattleScreen();
+		battleScreen.setDungeonId(id);
 		battleScreen.setDungeonName(name);
 		pptxGame.setScreen(battleScreen);
 	}
@@ -109,7 +106,6 @@ public class PPTXGame extends Game {
 		assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 		player = new Player("Player", 10000, 5000, 5000);
 		player.equip(EquipmentFactory.getEquipment("Excalibur"));
-
 
 		menuscreen = new MenuScreen(this);
 		questionlistscreen = new QuestionListScreen(this);
