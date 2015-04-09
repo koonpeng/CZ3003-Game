@@ -1,4 +1,3 @@
-
 package cz3003.pptx.game.battle.quiz;
 
 import java.io.BufferedReader;
@@ -102,7 +101,7 @@ public class Quiz {
 		int i = 0;
 		while ((line = br.readLine()) != null) {
 			qna[i] = line;
-			
+
 			i++;
 		}
 
