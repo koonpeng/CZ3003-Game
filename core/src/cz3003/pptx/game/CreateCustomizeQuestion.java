@@ -5,12 +5,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+
+import cz3003.pptx.game.util.StreamManager;
 
 
 public class CreateCustomizeQuestion {
@@ -103,6 +107,19 @@ public class CreateCustomizeQuestion {
 	
 	//write out qns to file(change to append)
 	public void commitQns(){
+		
+		//Send to server first
+		StreamManager sm = new StreamManager();
+		JSONObject toUp = new JSONObject();
+		List<String> ct = Arrays.asList(custom_test);
+		try {
+			toUp.put("titles", (Object) ct);
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		sm.uploadJson(userid+"_custest", toUp);
+		//End of server code
 		
 		try {
  

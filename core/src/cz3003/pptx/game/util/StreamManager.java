@@ -25,9 +25,14 @@ public class StreamManager {
 	public StreamManager() {
 
 	}
-
-	public void uploadJson(String filename, Object obj) {
+	
+	public void uploadJson(String filename, Object obj){
 		JSONObject jobj = new JSONObject(obj);
+		uploadJson(filename, jobj);
+	}
+
+	public void uploadJson(String filename, JSONObject jobj) {
+		
 		
 		HashMap<String, String> parameters = new HashMap<String, String>();
 		parameters.put("file", filename);
