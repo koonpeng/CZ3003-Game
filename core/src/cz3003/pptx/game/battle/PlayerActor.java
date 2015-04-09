@@ -1,5 +1,4 @@
 
-
 package cz3003.pptx.game.battle;
 
 import java.util.Random;
