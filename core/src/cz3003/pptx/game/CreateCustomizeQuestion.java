@@ -2,19 +2,15 @@ package cz3003.pptx.game;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import javax.swing.text.AbstractDocument.Content;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.sun.xml.internal.bind.CycleRecoverable.Context;
 
 
 public class CreateCustomizeQuestion {
@@ -34,7 +30,11 @@ public class CreateCustomizeQuestion {
 	
 	//check if user have a test created already
 	private boolean testTrue(String id){
+<<<<<<< HEAD:core/src/cz3003/pptx/game/CreateCustomizeQuestion.java
 		File file = new File("sdcard/" + userid+".txt");
+=======
+		File file = new File(id+"student.txt");
+>>>>>>> 89f34575d1f5d34d69e596ddda6dd15996568bc0:core/src/cz3003/pptx/game/MyDungeonQuestion.java
 		if(file.exists()){
 			return true;
 		}
@@ -106,8 +106,9 @@ public class CreateCustomizeQuestion {
 	//write out qns to file(change to append)
 	public void commitQns(){
 		
-		//try {
+		try {
  
+<<<<<<< HEAD:core/src/cz3003/pptx/game/CreateCustomizeQuestion.java
 		
 			  File logFile = new File("sdcard/" + userid+".txt");
 		        if (!logFile.exists()) {
@@ -147,6 +148,26 @@ System.out.print(locRoot);
 //			e.printStackTrace();
 //		}		
 //	}
+=======
+			File file = new File(userid+"student.txt");
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			FileWriter fw = new FileWriter(file,true);
+			BufferedWriter bw = new BufferedWriter(fw);
+			int i=0;
+			while(i != size){
+			bw.write(custom_test[i]+"\n");
+			i++;
+			}
+			bw.close();
+			System.out.println("Done");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+	}
+>>>>>>> 89f34575d1f5d34d69e596ddda6dd15996568bc0:core/src/cz3003/pptx/game/MyDungeonQuestion.java
 	
 //	//read file
 //	private static String[] readFile(File f) throws IOException{
@@ -163,7 +184,5 @@ System.out.print(locRoot);
 //		return qna;	
 //	}
 	
-		
-	//}
-}
+	
 }
