@@ -42,7 +42,7 @@ public class SelectionStage extends Stage {
 	LabelStyle style;
 	Label lblHP;
 	static Label lblchoosedungeon;
-	
+	Image customizedugeonimg;
 	Image[] imageDungeon;
 	private static int DUNGEONNO=5;
 	private static int currentDungeon;
@@ -76,7 +76,7 @@ public class SelectionStage extends Stage {
 	}
 	public void init() {
 		Image dugeonbackgroundimg=new Image(new Texture(ImgFile.dugeonbackground));
-		dugeonbackgroundimg.setPosition(0, 140);
+		dugeonbackgroundimg.setPosition(0, 0);
 		this.addActor(dugeonbackgroundimg);
 		imageDungeon=new Image[DUNGEONNO];
 		
@@ -114,7 +114,8 @@ public class SelectionStage extends Stage {
 		});
 		this.addActor(btnA);
 		
-		style = new LabelStyle(PPTXGame.getAssetManager().get("calibri36.ttf", BitmapFont.class), Color.BLACK);
+		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle
+				.getTopbarFont().getColor());
 	
 		this.addActor(TopBar.getTopbar());
 		
@@ -131,19 +132,35 @@ public class SelectionStage extends Stage {
 		//this.addActor(privategirl.backgroundimage);
 		this.addActor(privategirl);
 		this.addActor(privategirl.touchpad);
-		Hp monsterhp = new Hp(200, 1200, 3);
-		this.addActor(monsterhp);
+		
 		lblchoosedungeon = new Label("Choose a dungeon: ", style);
-		lblchoosedungeon.setPosition(0, 1080);
+		lblchoosedungeon.setPosition(0, 1030);
 
 		lblchoosedungeon.setWidth(720);
 		lblchoosedungeon.setHeight(100);
 		lblchoosedungeon.setWrap(true);
 		lblchoosedungeon.setAlignment(Align.topLeft);
 		this.addActor(lblchoosedungeon);
+		//another
+		customizedugeonimg = new Image(new Texture(ImgFile.barquestion));
+		customizedugeonimg.setPosition(460,900);
 		
+		customizedugeonimg.addListener(new InputListener(){
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				// TODO Auto-generated method stub
+				PPTXGame.toCustomizequestionlistscreen();
+				return true;
+			}
+			
+		});
 		
+		this.addActor(customizedugeonimg);
 	}
+	
+	
 	private void dugeonini(int index,int x, int y,Boolean lock)
 	{
 		//TextureRegion dungeonRegion=new TextureRegion(new Texture(ImgFile.dungeon),0,0,240,240);

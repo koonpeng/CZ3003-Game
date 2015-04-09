@@ -2,8 +2,6 @@ package cz3003.pptx.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.tools.imagepacker.TexturePacker2;
-import com.badlogic.gdx.tools.imagepacker.TexturePacker2.Settings;
 
 import cz3003.pptx.game.PPTXGame;
 import cz3003.pptx.game.socialmedia.SocialMediaSharedVariable;

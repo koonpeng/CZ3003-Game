@@ -38,6 +38,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import cz3003.pptx.game.socialmedia.Profile;
+
 /**
  * @author wbw
  *
@@ -50,7 +52,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  * @author wbw
  *
  */
-public class CreateQuestion extends Stage {
+
+public class CreateQuestionStage extends Stage {
 	LabelStyle style2;
 	private static String[] ABCD = { "Question", "A", "B", "C", "D",
 			"Answer(A/B/C/D)" };
@@ -75,8 +78,8 @@ public class CreateQuestion extends Stage {
 	String[] question;
 	int currentQuestionIndex;
 
-	MyDungeonQuestion mydungeonquestion;
-	ManageQuestion managequestion;
+	CreateCustomizeQuestion mydungeonquestion;
+	ManageCustomizeQuestion managequestion;
 	int numberofquestions;
 
 	//create question or edit question
@@ -87,7 +90,7 @@ public class CreateQuestion extends Stage {
 		super.draw();
 	}
 
-	public CreateQuestion(int questionnumber,boolean b) {
+	public CreateQuestionStage(int questionnumber,boolean b) {
 		super();
 		
 		numberofquestions = questionnumber;
@@ -95,7 +98,7 @@ public class CreateQuestion extends Stage {
 		if(b)
 		{
 		try {
-			mydungeonquestion = new MyDungeonQuestion("username",
+			mydungeonquestion = new CreateCustomizeQuestion(Profile.instance.getUsername(),
 					questionnumber);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -106,7 +109,7 @@ public class CreateQuestion extends Stage {
 		{
 			try {
 				
-				managequestion = new ManageQuestion("username");
+				managequestion = new ManageCustomizeQuestion(Profile.instance.getUsername());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -258,12 +261,15 @@ public class CreateQuestion extends Stage {
 	 * 
 	 */
 	public void uiinit() {
+		Image dugeonbackgroundimg=new Image(new Texture(ImgFile.dugeonbackground));
+		dugeonbackgroundimg.setPosition(0, 0);
+		this.addActor(dugeonbackgroundimg);
 		lblABCD = new Label[6];
 		question = new String[6];
-		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle
-				.getBoldFont().getColor());
-		style2 = new LabelStyle(CusFontStyle.getNormalFont(),
-				CusFontStyle.getNormalFont().getColor());
+		style = new LabelStyle(CusFontStyle.getTopbarFont(), CusFontStyle
+				.getTopbarFont().getColor());
+		style2 = new LabelStyle(CusFontStyle.getTopbarFont(),
+				CusFontStyle.getTopbarFont().getColor());
 
 		lblini("Please Click to type in", 0, 50, 900);
 		/* ******Label Control A Part****** */
@@ -284,7 +290,7 @@ public class CreateQuestion extends Stage {
 		Texture texture = new Texture(ImgFile.nextquestion);
 
 		nextimage = new Image(texture);
-		nextimage.setPosition(458, 170);
+		nextimage.setPosition(458, 220);
 		nextimage.addListener(new InputListener() {
 
 			@Override
@@ -298,7 +304,7 @@ public class CreateQuestion extends Stage {
 		});
 		Texture texture2 = new Texture(ImgFile.backquestion);
 		backimage = new Image(texture2);
-		backimage.setPosition(192, 170);
+		backimage.setPosition(192, 220);
 		backimage.addListener(new InputListener() {
 
 			@Override
@@ -313,7 +319,7 @@ public class CreateQuestion extends Stage {
 		});
 		Texture texture3 = new Texture(ImgFile.submitquestion);
 		submitimage = new Image(texture3);
-		submitimage.setPosition(258, 170);
+		submitimage.setPosition(258, 220);
 		submitimage.addListener(new InputListener() {
 
 			@Override
@@ -385,7 +391,7 @@ public class CreateQuestion extends Stage {
 		nextimage.setVisible(true);
 		submitimage.setVisible(false);
 		backimage.setVisible(false);
-		if(!createoredit)
+		if(createoredit)
 		{
 			String returnquestion[] = new String[7];
 			try {

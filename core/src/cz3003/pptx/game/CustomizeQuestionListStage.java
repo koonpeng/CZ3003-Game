@@ -85,9 +85,7 @@ public class CustomizeQuestionListStage extends Stage {
 
 		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle
 				.getTopbarFont().getColor());
-		style = new LabelStyle(CusFontStyle.getNormalFont(), CusFontStyle
-				.getTopbarFont().getColor());
-
+	
 		
 
 		// question set list part

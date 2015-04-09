@@ -41,7 +41,7 @@ public class PPTXGame extends Game {
 	private static CreateQuestionScreen creatquestionscreen;
 	LeaderBoardScreen leaderboardscreen;
 	static QuestionListScreen questionlistscreen;
-
+	private static CustomizeQuestionListScreen customizequestionlistscreen;
 	public static final int GAME_WIDTH = 720;
 	public static final int GAME_HEIGHT = 1280;
 
@@ -62,6 +62,10 @@ public class PPTXGame extends Game {
 		return assetManager;
 	}
 
+	public static void toCustomizequestionlistscreen() {
+		customizequestionlistscreen=new CustomizeQuestionListScreen();
+		pptxGame.setScreen(customizequestionlistscreen);
+	}
 	public static void toResultScreen(Quiz quiz, boolean result) {
 		resultscreen.setQuiz(quiz);
 		resultscreen.setResult(result);
@@ -69,12 +73,14 @@ public class PPTXGame extends Game {
 	}
 
 	public static void toBattleScreen(int id) {
+		battleScreen=new BattleScreen();
 		battleScreen.setDungeonId(id);
 		pptxGame.setScreen(battleScreen);
 	}
 
 	public static void toBattleScreen(int id, String name) {
-		battleScreen.setDungeonId(id);
+		battleScreen=new BattleScreen();
+		battleScreen.setDungeonName(name);
 		pptxGame.setScreen(battleScreen);
 	}
 
@@ -104,20 +110,7 @@ public class PPTXGame extends Game {
 		player = new Player("Player", 10000, 5000, 5000);
 		player.equip(EquipmentFactory.getEquipment("Excalibur"));
 
-<<<<<<< HEAD
-		
-<<<<<<< HEAD
-<<<<<<< HEAD
-		
-=======
-		battleScreen = new BattleScreen();
->>>>>>> da0b266c97f477e35bd271440e35dfb60aa4dccd
-=======
-		battleScreen = new BattleScreen();
->>>>>>> parent of 3f55f13... update selection
-=======
-		battleScreen = new BattleScreen();
->>>>>>> parent of 3f55f13... update selection
+
 		menuscreen = new MenuScreen(this);
 		questionlistscreen = new QuestionListScreen(this);
 

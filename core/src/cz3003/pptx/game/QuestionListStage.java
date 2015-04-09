@@ -37,6 +37,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Align;
 
 import cz3003.pptx.game.Treasure.STATE;
 import cz3003.pptx.game.battle.quiz.Quiz;
+import cz3003.pptx.game.socialmedia.Profile;
 
 public class QuestionListStage extends Stage {
 	// @Override
@@ -59,8 +60,9 @@ public class QuestionListStage extends Stage {
 	Image backgroundimage;
 	Image createquestionimage;
 	Image managequestionimage;
-	
-	ManageQuestion managequestion;
+	Image clearquestionimage;
+	ManageCustomizeQuestion managequestion;
+	Table table;
 	public QuestionListStage() {
 		super();
 	
@@ -76,11 +78,11 @@ public class QuestionListStage extends Stage {
 	public void init(Boolean result) {
 		
 		
-	
-		style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle
-						.getBoldFont().getColor());
-		style = new LabelStyle(CusFontStyle.getNormalFont(), CusFontStyle
-				.getNormalFont().getColor());
+		Image dugeonbackgroundimg=new Image(new Texture(ImgFile.dugeonbackground));
+		dugeonbackgroundimg.setPosition(0, 0);
+		this.addActor(dugeonbackgroundimg);
+		style = new LabelStyle(CusFontStyle.getTopbarFont(), CusFontStyle
+						.getTopbarFont().getColor());
 		
 		createquestionimage = new Image(new Texture(ImgFile.creatquestionbutton));
 		createquestionimage.setPosition(130, 220);
@@ -128,7 +130,7 @@ public class QuestionListStage extends Stage {
 		//question set list part
 		
 		try {
-			managequestion = new ManageQuestion("username");
+			managequestion = new ManageCustomizeQuestion(Profile.instance.getUsername());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -136,7 +138,7 @@ public class QuestionListStage extends Stage {
 		if(managequestion.getLength()!=-1)
 		{
 			int rowcount=managequestion.getLength();
-			Table table=new Table();
+			 table=new Table();
 			table.setPosition(380,700);
 			Label lblindex=new Label("index",style);
 			Label lblquestion=new Label("Question Title",style);
@@ -187,11 +189,33 @@ public class QuestionListStage extends Stage {
 			}
 
 		});
+		
+		clearquestionimage = new Image(new Texture(ImgFile.clearquestionbutton));
+		clearquestionimage.setPosition(130, 50);
+		
+		clearquestionimage.addListener(new InputListener() {
+			
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				// TODO Auto-generated method stub
+				
+				if(managequestion.getLength()!=-1)
+				{
+					ManageCustomizeQuestion.clearQns(Profile.instance.getUsername());
+					table.clear();
+				
+				}
+				return true;
+			}
+
+		});
+		this.addActor(clearquestionimage);
 		this.addActor(managequestionimage);
 		Label lblquestionsets=new Label("Question Sets",style);
 		lblquestionsets.setPosition(50, 1100);
 		this.addActor(lblquestionsets);
-		
+		this.addActor(TopBar.getTopbar());
 		
 		
 		

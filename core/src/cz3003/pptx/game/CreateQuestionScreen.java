@@ -13,11 +13,11 @@ public class CreateQuestionScreen implements Screen{
 	SpriteBatch batch;
 
 	Stage stage;
-	CreateQuestion createquestion;
+	CreateQuestionStage createquestion;
 	public CreateQuestionScreen(int questionnumber,boolean b)
 	{
 
-		createquestion=new CreateQuestion(questionnumber,b);
+		createquestion=new CreateQuestionStage(questionnumber,b);
 		
 	}
 

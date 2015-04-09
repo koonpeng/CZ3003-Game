@@ -1,9 +1,0 @@
-diff a/android/AndroidManifest.xml b/android/AndroidManifest.xml	(rejected hunks)
-@@ -11,6 +11,7 @@
- 	    "android.permission.ACCESS_NETWORK_STATE" />
- 	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
- 	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
-+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
- 
-     <application
-         android:allowBackup="true"

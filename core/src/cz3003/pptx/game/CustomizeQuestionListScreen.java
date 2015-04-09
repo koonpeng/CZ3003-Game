@@ -10,11 +10,7 @@ public class CustomizeQuestionListScreen implements Screen {
 	
 		CustomizeQuestionListStage customizequestionliststage;
 		public float statetime;
-		public CustomizeQuestionListScreen()
-		{
-			
-			
-		}
+		
 
 		@Override
 		public void show() {

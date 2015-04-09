@@ -2,18 +2,22 @@ package cz3003.pptx.game;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import javax.swing.text.AbstractDocument.Content;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.sun.xml.internal.bind.CycleRecoverable.Context;
 
 
-public class MyDungeonQuestion {
+public class CreateCustomizeQuestion {
 	
 	private JSONObject test;
 	private String[] custom_test;
@@ -21,7 +25,7 @@ public class MyDungeonQuestion {
 	private int size=0;
 	private String userid ="";
 	
-	public MyDungeonQuestion(String id, int size) throws IOException{
+	public CreateCustomizeQuestion(String id, int size) throws IOException{
 		custom_test = new String[size];
 		userid =id;
 		count =0;
@@ -30,7 +34,7 @@ public class MyDungeonQuestion {
 	
 	//check if user have a test created already
 	private boolean testTrue(String id){
-		File file = new File(id+"student.txt");
+		File file = new File("sdcard/" + userid+".txt");
 		if(file.exists()){
 			return true;
 		}
@@ -102,26 +106,47 @@ public class MyDungeonQuestion {
 	//write out qns to file(change to append)
 	public void commitQns(){
 		
-		try {
+		//try {
  
-			File file = new File(userid+"student.txt");
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-
-			FileWriter fw = new FileWriter(file,true);
-			BufferedWriter bw = new BufferedWriter(fw);
-			int i=0;
-			while(i != size){
-			bw.write(custom_test[i]+"\n");
-			i++;
-			}
-			bw.close();
-			System.out.println("Done");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
-	}
+		
+			  File logFile = new File("sdcard/" + userid+".txt");
+		        if (!logFile.exists()) {
+		            try {
+		                logFile.createNewFile();
+		            } catch (IOException e) {
+		                e.printStackTrace();
+		            }
+		        }
+		        try {
+		            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
+		            int i=0;
+		            while(i != size){
+		            buf.append(custom_test[i]+"\n");
+		            i++;
+		            }
+		            buf.close();
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+		        String locRoot = Gdx.files.getLocalStoragePath();
+System.out.print(locRoot);
+//		        File file = new File(userid+"student.txt");
+//				if (!file.exists()) {
+//					file.createNewFile();
+//				}
+//			FileWriter fw = new FileWriter(file,true);
+//			BufferedWriter bw = new BufferedWriter(fw);
+//			int i=0;
+//			while(i != size){
+//			bw.write(custom_test[i]+"\n");
+//			i++;
+//			}
+//			bw.close();
+//			System.out.println("Done");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}		
+//	}
 	
 //	//read file
 //	private static String[] readFile(File f) throws IOException{
@@ -138,5 +163,7 @@ public class MyDungeonQuestion {
 //		return qna;	
 //	}
 	
-	
+		
+	//}
+}
 }

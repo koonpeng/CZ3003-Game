@@ -10,6 +10,8 @@ public class ImgFile {
 	public static FileHandle smallwukongimg=Gdx.files.internal("privategirl.png");
 	public static FileHandle smallwukongbackground=Gdx.files.internal("loading.jpg");
 	public static FileHandle dugeonbackground=Gdx.files.internal("dugeon/background.png");
+	public static FileHandle barhome=Gdx.files.internal("dugeon/home.png");
+	public static FileHandle barquestion=Gdx.files.internal("dugeon/questiondugeon.png");
 	
 	public static FileHandle dungeon=Gdx.files.internal("dugeon/dugeon.pack");
 	//fighting part
@@ -26,6 +28,9 @@ public class ImgFile {
 	public static FileHandle submitquestion=Gdx.files.internal("createquestionpage/submitquestion.png");
 	public static FileHandle creatquestionbutton=Gdx.files.internal("createquestionpage/createquestionbutton.png");
 	public static FileHandle managequestionbutton=Gdx.files.internal("createquestionpage/managequestionbutton.png");
+	public static FileHandle clearquestionbutton=Gdx.files.internal("createquestionpage/clearquestionbutton.png");
+
+	
 	//result part
 	public static FileHandle resultbackground_gameover=Gdx.files.internal("resultpage/gameover.jpg");
 	public static FileHandle resultbackground_youwinr=Gdx.files.internal("resultpage/youwin.jpg");
