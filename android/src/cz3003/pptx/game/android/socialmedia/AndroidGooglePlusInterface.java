@@ -1,14 +1,15 @@
 package cz3003.pptx.game.android.socialmedia;
 
 import java.util.concurrent.TimeUnit;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.app.Fragment;
 import android.util.Log;
-
 import com.badlogic.gdx.Gdx;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -19,19 +20,18 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-
-import cz3003.pptx.game.android.AndroidLauncher;
 import cz3003.pptx.game.socialmedia.GooglePlusInterface;
 import cz3003.pptx.game.socialmedia.Profile;
 import cz3003.pptx.game.socialmedia.SocialMediaSharedVariable;
 
 
-public class AndroidGooglePlusInterface extends Activity implements GooglePlusInterface, 
+@SuppressLint("NewApi")
+public class AndroidGooglePlusInterface extends Fragment implements GooglePlusInterface, 
 	ConnectionCallbacks, OnConnectionFailedListener{
 	
 	private static final String TAG = AndroidGooglePlusInterface.class.getName();
 	
-	private static final int RC_SIGN_IN = 0;
+	public static final int RC_SIGN_IN = 0;
 	private static GoogleApiClient mGoogleApiClient;
 	 /**
      * A flag indicating that a PendingIntent is in progress and prevents us
@@ -39,9 +39,13 @@ public class AndroidGooglePlusInterface extends Activity implements GooglePlusIn
      */
     private boolean mIntentInProgress;
     private ConnectionResult mConnectionResult;
+    private String action;
+    private Activity mActivity;
+    private Context mContext;
 	
-	public AndroidGooglePlusInterface(){
+	public AndroidGooglePlusInterface(String action){
 		super();
+		this.action = action;
 	}
 
 	@Override
@@ -70,16 +74,16 @@ public class AndroidGooglePlusInterface extends Activity implements GooglePlusIn
 		SocialMediaSharedVariable.instance.setUserLoggedIn(false);
 		
 		//return to splash page after logging out
-		Intent intent = new Intent(this, AndroidLauncher.class);
-		startActivity(intent);
+		//Intent intent = new Intent(this, AndroidLauncher.class);
+		//startActivity(intent);
 	}
     
-    @Override
-    protected void onCreate(Bundle savedInstanceState){
+	@Override
+    public void onCreate(Bundle savedInstanceState){
     	super.onCreate(savedInstanceState);
     	Log.e(TAG, "creating GPlus Interface");
     	
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(Plus.API)
@@ -91,15 +95,18 @@ public class AndroidGooglePlusInterface extends Activity implements GooglePlusIn
     }
     
     @Override
-    protected void onStart(){
+    public void onStart(){
     	super.onStart();
-    	Gdx.app.log(TAG, "onStart ...");
+    	Gdx.app.log(TAG, "starting google+ fragment");
+    	
+    	mActivity = getActivity();
+    	mContext = getActivity().getApplicationContext();
     	
     	//mGoogleApiClient.connect();
     }
     
     @Override
-    protected void onStop(){
+    public void onStop(){
     	super.onStop();
     	if (mGoogleApiClient.isConnected()) {
             mGoogleApiClient.disconnect();
@@ -108,7 +115,7 @@ public class AndroidGooglePlusInterface extends Activity implements GooglePlusIn
     }
     
     @Override
-    protected void onResume(){
+    public void onResume(){
     	
     	super.onResume();
     	
@@ -118,9 +125,7 @@ public class AndroidGooglePlusInterface extends Activity implements GooglePlusIn
 				mGoogleApiClient.blockingConnect(5L, TimeUnit.SECONDS);
 				
 				Gdx.app.log(TAG, "connecting on resume");
-		    	
-		    	Intent intent = getIntent();
-		    	String action = intent.getStringExtra("action");
+		    
 		    	int choice = 0;
 		    	
 		    	Gdx.app.log(TAG, "action = " + action);
@@ -153,7 +158,7 @@ public class AndroidGooglePlusInterface extends Activity implements GooglePlusIn
 	@Override
 	public void onConnectionFailed(ConnectionResult result) {
 		 if (!result.hasResolution()) {
-	            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), this,
+	            GooglePlayServicesUtil.getErrorDialog(result.getErrorCode(), mActivity,
 	                    0).show();
 	            return;
 	        }
@@ -161,6 +166,7 @@ public class AndroidGooglePlusInterface extends Activity implements GooglePlusIn
 	        if (!mIntentInProgress) {
 	            // Store the ConnectionResult for later usage when user
 	        	//clicks 'sign-in'.
+	        	
 	            mConnectionResult = result;
 	     
 	       if (SocialMediaSharedVariable.instance.isGoogleBtnClicked()) {
@@ -174,10 +180,10 @@ public class AndroidGooglePlusInterface extends Activity implements GooglePlusIn
 	}
 	
 	@Override
-	protected void onActivityResult(int requestCode, int responseCode,
+	public void onActivityResult(int requestCode, int responseCode,
             Intent intent) {
         if (requestCode == RC_SIGN_IN) {
-            if (responseCode != RESULT_OK) {
+            if (responseCode != Activity.RESULT_OK) {
             	SocialMediaSharedVariable.instance.setGoogleBtnClicked(false);
             }
      
@@ -202,8 +208,8 @@ public class AndroidGooglePlusInterface extends Activity implements GooglePlusIn
 		if (!SocialMediaSharedVariable.instance.isLogOutBtnClicked()){
 			//return to splash page after logging in if not logging out
 			this.populateProfile();
-			Intent intent = new Intent(this, AndroidLauncher.class);
-			startActivity(intent);
+			//Intent intent = new Intent(this, AndroidLauncher.class);
+			//startActivity(intent);
 		}
 	}
 
@@ -223,8 +229,7 @@ public class AndroidGooglePlusInterface extends Activity implements GooglePlusIn
         if (mConnectionResult.hasResolution()) {
             try {
                 mIntentInProgress = true;
-                startIntentSenderForResult(mConnectionResult.getResolution().getIntentSender(),
-                        RC_SIGN_IN, null, 0, 0, 0);
+                mConnectionResult.startResolutionForResult(mActivity, RC_SIGN_IN);
             } catch (SendIntentException e) {
                 mIntentInProgress = false;
                 mGoogleApiClient.connect();
