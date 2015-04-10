@@ -416,6 +416,7 @@ public class MenuScreen extends AbstractGameScreen{
 	private void onLogoutClicked(){
 		
 		SocialMediaSharedVariable.instance.setlogOutBtnClicked(true);
+		//check if user is logged in using google+ first
 		SocialMediaSharedVariable.instance.getSocialMediaActivityInterface().startGooglePlusRevokeAccessActivity();
 		TwitterResource.instance.clear();
 		SocialMediaSharedVariable.instance.clear();

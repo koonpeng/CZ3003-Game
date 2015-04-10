@@ -1,4 +1,3 @@
-
 package cz3003.pptx.game.battle;
 
 import java.util.Random;
@@ -52,7 +51,10 @@ public class BattleStage extends Stage {
 		player = PPTXGame.player.genBattleActor();
 		this.enemy = enemy;
 		battleUI = new Table();
-		quiz = new Quiz(0, 1);
+		if (dungeonId == -1)
+			quiz = new Quiz(0, dungeonId, dungeonName);
+		else
+			quiz = new Quiz(0, dungeonId);
 		questionUI = new QuestionUI(quiz);
 		style = new LabelStyle(PPTXGame.getAssetManager().get("calibri36.ttf", BitmapFont.class), Color.BLACK);
 		damageLblStyle = new LabelStyle(PPTXGame.getAssetManager().get("calibri36.ttf", BitmapFont.class), Color.WHITE);
@@ -266,4 +268,3 @@ public class BattleStage extends Stage {
 	}
 
 }
-

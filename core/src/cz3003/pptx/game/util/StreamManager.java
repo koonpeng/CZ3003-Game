@@ -1,7 +1,11 @@
 package cz3003.pptx.game.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,19 +20,26 @@ import com.badlogic.gdx.net.HttpStatus;
 public class StreamManager {
 
 	String serverURL = "http://lish0030.ddns.net/pptx-ws";
-	JSONObject resObj = null;
+	String resObj = null;
 
 	public StreamManager() {
 
 	}
+	
+	public void uploadJson(String filename, Object obj){
+		JSONObject jobj = new JSONObject(obj);
+		uploadJson(filename, jobj);
+	}
 
-	public void uploadJson(JSONObject jobj, String filename) {
-		HashMap<String, String> parameters = new HashMap();
-		parameters.put("fname", filename);
+	public void uploadJson(String filename, JSONObject jobj) {
+		
+		
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		parameters.put("file", filename);
 		parameters.put("json", jobj.toString());
 
-		HttpRequest httpGet = new HttpRequest(HttpMethods.POST);
-		httpGet.setUrl(serverURL + "/saveJson");
+		HttpRequest httpGet = new HttpRequest(HttpMethods.GET);
+		httpGet.setUrl(serverURL + "/savejson");
 		httpGet.setContent(HttpParametersUtils
 				.convertHttpParameters(parameters));
 		Gdx.net.sendHttpRequest(httpGet, new HttpResponseListener() {
@@ -50,24 +61,19 @@ public class StreamManager {
 		});
 	}
 
+	
 	public JSONObject readJson(String filename) {
-		HashMap<String, String> parameters = new HashMap();
-		parameters.put("fname", filename);
+		HashMap<String, String> parameters = new HashMap<String, String>();
+		parameters.put("file", filename);
 		resObj = null;
 		HttpRequest httpGet = new HttpRequest(HttpMethods.GET);
-		httpGet.setUrl(serverURL + "/getJson");
+		httpGet.setUrl(serverURL + "/getjson");
 		httpGet.setContent(HttpParametersUtils
 				.convertHttpParameters(parameters));
 		Gdx.net.sendHttpRequest(httpGet, new HttpResponseListener() {
 			public void handleHttpResponse(HttpResponse httpResponse) {
-				String responseJson = httpResponse.getResultAsString();
-				try {
-					resObj = new JSONObject(responseJson);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					Gdx.app.log("JS", "JSON FAIL AT READ");
-					e.printStackTrace();
-				}
+				resObj = httpResponse.getResultAsString();
+				Gdx.app.log("READ", resObj);
 			}
 
 			public void failed(Throwable t) {
@@ -82,17 +88,68 @@ public class StreamManager {
 			}
 		});
 
-		// Wait 10s at most
-		for (int i = 0; i < 10; i++) {
+		// Wait 20 at most
+		for (int i = 0; i < 20; i++) {
 			if (resObj != null) {
-				return resObj;
+				try {
+					JSONObject outRes = new JSONObject(resObj);
+					return outRes;
+				} catch (JSONException e) {
+					Gdx.app.log("JS", "JSON FAIL AT READ");
+					return null;
+				}
 			}
 			try {
-				wait(100);
+				TimeUnit.MILLISECONDS.sleep(50);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				Gdx.app.log("WEB", "RESPONSE WAIT UNABLE TO, WHY");
-				e.printStackTrace();
+				Gdx.app.log("WS", "Unable to wait for some reason.");
+			}
+		}
+		return null;
+	}
+	
+	public List<String> getFileList(){
+		resObj = null;
+		HttpRequest httpGet = new HttpRequest(HttpMethods.GET);
+		httpGet.setUrl(serverURL + "/getsaves");
+		Gdx.net.sendHttpRequest(httpGet, new HttpResponseListener() {
+			public void handleHttpResponse(HttpResponse httpResponse) {
+				resObj = httpResponse.getResultAsString();
+				Gdx.app.log("READ", resObj);
+			}
+
+			public void failed(Throwable t) {
+				Gdx.app.log("WEB", "Retrieve failed");
+				// do stuff here based on the failed attempt
+			}
+
+			@Override
+			public void cancelled() {
+				// TODO Auto-generated method stub
+				Gdx.app.log("WEB", "Retrieve cancelled");
+			}
+		});
+
+		// Wait 20 times at most
+		for (int i = 0; i < 20; i++) {
+			if (resObj != null) {
+				try {
+					JSONArray jAry = new JSONArray(resObj);
+					List<String> list = new ArrayList<String>();
+					for(int t = 0; t < jAry.length(); t++){
+					    list.add(jAry.getString(t));
+					}
+					return list;
+				} catch (JSONException e) {
+					Gdx.app.log("JS", "JSON FAIL AT READ");
+					return null;
+				}			
+			} 
+			
+			try {
+				TimeUnit.MILLISECONDS.sleep(50);
+			} catch (InterruptedException e) {
+				Gdx.app.log("WS", "Unable to wait for some reason.");
 			}
 		}
 		return null;
