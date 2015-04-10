@@ -35,9 +35,8 @@ public class Profile{
 	private boolean ProfileJsonExists;
 	private boolean dirtyBit;
 	private int accessdugeonid;
-		//hold the json profile data of all users, to be updated
-		//as necessary and will be used to overwrite existing
-		//json file.
+		//hold the json profile data of all users, to be updated as necessary 
+		//and will be used to overwrite existing json file.
 	private JSONObject jsonObj;
 
 	private Profile(){
@@ -49,29 +48,44 @@ public class Profile{
 		ProfileJsonExists = 
 				Gdx.files.local(this.JSONFilePath).exists();
 		
-		if (ProfileJsonExists == false){
-			Gdx.app.log(TAG, "Profile json does not exists");
+		if (!ProfileJsonExists){
+			Gdx.app.log(TAG, "Profile json file does not exists");
+			try {
+				FileHandle fileHandle = Gdx.files.local(this.JSONFilePath);
+				fileHandle.file().getParentFile().mkdirs();
+				fileHandle.file().createNewFile();
+				this.generateTestProfile();
+				this.updateJsonObject();
+				
+			} catch (IOException e) {
+				Gdx.app.log(TAG, e.getMessage());
+			}
+			Gdx.app.log(TAG,  "Profile json file created");
 		}
 		
 		//login is not supported for desktop
 		//a default profile is created for testing instead
 		if (SocialMediaSharedVariable.instance.isDesktopApplication()){
 			Gdx.app.log(TAG, "Desktop app detected");
-			this.username = "Desktop user";
-			this.id = 9;
-			this.difficulty = 2;
-			this.stageLockedArray = new boolean[]
-				{false,false,true,true,true};
-			this.stageHighScoreArray = new int[]
-					{20,0,0,0,0};
-			this.hasProfile = true;
-			this.dirtyBit = true;
-			this.accessdugeonid = 1;
+			this.generateTestProfile();
 		}
 	};
 	
+	private void generateTestProfile(){
+		this.username = "Default user";
+		this.id = 9;
+		this.difficulty = 2;
+		this.stageLockedArray = new boolean[]
+			{false,false,true,true,true};
+		this.stageHighScoreArray = new int[]
+				{20,0,0,0,0};
+		this.hasProfile = true;
+		this.dirtyBit = true;
+		this.accessdugeonid = 1;
+	}
+	
 	//generate a new profile for a new user
-	public void GenerateNewProfile(String username){
+	private void generateNewProfile(String username){
 		Gdx.app.log(TAG, "New Profile Generated");
 		this.username = username;
 		this.id = -1;
@@ -153,25 +167,9 @@ public class Profile{
 		
 		Gdx.app.log(TAG, "Writing Json File");
 		
-		try {
-			FileHandle fileHandle = Gdx.files.local(this.JSONFilePath);
-			if (ProfileJsonExists){
-				// True means append, false means overwrite.
-				fileHandle.writeString(obj.toString(), false);
-			}else{
-				fileHandle.file().getParentFile().mkdirs();
-				fileHandle.file().createNewFile();
-				fileHandle.writeString(obj.toString(), false);
-			}
-	 
-		} catch (IOException e) {
-			Gdx.app.log(TAG, e.getMessage());
-		}
-	}
-	
-	public void deleteSingleProfile(){
-		this.jsonObj.remove(this.username);
-		writeJSONFile(jsonObj);
+		//checking if file exist is already done in oncreate()
+		FileHandle fileHandle = Gdx.files.local(this.JSONFilePath);
+		fileHandle.writeString(obj.toString(), false);
 	}
 
 	//Retrieve player profile from JSON file
@@ -196,13 +194,11 @@ public class Profile{
 				Gdx.app.log(TAG, this.jsonObj.toString());
 			}
 			
-			this.deleteSingleProfile();
-			
 			try{
 				obj = this.jsonObj.getJSONObject(this.username);
 			}catch (JSONException e){
 				Gdx.app.log(TAG, "username not found in json file");
-				this.GenerateNewProfile(this.username);
+				this.generateNewProfile(this.username);
 				br.close();
 				return;
 			}
