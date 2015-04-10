@@ -104,8 +104,7 @@ public class CreateCustomizeQuestion {
 	//write out qns to file(change to append)
 	public void commitQns(){
 		
-		try {
- 
+		
 
 		
 			  File logFile = new File("sdcard/" + userid+".txt");
@@ -127,29 +126,12 @@ public class CreateCustomizeQuestion {
 		        } catch (IOException e) {
 		            e.printStackTrace();
 		        }
-		        String locRoot = Gdx.files.getLocalStoragePath();
-System.out.print(locRoot);
 
-File file = new File(userid+"student.txt");
-			if (!file.exists()) {
-				file.createNewFile();
-			}
 
-			FileWriter fw = new FileWriter(file,true);
-			BufferedWriter bw = new BufferedWriter(fw);
-			int i=0;
-			while(i != size){
-			bw.write(custom_test[i]+"\n");
-			i++;
-			}
-			bw.close();
-			System.out.println("Done");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}		
+		
+		
+		}
+	
 	}
-
 	
 
-	
-}
