@@ -17,9 +17,10 @@ public class Profile{
 	//Set Profile class as singleton
 	public static Profile instance = new Profile();
 
-	private static final String TAG = Profile.class.getName();
-	private static final int STAGE_LEVELS = 5;
+	private final String TAG = Profile.class.getName();
+	private final int STAGE_LEVELS = 5;
 	private final String JSONFilePath = "bin/json_resource/" + "playerProfile.json";
+	private final int JSON_FILE_VERSION = 2; 
 	
 	//attributes to be stored in json
 		//username is used to identify a unique user - currently is it assumed 
@@ -38,22 +39,27 @@ public class Profile{
 		//hold the json profile data of all users, to be updated as necessary 
 		//and will be used to overwrite existing json file.
 	private JSONObject jsonObj;
+	
+//###CONSTRUCTOR############################################################
 
 	private Profile(){
 		Gdx.app.log(TAG, "Profile instance created");
 		
+		//return storage path
 		String locRoot = Gdx.files.getLocalStoragePath();
 		Gdx.app.log(TAG, locRoot);
 		
 		ProfileJsonExists = 
 				Gdx.files.local(this.JSONFilePath).exists();
 		
+		//create a default player profile if file does not exist
 		if (!ProfileJsonExists){
 			Gdx.app.log(TAG, "Profile json file does not exists");
 			try {
 				FileHandle fileHandle = Gdx.files.local(this.JSONFilePath);
 				fileHandle.file().getParentFile().mkdirs();
 				fileHandle.file().createNewFile();
+				this.jsonObj = new JSONObject();
 				this.generateTestProfile();
 				this.updateJsonObject();
 				
@@ -71,35 +77,11 @@ public class Profile{
 		}
 	};
 	
-	private void generateTestProfile(){
-		this.username = "Default user";
-		this.id = 9;
-		this.difficulty = 2;
-		this.stageLockedArray = new boolean[]
-			{false,false,true,true,true};
-		this.stageHighScoreArray = new int[]
-				{20,0,0,0,0};
-		this.hasProfile = true;
-		this.dirtyBit = true;
-		this.accessdugeonid = 1;
-	}
 	
-	//generate a new profile for a new user
-	private void generateNewProfile(String username){
-		Gdx.app.log(TAG, "New Profile Generated");
-		this.username = username;
-		this.id = -1;
-		this.difficulty = -1;
-		this.dirtyBit = true;
-		this.hasProfile = true;
-		this.stageLockedArray = new boolean[]
-			{false,true,true,true,true};
-		this.stageHighScoreArray = new int[]
-			{0,0,0,0,0};
-	};
+//###SETTER####################################################################
 	
-	//Setter - set dirty bit to true if any set method is used
-		//dirty bit is used to determine if update is required or not
+	//set dirty bit to true if any set method is used
+	//dirty bit is used to determine if update is required or not
 	public void setUsername(String username){
 		this.dirtyBit = true;
 		this.username = username;
@@ -130,7 +112,8 @@ public class Profile{
 		this.accessdugeonid = accessdugeonid;
 	}
 	
-	//Getter
+//###GETTER##################################################################
+	
 	public String getUsername(){
 		return this.username;
 	}
@@ -162,15 +145,35 @@ public class Profile{
 		return accessdugeonid;
 	}
 	
-	//Write Json file to local drive
-	public void writeJSONFile(JSONObject obj){
-		
-		Gdx.app.log(TAG, "Writing Json File");
-		
-		//checking if file exist is already done in oncreate()
-		FileHandle fileHandle = Gdx.files.local(this.JSONFilePath);
-		fileHandle.writeString(obj.toString(), false);
+//###METHODS####################################################################
+	
+	private void generateTestProfile(){
+		this.username = "Default user";
+		this.id = 9;
+		this.difficulty = 2;
+		this.stageLockedArray = new boolean[]
+			{false,false,true,true,true};
+		this.stageHighScoreArray = new int[]
+				{20,0,0,0,0};
+		this.hasProfile = true;
+		this.dirtyBit = true;
+		this.accessdugeonid = 1;
 	}
+	
+	//generate a new profile for a new user
+	private void generateNewProfile(String username){
+		Gdx.app.log(TAG, "New Profile Generated");
+		this.username = username;
+		this.id = -1;
+		this.difficulty = -1;
+		this.dirtyBit = true;
+		this.hasProfile = true;
+		this.stageLockedArray = new boolean[]
+			{false,true,true,true,true};
+		this.stageHighScoreArray = new int[]
+			{0,0,0,0,0};
+	};
+
 
 	//Retrieve player profile from JSON file
 	public void retrievePlayerProfile(){
@@ -182,6 +185,7 @@ public class Profile{
 		JSONObject obj = null;
 		String jsonString;
 		String stageName;
+		int fileVersion;
 		
 		try{
 			FileHandle fileHandle = Gdx.files.local(this.JSONFilePath);
@@ -217,6 +221,22 @@ public class Profile{
 				this.stageHighScoreArray[i] = (int) obj.get(stageName);
 			}
 			
+			//check for older version of json file
+			try{
+				fileVersion = this.jsonObj.getInt("fileVersion");
+			}catch (JSONException e){
+				Gdx.app.log(TAG, "old dated file version detected.");
+				this.versionChange2();
+				this.updateJsonObject();
+				br.close();
+				return;
+			}
+			
+			if (fileVersion < this.JSON_FILE_VERSION){
+				this.versionChange2();
+				this.updateJsonObject();
+			}
+			
 		}catch (FileNotFoundException e){
 			Gdx.app.log(TAG, e.getMessage());
 		}catch (JSONException e){
@@ -237,6 +257,13 @@ public class Profile{
 		this.hasProfile = true;
 	}
 	
+	private void versionChange2(){
+		//remove earlier default where all stages are unlocked.
+		this.setStageLockedArray(new boolean[]{false,false,true,true,true});
+	}
+	
+//###UPDATE################################################################################	
+	
 	//Add / Update new player profile in JSON
 	public void updateJsonObject(){
 		
@@ -248,8 +275,10 @@ public class Profile{
 		if (this.getDirtyBit()){
 			//if username is not found, this stmt does nothing
 			this.jsonObj.remove(this.username);
+			this.jsonObj.remove("fileVersion");
 			obj = generateProfileObject();
 			try {
+				this.jsonObj.put("fileVersion", this.JSON_FILE_VERSION);
 				this.jsonObj.put(this.username, obj);
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -288,7 +317,16 @@ public class Profile{
 		}
 		
 		return obj;
+	}
+
+	//Write Json file to local drive
+	private void writeJSONFile(JSONObject obj){
 		
+		Gdx.app.log(TAG, "Writing Json File");
+		
+		//checking if file exist is already done in oncreate()
+		FileHandle fileHandle = Gdx.files.local(this.JSONFilePath);
+		fileHandle.writeString(obj.toString(), false);
 	}
 }
 
