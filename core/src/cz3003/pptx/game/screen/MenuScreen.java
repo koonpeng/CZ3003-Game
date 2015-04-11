@@ -465,8 +465,8 @@ public class MenuScreen extends AbstractGameScreen{
 		rebuildStage();
 	}
 	@Override public void hide () { 
-		stage.dispose();
-		skinAppOne.dispose();
+		//stage.dispose();
+		//skinAppOne.dispose();
 	}
 	@Override public void pause () { }
 }
