@@ -24,6 +24,8 @@ import cz3003.pptx.game.socialmedia.GooglePlusInterface;
 import cz3003.pptx.game.socialmedia.Profile;
 import cz3003.pptx.game.socialmedia.SocialMediaSharedVariable;
 
+//###FOR GOOGLE PLUS TO WORK, DEBUG.KEYSTORE LOCATED IN ANDROID>LIB MUST BE USED #######
+//###TO SIGN THE APK.###################################################################
 
 @SuppressLint("NewApi")
 public class AndroidGooglePlusInterface extends Fragment implements GooglePlusInterface, 
@@ -42,6 +44,7 @@ public class AndroidGooglePlusInterface extends Fragment implements GooglePlusIn
     private String action;
     private Activity mActivity;
     private Context mContext;
+    private boolean singleLoginQuickFix = false;
 	
 	public AndroidGooglePlusInterface(String action){
 		super();
@@ -229,6 +232,12 @@ public class AndroidGooglePlusInterface extends Fragment implements GooglePlusIn
         if (mConnectionResult.hasResolution()) {
             try {
                 mIntentInProgress = true;
+                Gdx.app.log(TAG, "Error: "+mConnectionResult.getErrorCode() + 
+                	"String:" + mConnectionResult.toString());
+                if (mConnectionResult.getErrorCode() == 4 && this.singleLoginQuickFix == true){
+                	return;
+                }
+                this.singleLoginQuickFix = true;
                 mConnectionResult.startResolutionForResult(mActivity, RC_SIGN_IN);
             } catch (SendIntentException e) {
                 mIntentInProgress = false;
