@@ -25,7 +25,7 @@ public class ManageCustomizeQuestion {
 	}
 	
 	private boolean testTrue(){
-		File file = new File("sdcard/" + userid+".txt");
+		File file = new File("sdcard/mydugeon/" + userid+".txt");
 		if(file.exists()){
 			return true;
 		}
@@ -81,7 +81,7 @@ public class ManageCustomizeQuestion {
 	//load qns if user have existing test
 	private void loadQns(String id) throws IOException{
 		//File file = new File(id+"student.txt");
-		File file = new File("sdcard/" + userid+".txt");
+		File file = new File("sdcard/mydugeon/" + userid+".txt");
 		custom_test = new String[100];
 		custom_test = readFile(file);
 	}
@@ -124,7 +124,7 @@ public class ManageCustomizeQuestion {
 	}
 	
 	public void commitQns(){
-		 File logFile = new File("sdcard/" + userid+".txt");
+		 File logFile = new File("sdcard/mydugeon/" + userid+".txt");
 	        if (!logFile.exists()) {
 	            try {
 	                logFile.createNewFile();

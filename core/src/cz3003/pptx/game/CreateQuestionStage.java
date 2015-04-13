@@ -82,43 +82,41 @@ public class CreateQuestionStage extends Stage {
 	ManageCustomizeQuestion managequestion;
 	int numberofquestions;
 
-	//create question or edit question
-	boolean createoredit;//create=true edit=flase
+	// create question or edit question
+	boolean createoredit;// create=true edit=flase
+
 	@Override
 	public void draw() {
 		// TODO Auto-generated method stub
 		super.draw();
 	}
 
-	public CreateQuestionStage(int questionnumber,boolean b) {
+	public CreateQuestionStage(int questionnumber, boolean b) {
 		super();
-		
+
 		numberofquestions = questionnumber;
 		currentQuestionIndex = 0;
-		if(b)
-		{
-		try {
-			mydungeonquestion = new CreateCustomizeQuestion(Profile.instance.getUsername(),
-					questionnumber);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		}
-		else
-		{
+		if (b) {
 			try {
-				
-				managequestion = new ManageCustomizeQuestion(Profile.instance.getUsername());
+				mydungeonquestion = new CreateCustomizeQuestion(
+						Profile.instance.getUsername(), questionnumber);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			try {
+
+				managequestion = new ManageCustomizeQuestion(
+						Profile.instance.getUsername());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		uiinit();
-		createoredit=b;
-		
-		
+		createoredit = b;
+
 		// displaylblbut();
 
 	}
@@ -132,19 +130,16 @@ public class CreateQuestionStage extends Stage {
 		cusquestion[4] = lblABCD[3].getText().toString();
 		cusquestion[5] = lblABCD[4].getText().toString();
 		cusquestion[6] = lblABCD[5].getText().toString();
-		if(createoredit)
-		{
-		try {
-			mydungeonquestion.addQns(cusquestion, currentQuestionIndex);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		}
-		else
-		{
+		if (createoredit) {
 			try {
-				managequestion.editQns(cusquestion,currentQuestionIndex);
+				mydungeonquestion.addQns(cusquestion, currentQuestionIndex);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				managequestion.editQns(cusquestion, currentQuestionIndex);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -165,21 +160,20 @@ public class CreateQuestionStage extends Stage {
 			submitimage.setVisible(false);
 			backimage.setVisible(true);
 		}
-		if(createoredit)
-		{
-		try {
-			String returnquestion[] = new String[7];
-			returnquestion = mydungeonquestion.getQnsPos(currentQuestionIndex);
-			for (int i = 0; i < 6; i++) {
-				lblABCD[i].setText(returnquestion[i + 1]);
-			}
+		if (createoredit) {
+			try {
+				String returnquestion[] = new String[7];
+				returnquestion = mydungeonquestion
+						.getQnsPos(currentQuestionIndex);
+				for (int i = 0; i < 6; i++) {
+					lblABCD[i].setText(returnquestion[i + 1]);
+				}
 
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}}
-		else
-		{
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
 			try {
 				String returnquestion[] = new String[7];
 				returnquestion = managequestion.getQnsPos(currentQuestionIndex);
@@ -190,7 +184,8 @@ public class CreateQuestionStage extends Stage {
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-		}}
+			}
+		}
 
 	}
 
@@ -214,12 +209,10 @@ public class CreateQuestionStage extends Stage {
 		}
 
 		try {
-			if(createoredit)
-			{
-			returnquestion = mydungeonquestion.getQnsPos(currentQuestionIndex);
-			}
-			else
-			{
+			if (createoredit) {
+				returnquestion = mydungeonquestion
+						.getQnsPos(currentQuestionIndex);
+			} else {
 				returnquestion = managequestion.getQnsPos(currentQuestionIndex);
 			}
 			if (returnquestion == null) {
@@ -261,15 +254,16 @@ public class CreateQuestionStage extends Stage {
 	 * 
 	 */
 	public void uiinit() {
-		Image dugeonbackgroundimg=new Image(new Texture(ImgFile.dugeonbackground));
+		Image dugeonbackgroundimg = new Image(new Texture(
+				ImgFile.dugeonbackground));
 		dugeonbackgroundimg.setPosition(0, 0);
 		this.addActor(dugeonbackgroundimg);
 		lblABCD = new Label[6];
 		question = new String[6];
 		style = new LabelStyle(CusFontStyle.getTopbarFont(), CusFontStyle
 				.getTopbarFont().getColor());
-		style2 = new LabelStyle(CusFontStyle.getTopbarFont(),
-				CusFontStyle.getTopbarFont().getColor());
+		style2 = new LabelStyle(CusFontStyle.getTopbarFont(), CusFontStyle
+				.getTopbarFont().getColor());
 
 		lblini("Please Click to type in", 0, 50, 900);
 		/* ******Label Control A Part****** */
@@ -327,12 +321,9 @@ public class CreateQuestionStage extends Stage {
 					int pointer, int button) {
 				// TODO Auto-generated method stub
 				saveQuestion();
-				if(createoredit)
-				{
-				mydungeonquestion.commitQns();
-				}
-				else
-				{
+				if (createoredit) {
+					mydungeonquestion.commitQns();
+				} else {
 					managequestion.commitQns();
 				}
 				PPTXGame.toQuestionListScreen();
@@ -340,59 +331,57 @@ public class CreateQuestionStage extends Stage {
 			}
 
 		});
-		
-		String strindex[]={"Question: ","A: ","B: ","C: ","D: ","Answer: "};
+
+		String strindex[] = { "Question: ", "A: ", "B: ", "C: ", "D: ",
+				"Answer: " };
 		Label lblABCDindex[] = new Label[6];
 		for (int i = 0; i < 6; i++) {
 			lblABCDindex[i] = new Label(strindex[i], style);
 			lblABCDindex[i].setWidth(200);
-			
-			//lblABCDindex[i].setWrap(true);
+
+			// lblABCDindex[i].setWrap(true);
 		}
-		
-		
-		Group group=new Group();
-		
 
-		//this.add(attributeTable).expand().fill().padRight(5f);
+		Group group = new Group();
 
+		// this.add(attributeTable).expand().fill().padRight(5f);
 		
 		Table table = new Table();
-		table.setPosition(380,700);
-		table.add(lblABCDindex[0]).width(190) ;
+		table.setPosition(380, 700);
+		table.add(lblABCDindex[0]).width(190);
 		table.add(lblABCD[0]).width(500);
-		Label lblheight=new Label(": ",style);
+		
+		Label lblheight = new Label(" ", style);
 		lblheight.setHeight(200);
 		table.add(lblheight).height(200);
 		table.row();
-		Label lbloption=new Label("Options: ",style);
+		Label lbloption = new Label("Options: ", style);
 		table.add(lbloption).align(Align.left);
 		for (int i = 1; i < 6; i++) {
 			table.row();
+			Label lblheight2 = new Label(" ", style);
+			lblheight2.setHeight(60);
+			table.add(lblheight2).height(60);
+			
+			
+			table.row();
 			table.add(lblABCDindex[i]).width(190);
-			
-			
+
 			table.add(lblABCD[i]).width(500);
 		}
-		
-		
-		this.addActor(table);
-		
-	
-	
 
+		this.addActor(table);
 
 		this.addActor(TopBar.getTopbar());
 		this.addActor(nextimage);
 		this.addActor(backimage);
 		this.addActor(submitimage);
-		//logicaltable.addActor(table);
-	
+		// logicaltable.addActor(table);
+
 		nextimage.setVisible(true);
 		submitimage.setVisible(false);
 		backimage.setVisible(false);
-		if(createoredit)
-		{
+		if (createoredit) {
 			String returnquestion[] = new String[7];
 			try {
 				returnquestion = managequestion.getQnsPos(0);
@@ -408,33 +397,38 @@ public class CreateQuestionStage extends Stage {
 
 	}
 
-
 	private void lblini(final String answer, final int index, int x, int y) {
-			lblABCD[index] = new Label(answer, style2);
-			//lblABCD[index].setPosition(x, y);
-			lblABCD[index].setWidth(500);
-			lblABCD[index].setWrap(true);
+		lblABCD[index] = new Label(answer, style2);
+		// lblABCD[index].setPosition(x, y);
+		lblABCD[index].setWidth(500);
+		lblABCD[index].setWrap(true);
 		lblABCD[index].addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// TODO Auto-generated method stub
 
-				Gdx.input.getTextInput(new TextInputListener() {
-					@Override
-					public void input(String texteSaisi) {
-						question[index] = texteSaisi;
-						lblABCD[index].setText(texteSaisi);
-						
-					}
+				Gdx.input.getTextInput(
+						new TextInputListener() {
+							@Override
+							public void input(String texteSaisi) {
+								
+									question[index] = texteSaisi;
+									lblABCD[index].setText(texteSaisi);
+								
 
-					@Override
-					public void canceled() {
-						// TODO Auto-generated method stub
+							}
 
-					}
+							@Override
+							public void canceled() {
+								// TODO Auto-generated method stub
 
-				}, "Please input the " + ABCD[index], null, null);
+							}
+
+						},
+						"Please input the " + ABCD[index] + "(min 3 max 30)",
+						null,
+						null);
 
 				return true;
 			}

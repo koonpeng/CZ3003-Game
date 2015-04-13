@@ -46,7 +46,13 @@ public class SelectionStage extends Stage {
 	Image[] imageDungeon;
 	private static int DUNGEONNO=5;
 	private static int currentDungeon;
-
+	private static boolean selecttype;//true for local
+	public static boolean isSelecttype() {
+		return selecttype;
+	}
+	public static void setSelecttype(boolean selecttype) {
+		SelectionStage.selecttype = selecttype;
+	}
 	public SelectionStage() {
 		super();
 		
@@ -66,8 +72,17 @@ public class SelectionStage extends Stage {
 			System.out.println(imageDungeon[i].getX()+imageDungeon[i].getImageWidth());
 			if ((PrivateGirl.x >= imageDungeon[i].getX() && PrivateGirl.x <= imageDungeon[i].getX()+imageDungeon[i].getImageWidth())&& (PrivateGirl.y >= imageDungeon[i].getY() && PrivateGirl.y <= imageDungeon[i].getImageHeight()+imageDungeon[i].getY())) 
 			{
-				return i;
+				selecttype=true;
+				return i+1;
+				
+				
 			}
+		}
+		if ((PrivateGirl.x >= 240 && PrivateGirl.x <= 480)&& (PrivateGirl.y >= 880&& PrivateGirl.y <= 880+240))
+		{
+			selecttype=false;
+			return -9;
+			
 		}
 		
 		
@@ -89,13 +104,17 @@ public class SelectionStage extends Stage {
 		TextureRegionDrawable down = new TextureRegionDrawable(buttondown);
 		btnA = new ImageButton(up, down);
 		btnA.setSize(60, 60);
-		btnA.setPosition(Constants.SCREENWIDTH-100, 30);
+		btnA.setPosition(720-150, 155);
 		btnA.addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				int dungeonid=stagesensation();
-				if(dungeonid!=-1)
+				if(dungeonid==	-9)
+				{
+					PPTXGame.toCustomizequestionlistscreen();
+				}
+				else if(dungeonid!=-1)
 				{
 					currentDungeon=dungeonid;
 					game.toBattleScreen(dungeonid, Profile.instance.getUsername());
@@ -122,12 +141,26 @@ public class SelectionStage extends Stage {
 		dugeonatlas = new TextureAtlas(ImgFile.dungeon);
 		
 		
-		dugeonini(0,0,700,false);
-		dugeonini(1,240,700,Profile.instance.getStageLockedArray()[1]);
-		dugeonini(2,480,700,Profile.instance.getStageLockedArray()[2]);
+		dugeonini(0,0,680,false);
+		dugeonini(1,240,680,Profile.instance.getStageLockedArray()[1]);
+		dugeonini(2,480,680,Profile.instance.getStageLockedArray()[2]);
 		dugeonini(3,120,380,Profile.instance.getStageLockedArray()[3]);
 		dugeonini(4,360,380,Profile.instance.getStageLockedArray()[4]);
+		customizedugeonimg = new Image(new Texture(ImgFile.otehrequestion));
+		customizedugeonimg.setPosition(240,880);
 		
+		customizedugeonimg.addListener(new InputListener(){
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				// TODO Auto-generated method stub
+				PPTXGame.toCustomizequestionlistscreen();
+				return true;
+			}
+			
+		});
+		this.addActor(customizedugeonimg);
 		privategirl = new PrivateGirl(Constants.SCREENWIDTH/2, Constants.SCREENHEIGHT/2);
 		//this.addActor(privategirl.backgroundimage);
 		this.addActor(privategirl);
@@ -142,22 +175,9 @@ public class SelectionStage extends Stage {
 		lblchoosedungeon.setAlignment(Align.topLeft);
 		this.addActor(lblchoosedungeon);
 		//another
-		customizedugeonimg = new Image(new Texture(ImgFile.barquestion));
-		customizedugeonimg.setPosition(460,900);
 		
-		customizedugeonimg.addListener(new InputListener(){
-
-			@Override
-			public boolean touchDown(InputEvent event, float x, float y,
-					int pointer, int button) {
-				// TODO Auto-generated method stub
-				PPTXGame.toCustomizequestionlistscreen();
-				return true;
-			}
-			
-		});
 		
-		this.addActor(customizedugeonimg);
+		
 	}
 	
 	

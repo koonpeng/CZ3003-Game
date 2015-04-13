@@ -1,6 +1,8 @@
 package cz3003.pptx.game.battle.quiz;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,6 +12,7 @@ import org.json.JSONObject;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+
 
 public class Quiz {
 
@@ -37,9 +40,11 @@ public class Quiz {
 		try {
 			current = new Score();
 			String file = id;
-			String fileName = "quiz/" + file + "student.txt";
-			FileHandle f = Gdx.files.internal(fileName);
-			qnaList = readFile(f);
+			File f = new File("sdcard/mydugeon/" + id+".txt");
+			String[] custom_test = new String[100];
+			qnaList = readFile2(f);
+			
+		
 			randomQns();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -93,6 +98,20 @@ public class Quiz {
 		this.count = 0;
 		randomQns();
 	}
+	private static String[] readFile2(File f) throws IOException{
+		BufferedReader br = new BufferedReader(new FileReader(f));
+		String[] qna = new String[100];
+		String line = null;
+		int i=0;
+		while ((line = br.readLine()) != null) {
+			qna[i] = line;
+			
+			i++;
+		}
+		br.close();
+		return qna;	
+	}
+	
 
 	private static String[] readFile(FileHandle f) throws IOException {
 		BufferedReader br = new BufferedReader(f.reader());

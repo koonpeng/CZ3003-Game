@@ -133,6 +133,7 @@ public class PrivateGirl extends Actor{
 		touchpadStyle=new TouchpadStyle(touchBackground,touchKnob);
 		touchpad=new Touchpad(15,touchpadStyle);
 		touchpad.setBounds(0, 0, 150, 150);	
+		touchpad.setPosition(50, 110);
  	}
 	
 	public void update()
@@ -148,7 +149,7 @@ public class PrivateGirl extends Actor{
 					this.y =Constants.SCREENHEIGHT-200-currentFrame.getRegionHeight();
 					
 				else
-					this.y += 3f;
+					this.y += 5f;
 			
 				state = STATE.Up;
 				LastState=STATE.IdelU;
@@ -160,7 +161,7 @@ public class PrivateGirl extends Actor{
 					this.x = Constants.SCREENWIDTH-currentFrame.getRegionWidth();}
 				
 				else
-					this.x += 3f;
+					this.x += 5f;
 				state = STATE.Right;
 				LastState=STATE.IdelR;
 				
@@ -168,7 +169,7 @@ public class PrivateGirl extends Actor{
 				if (y < 20)
 					this.y = 20;
 				else
-					this.y -= 3f;
+					this.y -= 5f;
 				
 				state = STATE.Down;
 				LastState=STATE.IdelD;
@@ -178,7 +179,7 @@ public class PrivateGirl extends Actor{
 				if (x < 20)
 					this.x = 20;
 				else
-					this.x -= 3f;
+					this.x -= 5f;
 				state = STATE.Left;
 				LastState=STATE.IdelL;
 			}

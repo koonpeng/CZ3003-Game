@@ -52,7 +52,7 @@ public class TopBar {
 			lbllogin.setHeight(100);
 			lbllogin.setWrap(true);
 			lbllogin.setAlignment(Align.left);
-			
+
 			
 			imghome = new Image(new Texture(ImgFile.barhome));
 			imghome.setPosition(5,1180);

@@ -12,7 +12,7 @@ public class ImgFile {
 	public static FileHandle dugeonbackground=Gdx.files.internal("dugeon/background.png");
 	public static FileHandle barhome=Gdx.files.internal("dugeon/home.png");
 	public static FileHandle barquestion=Gdx.files.internal("dugeon/questiondugeon.png");
-	
+	public static FileHandle otehrequestion=Gdx.files.internal("dugeon/other.png");
 	public static FileHandle dungeon=Gdx.files.internal("dugeon/dugeon.pack");
 	//fighting part
 	public static FileHandle skill1_1=Gdx.files.internal("wave.gif");

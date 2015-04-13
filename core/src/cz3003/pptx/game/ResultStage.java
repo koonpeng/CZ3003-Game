@@ -46,10 +46,19 @@ public class ResultStage extends Stage {
 
 	public ResultStage(PPTXGame game, boolean result, Quiz quiz) {
 		super();
+		
 		this.game = game;
-		show();
+	
 		this.quiz = quiz;
+		if(result)
+		{
+			updateuserdugeon();
+			}
+		
 		init(result);
+		show();
+		updatescore();
+	//	Profile.instance.updateJsonObject();
 	}
 
 	public void show() {
@@ -132,19 +141,24 @@ public class ResultStage extends Stage {
 
 			style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle.getBoldFont().getColor());
 
-			String result1 = "Score is " + quiz.getScore();
-			lblresult = new Label(result1, style);
+			
+			lblresult = new Label("", style);
 			lblresult.setPosition(166, 798);
 			lblresult.setAlignment(Align.center);
 			lblresult.setSize(361, 92);
 			this.addActor(backgroundimage);
 			this.addActor(scoreimage);
 			this.addActor(playagainimage);
-			this.addActor(checkleaderboardimage);
+			if(SelectionStage.isSelecttype())
+			{
+				this.addActor(checkleaderboardimage);
+			}
+			
 			this.addActor(backimage);
 			this.addActor(lblresult);
 
 		} else {
+			updateuserdugeon();
 			backgroundregion = new Texture(ImgFile.resultbackground_youwinr);
 			backgroundimage = new Image(backgroundregion);
 			backgroundimage.setPosition(0, 0);
@@ -198,15 +212,18 @@ public class ResultStage extends Stage {
 
 			style = new LabelStyle(CusFontStyle.getBoldFont(), CusFontStyle.getBoldFont().getColor());
 
-			String result1 = "Score is " + quiz.getScore();
-			lblresult = new Label(result1, style);
+			
+			lblresult = new Label("", style);
 			lblresult.setPosition(172, 639);
 			lblresult.setAlignment(Align.center);
 			lblresult.setSize(361, 92);
 			this.addActor(backgroundimage);
 			this.addActor(scoreimage);
 			this.addActor(playagainimage);
+			if(SelectionStage.isSelecttype())
+			{
 			this.addActor(checkleaderboardimage);
+			}
 			this.addActor(backimage);
 			this.addActor(lblresult);
 
@@ -215,24 +232,47 @@ public class ResultStage extends Stage {
 			music.setVolume(0.75f);
 			music.play();
 		}
+		
 
 	}
-
+	private void updateuserdugeon(){
+		boolean[] dugeonarray=Profile.instance.getStageLockedArray();
+		dugeonarray[SelectionStage.getCurrentDungeon()]	=false;
+		Profile.instance.setStageLockedArray(dugeonarray);
+	}
 	public void updatescore() {
-		String result = "Your Score is " + quiz.getScore();
-		lblresult.setText(result);
+		
+//		String result = "Your Score is " + quiz.getScore();
+	
 		
 		int[] highScoreArray = Profile.instance.getStageHighScoreArray();
-		if(highScoreArray[Profile.instance.getAccessdugeonid()] <quiz.getScore() )
+		String result1 = "Score:" + quiz.getScore();
+		String resulthighestscore="Highest Score:"+String.valueOf(Profile.instance.getStageHighScoreArray()[SelectionStage.getCurrentDungeon()]);
+		if(SelectionStage.isSelecttype())
 		{
-		highScoreArray[Profile.instance.getAccessdugeonid()] =quiz.getScore() ;
-		Profile.instance.setStageHighScoreArray(highScoreArray);
-		
+			
+			if(highScoreArray[Profile.instance.getAccessdugeonid()] <quiz.getScore() )
+			{
+				
+				
+				lblresult.setText(result1+"\n"+resulthighestscore);
+			highScoreArray[Profile.instance.getAccessdugeonid()] =quiz.getScore() ;
+			Profile.instance.setStageHighScoreArray(highScoreArray);
+			
+			}
+			else{
+				lblresult.setText(result1 +"\n"+resulthighestscore);
+			}
+			
+		}
+		else
+		{
+			lblresult.setText(result1);
 		}
 		
 		
-		
 	}
+
 
 	public void backtomain() {
 		DelayAction delay = Actions.delay(1f);
