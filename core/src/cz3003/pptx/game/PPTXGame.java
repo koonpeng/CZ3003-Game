@@ -31,8 +31,8 @@ public class PPTXGame extends Game {
 	private static SelectionScreen selectionscreen;
 	public static ResultScreen resultscreen;
 	private static BattleScreen battleScreen;
-	LoadingScreen loadingscreen;
-	MenuScreen menuscreen;
+	public static LoadingScreen loadingscreen;
+	public static MenuScreen menuscreen;
 	private static CreateQuestionScreen creatquestionscreen;
 	LeaderBoardScreen leaderboardscreen;
 	static QuestionListScreen questionlistscreen;

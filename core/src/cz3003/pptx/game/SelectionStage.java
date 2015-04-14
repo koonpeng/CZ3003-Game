@@ -1,6 +1,7 @@
 package cz3003.pptx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -21,13 +22,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import cz3003.pptx.game.screen.MenuScreen;
 import cz3003.pptx.game.socialmedia.Profile;
 
 public class SelectionStage extends Stage {
+	
+	private static final String TAG = SelectionStage.class.getName();
 
-	
-	
-	
 	Texture texture;
 	TextureAtlas dugeonatlas;
 	PrivateGirl privategirl;
@@ -94,6 +95,8 @@ public class SelectionStage extends Stage {
 		dugeonbackgroundimg.setPosition(0, 0);
 		this.addActor(dugeonbackgroundimg);
 		imageDungeon=new Image[DUNGEONNO];
+		
+		Gdx.input.setCatchBackKey(true);
 		
 		// button A part
 		Texture tex = new Texture(Gdx.files.internal("button.png"));
@@ -176,8 +179,18 @@ public class SelectionStage extends Stage {
 		this.addActor(lblchoosedungeon);
 		//another
 		
-		
-		
+	}
+	
+	@Override
+	public boolean keyUp(int keycode){
+		if (keycode == Keys.BACK){
+			if (PPTXGame.getInstance() == null){
+				Gdx.app.log(TAG, "PPTXGame instance is null");
+			}
+			PPTXGame.getInstance().menuscreen.show();
+			PPTXGame.getInstance().setScreen(PPTXGame.getInstance().menuscreen);
+		}
+		return false;
 	}
 	
 	
