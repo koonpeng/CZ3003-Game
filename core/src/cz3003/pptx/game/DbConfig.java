@@ -30,8 +30,9 @@ public class DbConfig {
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
 	//static final String DB_URL = "jdbc:mysql://192.168.1.172/leaderboard";
 	//static final String DB_URL = "jdbc:mysql://10.0.2.2/leaderboard";
-	static final String DB_URL = "jdbc:mysql://10.27.14.48:3306/leaderboard";
-	static final String URL_http="10.27.14.48";
+	static final String DB_URL = "jdbc:mysql://lovalhost:3306/leaderboard";
+	//static final String URL_http="10.27.14.48";
+	static final String URL_http="localhost";
 	//  Database credentials
 	static final String USER = "wangbwhz";
 	static final String PASS = "123456";	

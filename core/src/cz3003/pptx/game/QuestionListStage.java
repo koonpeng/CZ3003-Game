@@ -1,12 +1,16 @@
 package cz3003.pptx.game;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -74,6 +78,7 @@ public class QuestionListStage extends Stage {
 	Image clearquestionimage;
 	ManageCustomizeQuestion managequestion;
 	Table table;
+	
 
 	public QuestionListStage() {
 		super();
@@ -248,7 +253,8 @@ public class QuestionListStage extends Stage {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// TODO Auto-generated method stub
-				uploadtoserver();
+				uploadtoserver(Profile.instance.getUsername());
+				update();
 				lblquestionsets.setText("Question Sets(Upload compelete)");
 				return true;
 			}
@@ -259,14 +265,83 @@ public class QuestionListStage extends Stage {
 		
 
 	}
-   
-	private void uploadtoserver()
+   private boolean update()
+   {
+	   // TODO Auto-generated method stub
+   	try {
+           //set the download URL, a url that points to a file on the internet
+           //this is the file to be downloaded
+   			String Filelist[]=new String[100];
+           URL url = new URL("http://"+DbConfig.URL_http+"/mydugeon/list.txt");
+
+           //create the new connection
+           HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+           //set up some things on the connection
+           urlConnection.setRequestMethod("GET");
+           urlConnection.setDoOutput(true);
+
+           //and connect!
+           urlConnection.connect();
+           BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+           
+      
+           String line = null;
+          
+           boolean find=false;
+           int i=0;
+           while ((line = reader.readLine()) != null)
+           {
+        	  
+           	if(line==Profile.instance.getUsername())//there is list.txt file in the server/mydugeon/ it lists all the members one by one
+           	{
+           		find=true;
+           		break;
+           		
+           	}
+            Filelist[i]=line;
+            i++;
+           
+           }
+          i=0;
+           if(!find)
+           {
+        	   File logFile = new File("sdcard/mydugeon/" + "list.txt");
+        	   try {
+   	            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
+   	            
+   	            while(Filelist[i]!=null &&Filelist[i]!=""){
+   	            buf.append(Filelist[i]+"\n");
+   	            i++;
+   	            
+   	            }
+   	         buf.append(Profile.instance.getUsername());
+   	            buf.close();
+   	        } catch (IOException e) {
+   	            e.printStackTrace();
+   	        }
+        	   uploadtoserver("list");
+
+           }
+           
+
+           return true;
+   //catch some possible errors...
+   } catch (MalformedURLException e) {
+           e.printStackTrace();
+           return false;
+   } catch (IOException e) {
+           e.printStackTrace();
+           return false;
+   }
+   }
+	private void uploadtoserver(String name)
 	{
 		HttpURLConnection connection = null;
 		DataOutputStream outputStream = null;
 		DataInputStream inputStream = null;
 		//lish0030.ddns.net
-		String pathToOurFile = "sdcard/mydugeon/wangbwhz.txt";
+		String pathToOurFile = "sdcard/mydugeon/"+name+".txt";
 		
 		String urlServer = "http://"+DbConfig.URL_http+"/handle_upload.php";
 		String lineEnd = "\r\n";
