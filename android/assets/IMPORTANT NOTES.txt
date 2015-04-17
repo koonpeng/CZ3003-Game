@@ -1,0 +1,9 @@
+For the program
+1.the server contains has a databnase 
+a table file which is called leaderboarder
+the relational schema is leaderboarder(username,dugeonid,score,playingdate)
+2. The server has http service
+in the root foder contains files to store the list of customized questions and queistion files
+/mydugeon/list.txt
+/mydugeon/user1.txt...
+ 

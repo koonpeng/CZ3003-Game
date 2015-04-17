@@ -1,11 +1,11 @@
 package cz3003.pptx.game;
 
 import com.badlogic.gdx.Gdx;
-<<<<<<< HEAD
+
 import com.badlogic.gdx.Input.TextInputListener;
-=======
+
 import com.badlogic.gdx.Input.Keys;
->>>>>>> 0a1be9e90e34719e8a0572eb813a821e75d26179
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
