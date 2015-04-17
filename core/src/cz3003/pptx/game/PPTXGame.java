@@ -1,5 +1,8 @@
 package cz3003.pptx.game;
 
+import java.sql.Date;
+import java.util.Calendar;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -16,6 +19,7 @@ import cz3003.pptx.game.battle.BattleScreen;
 import cz3003.pptx.game.battle.quiz.Quiz;
 import cz3003.pptx.game.equipment.EquipmentFactory;
 import cz3003.pptx.game.screen.MenuScreen;
+import cz3003.pptx.game.socialmedia.Profile;
 
 public class PPTXGame extends Game {
 
@@ -39,7 +43,7 @@ public class PPTXGame extends Game {
 	private static CustomizeQuestionListScreen customizequestionlistscreen;
 	public static final int GAME_WIDTH = 720;
 	public static final int GAME_HEIGHT = 1280;
-
+	private static SummeryScreen summeryscreen;
 	public static Player player;
 
 	private static PPTXGame pptxGame = new PPTXGame();
@@ -57,12 +61,30 @@ public class PPTXGame extends Game {
 		return assetManager;
 	}
 
-	public static void toCustomizequestionlistscreen() {
+	public static void toCustomizequestionlistscreen(boolean refresh) {
+
 		customizequestionlistscreen = new CustomizeQuestionListScreen();
+		CustomizeQuestionListStage.setRefresh(refresh);
 		pptxGame.setScreen(customizequestionlistscreen);
+
+		
+		
+	}
+	public static void toSummeryscreen() {
+		summeryscreen = new SummeryScreen();
+		pptxGame.setScreen(summeryscreen);
 	}
 
 	public static void toResultScreen(Quiz quiz, boolean result) {
+		 Calendar currenttime = Calendar.getInstance();
+		 Date sqldate = new Date((currenttime.getTime()).getTime());
+		 if(SelectionStage.isSelecttype())
+		 {
+		DbConfig db=new DbConfig("wangbwhz","123456","playinghistory");
+		String inserthistory="'"+Profile.instance.getUsername()+"','"+SelectionStage.getCurrentDungeon()+"','"+quiz.getScore()+"','"+sqldate+"'";
+		db.insert(inserthistory);
+		 }
+		
 		resultscreen.setQuiz(quiz);
 		resultscreen.setResult(result);
 		pptxGame.setScreen(resultscreen);
@@ -114,6 +136,7 @@ public class PPTXGame extends Game {
 		loadingscreen = new LoadingScreen(this);
 		// toCreateQuestionScreen(5);
 		leaderboardscreen = new LeaderBoardScreen(this);
+		//toSummeryscreen();
 		this.setScreen(loadingscreen);
 	}
 

@@ -145,7 +145,7 @@ public class ManageCustomizeQuestion {
 	        }
 	}
 	public static void clearQns(String id){
-		File file = new File("sdcard/" + userid+".txt");
+		File file = new File("sdcard/mydugeon/" + userid+".txt");
 		if(file.exists()){
 			file.delete();
 		}

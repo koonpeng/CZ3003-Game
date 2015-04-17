@@ -55,7 +55,7 @@ public class TopBar {
 
 			
 			imghome = new Image(new Texture(ImgFile.barhome));
-			imghome.setPosition(5,1180);
+			imghome.setPosition(50,1180);
 			imghome.addListener(new InputListener(){
 
 				@Override
@@ -69,7 +69,7 @@ public class TopBar {
 			});
 
 			imgcreatequestion = new Image(new Texture(ImgFile.barquestion));
-			imgcreatequestion.setPosition(460,1180);
+			imgcreatequestion.setPosition(720-50-180,1180);
 			
 			imgcreatequestion.addListener(new InputListener(){
 

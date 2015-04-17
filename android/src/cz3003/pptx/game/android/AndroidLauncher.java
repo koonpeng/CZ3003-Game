@@ -149,6 +149,7 @@ public class AndroidLauncher extends AndroidApplication implements
 		
 	}
 	
+
 	@SuppressLint("NewApi")
 	@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

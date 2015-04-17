@@ -1,6 +1,15 @@
 package cz3003.pptx.game;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import org.json.JSONException;
 
@@ -39,6 +48,8 @@ import cz3003.pptx.game.Treasure.STATE;
 import cz3003.pptx.game.battle.quiz.Quiz;
 import cz3003.pptx.game.socialmedia.Profile;
 
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 public class QuestionListStage extends Stage {
 	// @Override
 	// public void draw() {
@@ -87,7 +98,7 @@ public class QuestionListStage extends Stage {
 
 		createquestionimage = new Image(
 				new Texture(ImgFile.creatquestionbutton));
-		createquestionimage.setPosition(130, 220);
+		createquestionimage.setPosition(150, 220);
 
 		createquestionimage.addListener(new InputListener() {
 			String userinput;
@@ -129,7 +140,7 @@ public class QuestionListStage extends Stage {
 							}
 
 						},
-						"Please input the number of questions you want to create",
+						"Please input the number of questions you want to create(min 3,max 30)",
 						null, null);
 
 				return true;
@@ -180,7 +191,7 @@ public class QuestionListStage extends Stage {
 		}
 		managequestionimage = new Image(new Texture(
 				ImgFile.managequestionbutton));
-		managequestionimage.setPosition(130, 130);
+		managequestionimage.setPosition(150, 130);
 
 		managequestionimage.addListener(new InputListener() {
 
@@ -202,7 +213,7 @@ public class QuestionListStage extends Stage {
 		});
 
 		clearquestionimage = new Image(new Texture(ImgFile.clearquestionbutton));
-		clearquestionimage.setPosition(130, 50);
+		clearquestionimage.setPosition(150, 50);
 
 		clearquestionimage.addListener(new InputListener() {
 
@@ -223,13 +234,105 @@ public class QuestionListStage extends Stage {
 		});
 		this.addActor(clearquestionimage);
 		this.addActor(managequestionimage);
-		Label lblquestionsets = new Label("Question Sets", style);
+		final Label lblquestionsets = new Label("Question Sets", style);
 		lblquestionsets.setPosition(50, 1100);
 		this.addActor(lblquestionsets);
 		this.addActor(TopBar.getTopbar());
+		
+		Image uploadquestion = new Image(new Texture(ImgFile.uploadquestion));
+		uploadquestion.setPosition(400, 220);
+
+		uploadquestion.addListener(new InputListener() {
+
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				// TODO Auto-generated method stub
+				uploadtoserver();
+				lblquestionsets.setText("Question Sets(Upload compelete)");
+				return true;
+			}
+
+		});
+		this.addActor(uploadquestion);
+		
+		
 
 	}
+   
+	private void uploadtoserver()
+	{
+		HttpURLConnection connection = null;
+		DataOutputStream outputStream = null;
+		DataInputStream inputStream = null;
+		//lish0030.ddns.net
+		String pathToOurFile = "sdcard/mydugeon/wangbwhz.txt";
+		
+		String urlServer = "http://"+DbConfig.URL_http+"/handle_upload.php";
+		String lineEnd = "\r\n";
+		String twoHyphens = "--";
+		String boundary =  "*****";
 
+		int bytesRead, bytesAvailable, bufferSize;
+		byte[] buffer;
+		int maxBufferSize = 1*1024*1024;
+
+		try
+		{
+		FileInputStream fileInputStream = new FileInputStream(new File(pathToOurFile) );
+
+		URL url = new URL(urlServer);
+		connection = (HttpURLConnection) url.openConnection();
+
+		// Allow Inputs & Outputs
+		connection.setDoInput(true);
+		connection.setDoOutput(true);
+		connection.setUseCaches(false);
+
+		// Enable POST method
+		connection.setRequestMethod("POST");
+
+		connection.setRequestProperty("Connection", "Keep-Alive");
+		connection.setRequestProperty("Content-Type", "multipart/form-data;boundary="+boundary);
+
+		outputStream = new DataOutputStream( connection.getOutputStream() );
+		outputStream.writeBytes(twoHyphens + boundary + lineEnd);
+		outputStream.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + pathToOurFile +"\"" + lineEnd);
+		
+		outputStream.writeBytes(lineEnd);
+
+		bytesAvailable = fileInputStream.available();
+		bufferSize = Math.min(bytesAvailable, maxBufferSize);
+		buffer = new byte[bufferSize];
+
+		// Read file
+		bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+		while (bytesRead > 0)
+		{
+		outputStream.write(buffer, 0, bufferSize);
+		bytesAvailable = fileInputStream.available();
+		bufferSize = Math.min(bytesAvailable, maxBufferSize);
+		bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+		}
+
+		outputStream.writeBytes(lineEnd);
+		outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+		// Responses from the server (code and message)
+		int serverResponseCode = connection.getResponseCode();
+		String serverResponseMessage = connection.getResponseMessage();
+		System.out.println(serverResponseCode);
+		System.out.println(serverResponseMessage);
+		fileInputStream.close();
+		outputStream.flush();
+		outputStream.close();
+		}
+		catch (Exception ex)
+		{
+		//Exception handling
+		}
+	}
 	private boolean tryParseInt(String value) {
 		try {
 			Integer.parseInt(value);

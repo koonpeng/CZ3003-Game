@@ -412,11 +412,20 @@ public class CreateQuestionStage extends Stage {
 						new TextInputListener() {
 							@Override
 							public void input(String texteSaisi) {
-								
+								if(index==5)
+								{
+									if(texteSaisi=="A"||texteSaisi=="B"||texteSaisi=="C"||texteSaisi=="D" )
+									{
+										question[index] = texteSaisi;
+										lblABCD[index].setText(texteSaisi);
+									}
+								}
+								else
+								{
 									question[index] = texteSaisi;
 									lblABCD[index].setText(texteSaisi);
 								
-
+								}
 							}
 
 							@Override
@@ -426,7 +435,7 @@ public class CreateQuestionStage extends Stage {
 							}
 
 						},
-						"Please input the " + ABCD[index] + "(min 3 max 30)",
+						"Please input the " + ABCD[index],
 						null,
 						null);
 
@@ -438,60 +447,4 @@ public class CreateQuestionStage extends Stage {
 	}
 }
 
-// private void buttoninit(final String answer, final int index, int x, int y) {
-//
-// Texture tex = new Texture(ImgFile.questionButton);
-// TextureRegion[][] tem = TextureRegion.split(tex, 120, 120);
-//
-// TextureRegion buttonup = tem[0][0];
-// buttonup.flip(true, false);
-// TextureRegion buttondown = tem[0][1];
-// buttondown.flip(true, false);
-// TextureRegionDrawable up = new TextureRegionDrawable(buttonup);
-// TextureRegionDrawable down = new TextureRegionDrawable(buttondown);
-// btnABCDTF[index] = new ImageButton(up, down);
-//
-// btnABCDTF[index].setPosition(x, y);
-// btnABCDTF[index].setSize(40, 40);
-//
-// btnABCDTF[index].addListener(new InputListener() {
-// @Override
-// public void touchUp(InputEvent event, float x, float y,
-// int pointer, int button) {
-// // music.play();
-// // TODO Auto-generated method stub
-// if (test.verifyAnswer(answer)) {
-// btnABCDTF[0].setTouchable(Touchable.disabled);
-// btnABCDTF[1].setTouchable(Touchable.disabled);
-// btnABCDTF[2].setTouchable(Touchable.disabled);
-// btnABCDTF[3].setTouchable(Touchable.disabled);
-// btnABCDTF[4].setTouchable(Touchable.disabled);
-// btnABCDTF[5].setTouchable(Touchable.disabled);
-// fightcharacter.state = STATE.Act;
-// monsterhp.minushp();
-//
-// } else {
-// fightcharacter.state = STATE.Act;
-// characterhp.minushp();
-//
-// }
-// if (!monsterhp.isAlive()) {
-// game.setScreen(game.resultscreen);
-// } else if (!characterhp.isAlive()) {
-// game.setScreen(game.resultscreen);
-// } else {
-// // updatequestion();
-//
-// }
-//
-// }
-//
-// @Override
-// public boolean touchDown(InputEvent event, float x, float y,
-// int pointer, int button) {
-// return true;
-// }
-// });
-// this.addActor(btnABCDTF[index]);
-// }
-// }
+

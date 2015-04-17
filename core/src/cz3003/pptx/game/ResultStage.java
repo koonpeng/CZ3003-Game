@@ -56,34 +56,34 @@ public class ResultStage extends Stage {
 			}
 		
 		init(result);
-		show();
+		//show();
 		updatescore();
 	//	Profile.instance.updateJsonObject();
 	}
 
 	public void show() {
 
-		treasure = new Treasure();
-		MoveToAction movetomiddle = Actions.moveTo(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 - 300, 0.3f);
-
-		MoveToAction movetoleftup = Actions.moveTo(100, Gdx.graphics.getHeight() - 200, 0.3f);
-		MoveToAction movetomiddle2 = Actions.moveTo(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 - 300, 0.3f);
-		ScaleToAction scaleto = Actions.scaleTo(1, 1, 3);
-
-		// AlphaAction alpha = Actions.alpha(0.6f, duration);
-		Action endAction = Actions.run(new Runnable() {
-
-			@Override
-			public void run() {
-				treasure.state = STATE.openbox;
-			}
-		});
-		SequenceAction seaqction = Actions.sequence(movetomiddle, movetoleftup, movetomiddle2);
-		// ParallelAction paaction=Actions.parallel(seaqction,scaleto);
-
-		treasure.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 200);
-		treasure.addAction(Actions.sequence(seaqction, endAction));
-		this.addActor(treasure);
+//		treasure = new Treasure();
+//		MoveToAction movetomiddle = Actions.moveTo(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 - 300, 0.3f);
+//
+//		MoveToAction movetoleftup = Actions.moveTo(100, Gdx.graphics.getHeight() - 200, 0.3f);
+//		MoveToAction movetomiddle2 = Actions.moveTo(Gdx.graphics.getWidth() / 2 - 100, Gdx.graphics.getHeight() / 2 - 300, 0.3f);
+//		ScaleToAction scaleto = Actions.scaleTo(1, 1, 3);
+//
+//		// AlphaAction alpha = Actions.alpha(0.6f, duration);
+//		Action endAction = Actions.run(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				treasure.state = STATE.openbox;
+//			}
+//		});
+//		SequenceAction seaqction = Actions.sequence(movetomiddle, movetoleftup, movetomiddle2);
+//		// ParallelAction paaction=Actions.parallel(seaqction,scaleto);
+//
+//		treasure.setPosition(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 200);
+//		treasure.addAction(Actions.sequence(seaqction, endAction));
+//		this.addActor(treasure);
 		// sequenceAction.setActor(fightcharacter);
 		// fightcharacter.addAction(sequenceAction);
 	}
@@ -248,6 +248,7 @@ public class ResultStage extends Stage {
 		int[] highScoreArray = Profile.instance.getStageHighScoreArray();
 		String result1 = "Score:" + quiz.getScore();
 		String resulthighestscore="Highest Score:"+String.valueOf(Profile.instance.getStageHighScoreArray()[SelectionStage.getCurrentDungeon()]);
+		String resulthighestscore2="Highest Score:"+String.valueOf(quiz.getScore());
 		if(SelectionStage.isSelecttype())
 		{
 			
@@ -255,7 +256,7 @@ public class ResultStage extends Stage {
 			{
 				
 				
-				lblresult.setText(result1+"\n"+resulthighestscore);
+				lblresult.setText(result1+"\n"+resulthighestscore2);
 			highScoreArray[Profile.instance.getAccessdugeonid()] =quiz.getScore() ;
 			Profile.instance.setStageHighScoreArray(highScoreArray);
 			
@@ -269,10 +270,7 @@ public class ResultStage extends Stage {
 		{
 			lblresult.setText(result1);
 		}
-		
-		
 	}
-
 
 	public void backtomain() {
 		DelayAction delay = Actions.delay(1f);

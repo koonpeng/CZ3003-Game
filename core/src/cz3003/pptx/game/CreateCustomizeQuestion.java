@@ -107,7 +107,7 @@ public class CreateCustomizeQuestion {
 	
 	//write out qns to file(change to append)
 	public void commitQns(){
-		File wallpaperDirectory = new File("/sdcard/mydugeon/");
+		File wallpaperDirectory = new File("sdcard/mydugeon/");
 		wallpaperDirectory.mkdir();
 		  File logFile = new File("sdcard/mydugeon/" + userid+".txt");
 	        if (!logFile.exists()) {
@@ -129,22 +129,7 @@ public class CreateCustomizeQuestion {
 	            e.printStackTrace();
 	        }
 
-//
-//		//Send to server first
-//		StreamManager sm = new StreamManager();
-//		JSONObject toUp = new JSONObject();
-//		List<String> ct = Arrays.asList(custom_test);
-//		try {
-//			toUp.put("titles", (Object) ct);
-//		} catch (JSONException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-//		sm.uploadJson(userid+"_custest", toUp);
-//		//End of server code
-//		
-//	
-		
+
 		
 		}
 	

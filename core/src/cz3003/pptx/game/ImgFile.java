@@ -48,4 +48,11 @@ public class ImgFile {
 	public static FileHandle leaderboardback=Gdx.files.internal("leaderboard/leaderoard.png");
 	
 	
+	public static FileHandle twitter=Gdx.files.internal("sharing/twitter.png");
+	public static FileHandle facebook=Gdx.files.internal("sharing/fbicon.png");
+	
+	
+	public static FileHandle uploadquestion=Gdx.files.internal("createquestionpage/uploadquestion.png");
+	public static FileHandle refreshquestion=Gdx.files.internal("createquestionpage/refreshquestion.png");
+	
 }

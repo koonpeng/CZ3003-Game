@@ -43,9 +43,7 @@ public class ResultScreen implements Screen {
 		resultstage.act();
 		resultstage.draw();
 		statetime += Gdx.graphics.getDeltaTime();
-		if (Constants.StageFlag == Constants.SelectionStageOn) {
-
-		}
+		
 //			if(statetime>5)
 //			{
 //				//game.setScreen(game.selectionscreen);

@@ -1,6 +1,7 @@
 package cz3003.pptx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.TextInputListener;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -44,6 +45,7 @@ public class SelectionStage extends Stage {
 	static Label lblchoosedungeon;
 	Image customizedugeonimg;
 	Image[] imageDungeon;
+	Label lblsummary;
 	private static int DUNGEONNO=5;
 	private static int currentDungeon;
 	private static boolean selecttype;//true for local
@@ -57,7 +59,7 @@ public class SelectionStage extends Stage {
 		super();
 		
 		//super(new StretchViewport(PPTXGame.GAME_WIDTH, PPTXGame.GAME_HEIGHT));
-		
+
 		init();
 	
 	
@@ -112,7 +114,7 @@ public class SelectionStage extends Stage {
 				int dungeonid=stagesensation();
 				if(dungeonid==	-9)
 				{
-					PPTXGame.toCustomizequestionlistscreen();
+					PPTXGame.toCustomizequestionlistscreen(true);
 				}
 				else if(dungeonid!=-1)
 				{
@@ -155,7 +157,7 @@ public class SelectionStage extends Stage {
 			public boolean touchDown(InputEvent event, float x, float y,
 					int pointer, int button) {
 				// TODO Auto-generated method stub
-				PPTXGame.toCustomizequestionlistscreen();
+				PPTXGame.toCustomizequestionlistscreen(false);
 				return true;
 			}
 			
@@ -175,7 +177,57 @@ public class SelectionStage extends Stage {
 		lblchoosedungeon.setAlignment(Align.topLeft);
 		this.addActor(lblchoosedungeon);
 		//another
+		lblsummary = new Label("Summary", style);
+		lblsummary.setPosition(260, 80);
+
 		
+		lblsummary.setWrap(true);
+		lblsummary.setAlignment(Align.topLeft);
+
+		lblsummary.addListener(new InputListener(){
+			String userinput;
+			@Override
+			public boolean touchDown(InputEvent event, float x, float y,
+					int pointer, int button) {
+				// TODO Auto-generated method stub
+				
+
+				Gdx.input.getTextInput(
+						new TextInputListener() {
+							@Override
+							public void input(String texteSaisi) {
+								userinput = texteSaisi;
+								Gdx.app.postRunnable(new Runnable() {
+									@Override
+									public void run() {
+										// 产生结果
+										
+											if (Integer.parseInt(userinput) ==123456){
+												PPTXGame.toSummeryscreen();
+													
+												
+											}
+										
+									}
+								});
+
+							}
+
+							@Override
+							public void canceled() {
+								// TODO Auto-generated method stub
+
+							}
+
+						},
+						"Please enter the password to see the summary",
+						null, null);
+				//PPTXGame.toSummeryscreen();
+				return true;
+			}
+			
+		});
+		this.addActor(lblsummary);
 		
 		
 	}
@@ -183,6 +235,7 @@ public class SelectionStage extends Stage {
 	
 	private void dugeonini(int index,int x, int y,Boolean lock)
 	{
+		
 		//TextureRegion dungeonRegion=new TextureRegion(new Texture(ImgFile.dungeon),0,0,240,240);
 		String dugegonSname=Integer.toString(index+1);
 		if(lock)
@@ -193,6 +246,7 @@ public class SelectionStage extends Stage {
 		
 		imageDungeon[index].setPosition(x, y);
 		this.addActor(imageDungeon[index]);
+		
 		//imageDungeon[index].addListener(new InputListener(){
 
 //			@Override
